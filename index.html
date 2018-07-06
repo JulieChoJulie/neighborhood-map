@@ -1,23 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <div class="container">
+    <div class="title-hamburger-icon">
+        <div id="hamburger-icon" style="font-size: 40px; padding: 10px"><i class="fas fa-bars"></i></div>
+
+    </div>
     <div class="options-box">
-        <h1>Find Your New NYC Home</h1>
+        <div id="closing-icon" style="font-size: 40px"><i class="fas fa-times"></i></div>
+        <h1>Plan Your Trip</h1>
         <div>
             <input id="show-listings" type="button" value="Show Listings">
             <input id="hide-listings" type="button" value="Hide Listings">
             <hr>
-            <span class="text"> Draw a shape to search within it for homes!</span>
+            <span class="text"> Draw a search range.</span>
             <input id="toggle-drawing"  type="button" value="Drawing Tools">
         </div>
         <hr>
         <div>
             <input id="zoom-to-area-text" type="text" placeholder="Enter your favorite area!">
-            <input id="zoom-to-area" type="button" value="Zoom">
+            <input id="zoom-to-area" type="button" value="Search">
         </div>
         <hr>
 
@@ -32,10 +40,11 @@
 </div>
 
 <script src="js/googleMap.js"></script>
+<script src="js/responsive.js"></script>
 
 <script async defer
         src=
-                "https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=[YOURKEY]&callback=initMap">
+                "https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyCS7QlHTrvs8ybl6xYyylCalbQ7s01lrWk&v=3&callback=initMap">
 </script>
 
 </body>

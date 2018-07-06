@@ -13,6 +13,21 @@ body {
 
 input {
   font-size: 12px;
+  margin: 10px 0;
+}
+
+.title-hamburger-icon {
+  display: none;
+  position: fixed;
+  z-index: 99;
+  top: 10px;
+  left: 15px;
+}
+
+.options-box .fa-times {
+  position: absolute;
+  left: 325px;
+  top: 0px;
 }
 
 h1 {
@@ -22,6 +37,7 @@ h1 {
   text-align: center;
 }
 
+
 #hide-listings,
 #show-listings {
   width: 48%;
@@ -30,7 +46,7 @@ h1 {
 hr {
   background: #D0D7D9;
   height: 1px;
-  margin: 20px 0 20px 0;
+  margin: 0 0;
   border: none;
 }
 
