@@ -323,16 +323,16 @@ function zoomToArea() {
     // Initialize the geocoder.
     var geocoder = new google.maps.Geocoder();
     // Get the address or place that the user entered.
-    var address = document.getElementById('zoom-to-area-text').value;
+    var city = document.getElementById('zoom-to-area-text').value;
     // Make sure the address isn't blank.
-    if (address == '') {
-        window.alert('You must enter an area, or address.');
+    if (city == '') {
+        window.alert('You must enter a city in Canada.');
     } else {
         // Geocode the address/area entered to get the center. Then, center the map
         // on it and zoom in
         geocoder.geocode(
-            { address: address,
-                componentRestrictions: {locality: 'New York'}
+            { address: city,
+                componentRestrictions: {locality: city}
             }, function(results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     map.setCenter(results[0].geometry.location);
@@ -342,7 +342,7 @@ function zoomToArea() {
                         ' specific place.');
                 }
             });
-        attractions(address);
+        attractions(city);
     }
 }
 
@@ -500,15 +500,19 @@ function getPlacesDetails(marker, infowindow) {
 
 function attractions(cityStr) {
     //get Wikipedia Results according to the typed address
-    var cityNameWithNoSpace = [];
-    cityStr.split('').forEach(char => {
-        char === ' ' ? cityNameWithNoSpace.push('_') : cityNameWithNoSpace.push(char);
-    });
-
-    var wikiurl = 'https://en.wikipedia.org/w/api.php?action=opensearch&format=json&search='+cityNameWithNoSpace.join('')+'_attractions'+'&callback=callback';
-    console.log(wikiurl);
+    // var cityNameWithNoSpace = [];
+    // cityStr.split('').forEach(char => {
+    //     char === ' ' ? cityNameWithNoSpace.push('_') : cityNameWithNoSpace.push(char);
+    // });
+    cityStr = cityStr.split('');
+    var index = cityStr.indexOf(',');
+    cityStr = cityStr.join('');
+    cityStr = cityStr.substring(0, index);
+//https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&rvprop=content&&titles=Tourism_in_Canada
+//     var wikiurl = 'https://en.wikipedia.org/w/api.php?action=opensearch&format=json&search='+cityNameWithNoSpace.join('')+'_attractions'+'&callback=callback';
+    var wikiurl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&rvprop=content&&titles=Tourism_in_Canada';
     var wikiRequestTimeOut = setTimeout(function(){
-        $('#waypoints').text('Failed to load Wikipedia resources.');
+        $('<option value="fail">Failed to load Wikipedia resources.</option>').appendTo($('#waypoints'));
     }, 8000);
 
     $.ajax({
@@ -517,14 +521,85 @@ function attractions(cityStr) {
         jsonp: "callback",
         success: function(response){
             var wikiList = response[1];
-            if (wikiList.length === 0){
-                $('#waypoints').text('Sorry, no result was found for your address: ' + cityStr);
-            }
-            wikiList.forEach(wiki => {
-                var searchURL = "https://en.wikipedia.org/wiki/" + wiki;
-                $('#waypoints').append('<option value="'+wiki+'">'+wiki+ '</option>');
+            var attractions = response['query']['pages']['288026']['revisions']['0']['*'];
+
+            var arrayOfCities = listOfSliceWords(attractions, '\'\'\'Sites of interest in ', '\n\n');
+            var attractionsInfo = arrayOfCities.map(city => {
+                var res = {name: '', attractions: []};
+                var endIndexOfCityName = city.indexOf('\'')-1;
+                cityName = city.slice(0, endIndexOfCityName+1);
+                res.name = cityName;
+                var arrayOfAttractionsForCity = listOfSliceWords(city, '\n* [[', ']]').map(attraction => {
+                    res.attractions.push(attraction);
+                });
+                return res;
             });
+
+
+
+            var count = 0;
+            for (var i = 0; i < attractionsInfo.length; i++){
+                var cityInfo = attractionsInfo[i];
+                if (cityInfo.name === cityStr){
+                    cityInfo.attractions.map(attraction => {
+                        $('#waypoints').append('<option value="'+cityStr+'">'+attraction+ '</option>');
+                    });
+                    count =1;
+                    break;
+                }
+            }
+            if(count ===0) {
+                $('#waypoints').empty();
+                $('<option value="error">'+'Sorry, no result was found for ' + cityStr+'</option>').appendTo($('#waypoints'));
+            };
             clearTimeout(wikiRequestTimeOut);
         }
     });
 }
+
+function findIndice(words, word) {
+    var results = [];
+    var starting = 0;
+    for(var i = 0; i < words.length; i++){
+        //starting is the starting index to find the matching word in words. (inclusive)
+        var index = words.indexOf(word, starting);
+        if (index !== -1) {
+            starting = index + word.length;
+            results.push(index);
+        } else {
+            return results;
+
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+function listOfSliceWords(words, start, end){
+    var res = [];
+    for(var i = 0; i < words.length; i) {
+
+        var includeStart = words.indexOf(start);
+        var startIndex = includeStart + start.length;
+        var endIndex = words.indexOf(end, startIndex) -1;
+        if(includeStart === -1 || endIndex === -2) {
+            return res;
+        }
+        var slicedword = words.slice(startIndex, endIndex+1);
+        res.push(slicedword);
+        words = words.substring(endIndex+1+end.length);
+
+
+    }
+    return res;
+}
+
+
+
+
