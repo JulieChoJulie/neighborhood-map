@@ -338,6 +338,7 @@ function zoomToArea() {
                         ' specific place.');
                 }
             });
+        attractions(address);
     }
 }
 
@@ -489,6 +490,37 @@ function getPlacesDetails(marker, infowindow) {
             infowindow.addListener('closeclick', function() {
                 infowindow.marker = null;
             });
+        }
+    });
+}
+
+function attractions(cityStr) {
+    //get Wikipedia Results according to the typed address
+    var cityNameWithNoSpace = [];
+    cityStr.split('').forEach(char => {
+        char === ' ' ? cityNameWithNoSpace.push('_') : cityNameWithNoSpace.push(char);
+    });
+
+    var wikiurl = 'https://en.wikipedia.org/w/api.php?action=opensearch&format=json&search='+cityNameWithNoSpace.join('')+'_attractions'+'&callback=callback';
+    console.log(wikiurl);
+    var wikiRequestTimeOut = setTimeout(function(){
+        $('#waypoints').text('Failed to load Wikipedia resources.');
+    }, 8000);
+
+    $.ajax({
+        url: wikiurl,
+        dataType: "jsonp",
+        jsonp: "callback",
+        success: function(response){
+            var wikiList = response[1];
+            if (wikiList.length === 0){
+                $('#waypoints').text('Sorry, no result was found for your address: ' + cityStr);
+            }
+            wikiList.forEach(wiki => {
+                var searchURL = "https://en.wikipedia.org/wiki/" + wiki;
+                $('#waypoints').append('<option value="'+wiki+'">'+wiki+ '</option>');
+            });
+            clearTimeout(wikiRequestTimeOut);
         }
     });
 }
