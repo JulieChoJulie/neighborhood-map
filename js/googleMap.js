@@ -9,7 +9,7 @@ var polygon = null;
 // Create placemarkers array to use in multiple functions to have control
 // over the number of places that show.
 var placeMarkers = [];
-
+var locations = [];
 function initMap() {
     // Create a styles array to use with the map.
     var styles = [
@@ -105,13 +105,13 @@ function initMap() {
 
     // These are the real estate listings that will be shown to the user.
     // Normally we'd have these in a database instead.
-    var locations = [
-        {title: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
-        {title: 'Chelsea Loft', location: {lat: 40.7444883, lng: -73.9949465}},
-        {title: 'Union Square Open Floor Plan', location: {lat: 40.7347062, lng: -73.9895759}},
-        {title: 'East Village Hip Studio', location: {lat: 40.7281777, lng: -73.984377}},
-        {title: 'TriBeCa Artsy Bachelor Pad', location: {lat: 40.7195264, lng: -74.0089934}},
-        {title: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}}
+    locations = [
+        // {title: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
+        // {title: 'Chelsea Loft', location: {lat: 40.7444883, lng: -73.9949465}},
+        // {title: 'Union Square Open Floor Plan', location: {lat: 40.7347062, lng: -73.9895759}},
+        // {title: 'East Village Hip Studio', location: {lat: 40.7281777, lng: -73.984377}},
+        // {title: 'TriBeCa Artsy Bachelor Pad', location: {lat: 40.7195264, lng: -74.0089934}},
+        // {title: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}}
     ];
 
     var largeInfowindow = new google.maps.InfoWindow();
@@ -187,7 +187,9 @@ function initMap() {
 
     // Listen for the event fired when the user selects a prediction and clicks
     // "go" more details for that place.
-    document.getElementById('go-places').addEventListener('click', textSearchPlaces);
+    document.getElementById('go-places').addEventListener('click', function() {
+        var searchValue = document.getElementById('places-search').value;
+        textSearchPlaces(searchValue);});
 
     // Add an event listener so that the polygon is captured,  call the
     // searchWithinPolygon function. This will show the markers in the polygon,
@@ -396,12 +398,12 @@ function searchBoxPlaces(searchBox) {
 
 // This function firest when the user select "go" on the places search.
 // It will do a nearby search using the entered query string or place.
-function textSearchPlaces() {
+function textSearchPlaces(value) {
     var bounds = map.getBounds();
-    hideMarkers(placeMarkers);
+
     var placesService = new google.maps.places.PlacesService(map);
     placesService.textSearch({
-        query: document.getElementById('places-search').value,
+        query: value,
         bounds: bounds
     }, function(results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
@@ -413,6 +415,7 @@ function textSearchPlaces() {
 // This function creates markers for each place found in either places search.
 function createMarkersForPlaces(places) {
     var bounds = new google.maps.LatLngBounds();
+    hideMarkers(placeMarkers);
     for (var i = 0; i < places.length; i++) {
         var place = places[i];
         var icon = {
@@ -499,15 +502,13 @@ function getPlacesDetails(marker, infowindow) {
 }
 
 function attractions(cityStr) {
-    //get Wikipedia Results according to the typed address
-    // var cityNameWithNoSpace = [];
-    // cityStr.split('').forEach(char => {
-    //     char === ' ' ? cityNameWithNoSpace.push('_') : cityNameWithNoSpace.push(char);
-    // });
     cityStr = cityStr.split('');
     var index = cityStr.indexOf(',');
     cityStr = cityStr.join('');
-    cityStr = cityStr.substring(0, index);
+    cityStr = cityStr.slice(0,1).toUpperCase()+cityStr.substring(1)
+    if (index !== -1){
+        cityStr = cityStr.substring(0, index);
+    }
 //https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&rvprop=content&&titles=Tourism_in_Canada
 //     var wikiurl = 'https://en.wikipedia.org/w/api.php?action=opensearch&format=json&search='+cityNameWithNoSpace.join('')+'_attractions'+'&callback=callback';
     var wikiurl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&rvprop=content&&titles=Tourism_in_Canada';
@@ -541,9 +542,14 @@ function attractions(cityStr) {
             for (var i = 0; i < attractionsInfo.length; i++){
                 var cityInfo = attractionsInfo[i];
                 if (cityInfo.name === cityStr){
+                    $('#waypoints').empty();
                     cityInfo.attractions.map(attraction => {
-                        $('#waypoints').append('<option value="'+cityStr+'">'+attraction+ '</option>');
+                        if(!attraction.includes('List of attractions')){
+                            $('#waypoints').append('<option id="'+attraction+'" value="'+cityStr+'">'+attraction+ '</option>');
+                            storeLocations(attraction);
+                        }
                     });
+                    console.log(locations);
                     count =1;
                     break;
                 }
@@ -603,3 +609,42 @@ function listOfSliceWords(words, start, end){
 
 
 
+//-------------------------------------------------------------------------------------------
+// var request = {
+//     query: attraction + 'in Toronto',
+//     fields: ['geometry'],}
+//
+// service = new google.maps.places.PlacesService(map);
+// service.findPlaceFromQuery(request, callback);
+// function callback(results, status) {
+//     if (status == google.maps.places.PlacesServiceStatus.OK) {
+//         for (var i = 0; i < results.length; i++) {
+//             var place = results[i]['geometry']['location'];
+//             locations.push({'title': attraction, 'location': place})
+//
+//         }
+//     } else {
+//         console.log('status :' + status)
+//         console.log('error: ' + attraction);
+//     }
+//
+// }
+
+function storeLocations(attraction){
+    var request = {
+        query: attraction + 'in Toronto',
+        fields: ['geometry']};
+    service = new google.maps.places.PlacesService(map);
+    service.findPlaceFromQuery(request, callback);
+    function callback(results, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+            for (var i = 0; i < results.length; i++) {
+                var place = results[i]['geometry']['location'];
+                locations.push({'title': attraction, 'location': {'latitude': place.lat(), 'longitutde': place.lng()}});
+            }
+        } else {
+            console.clear();
+            storeLocations(attraction);
+        }
+    }
+}
