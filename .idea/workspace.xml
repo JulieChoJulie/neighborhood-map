@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bbc06c8c-c5d8-4029-813d-ab53b3f14bad" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/js/mapClient.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/mapClient.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/haha.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/knockout.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/knockout.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -19,8 +21,17 @@
       <file leaf-file-name="knockout.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/knockout.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="533" lean-forward="true" selection-start-line="533" selection-end-line="533" />
+            <state relative-caret-position="277">
+              <caret line="207" column="29" lean-forward="true" selection-start-line="207" selection-start-column="29" selection-end-line="207" selection-end-column="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="haha.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/haha.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="77">
+              <caret line="575" column="41" selection-start-line="575" selection-start-column="41" selection-end-line="575" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -45,8 +56,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/4-refactoring _catclicker_with_MVO/ud989-school-attendance-master/js/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="3" column="22" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="22" />
+            <state relative-caret-position="613">
+              <caret line="83" column="4" selection-start-line="83" selection-start-column="4" selection-end-line="83" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -54,8 +65,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../GoogleMapProject/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="499">
-              <caret line="58" lean-forward="true" selection-start-line="58" selection-end-line="58" />
+            <state relative-caret-position="946">
+              <caret line="51" column="49" selection-start-line="51" selection-start-column="49" selection-end-line="51" selection-end-column="49" />
             </state>
           </provider>
         </entry>
@@ -80,36 +91,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>markers</find>
-      <find>defaultIcon</find>
-      <find>map</find>
-      <find>numOf</find>
-      <find>numOfAt</find>
-      <find>zoomToArea</find>
-      <find>zoomTo</find>
-      <find>showListings</find>
-      <find>zoomToARea</find>
-      <find>to</find>
-      <find>add</find>
-      <find>setTime</find>
-      <find>zoom</find>
-      <find>storeLocations</find>
-      <find>storeLocations(</find>
-      <find>initMap</find>
-      <find>polygon</find>
       <find>styles</find>
       <find>drawingManager</find>
-      <find>attractions</find>
       <find>setTimeout</find>
       <find>load</find>
-      <find>loadMarkers</find>
       <find>numOfAttractions</find>
       <find>largeInfo</find>
       <find>marker</find>
       <find>loadmar</find>
       <find>local</find>
-      <find>store</find>
+      <find>cityName</find>
+      <find>cityStr</find>
+      <find>JSON</find>
       <find>localStorage</find>
+      <find>polygon</find>
+      <find>placeMarkers</find>
+      <find>showListings</find>
+      <find>hideMarkers</find>
+      <find>show</find>
+      <find>markers</find>
+      <find>showlistings</find>
+      <find>showlis</find>
+      <find>globalCity</find>
+      <find>storeLocation</find>
+      <find>attractions</find>
+      <find>loadMarkers</find>
+      <find>country</find>
+      <find>sorry</find>
+      <find>sorry</find>
+      <find>getInfoFor</find>
+      <find>store</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -130,8 +141,10 @@
         <option value="$PROJECT_DIR$/../google_map_tutorials/Project_Code_13_DevilInTheDetailsPlacesDetails.html" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/googleMap.js" />
-        <option value="$PROJECT_DIR$/../GoogleMapProject/index.html" />
         <option value="$PROJECT_DIR$/js/mapClient.js" />
+        <option value="$PROJECT_DIR$/haha.js" />
+        <option value="$PROJECT_DIR$/../GoogleMapProject/index.html" />
+        <option value="$PROJECT_DIR$/js/haha.js" />
         <option value="$PROJECT_DIR$/js/knockout.js" />
       </list>
     </option>
@@ -186,6 +199,11 @@
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="preferences.editor" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/js" />
+    </key>
+  </component>
   <component name="RunDashboard">
     <option name="ruleStates">
       <list>
@@ -233,12 +251,12 @@
       <updated>1530842658942</updated>
       <workItem from="1530842660137" duration="26590000" />
       <workItem from="1531007477056" duration="10894000" />
-      <workItem from="1531146389785" duration="4572000" />
+      <workItem from="1531146389785" duration="10989000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42056000" />
+    <option name="totallyTimeSpent" value="48473000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="817" extended-state="0" />
@@ -486,22 +504,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../GoogleMapProject/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="499">
-          <caret line="58" lean-forward="true" selection-start-line="58" selection-end-line="58" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/4-refactoring _catclicker_with_MVO/ud989-cat-clicker-andy-master/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
           <caret line="11" column="28" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/4-refactoring _catclicker_with_MVO/ud989-cat-clicker-andy-master/jquery.js">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/3-changing expectations/js/script.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -515,15 +523,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/4-refactoring _catclicker_with_MVO/ud989-school-attendance-master/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="3" column="22" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="22" />
+        <state relative-caret-position="613">
+          <caret line="83" column="4" selection-start-line="83" selection-start-column="4" selection-end-line="83" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/4-refactoring _catclicker_with_MVO/ud989-cat-clicker-andy-master/jquery.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../GoogleMapProject/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="946">
+          <caret line="51" column="49" selection-start-line="51" selection-start-column="49" selection-end-line="51" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/haha.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="77">
+          <caret line="575" column="41" selection-start-line="575" selection-start-column="41" selection-end-line="575" selection-end-column="41" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/knockout.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="533" lean-forward="true" selection-start-line="533" selection-end-line="533" />
+        <state relative-caret-position="277">
+          <caret line="207" column="29" lean-forward="true" selection-start-line="207" selection-start-column="29" selection-end-line="207" selection-end-column="29" />
         </state>
       </provider>
     </entry>

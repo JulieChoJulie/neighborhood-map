@@ -2,7 +2,6 @@ var map;
 
 // Create a new blank array for all the listing markers.
 var markers = [];
-var markerStorage = {};
 
 // This global polygon variable is to ensure only ONE polygon is rendered.
 var polygon = null;
@@ -188,46 +187,42 @@ function initMap() {
 }
 
 function loadMarkers (){
-    if(!markerStorage[globalCity]){
-        // Style the markers a bit. This will be our listing marker icon.
-        var defaultIcon = makeMarkerIcon('0091ff');
+    // Style the markers a bit. This will be our listing marker icon.
+    var defaultIcon = makeMarkerIcon('0091ff');
 
-        // Create a "highlighted location" marker color for when the user
-        // mouses over the marker.
-        var highlightedIcon = makeMarkerIcon('FFFF24');
-        console.log(locations);
-        markerStorage[globalCity] = [];
-        // The following group uses the location array to create an array of markers on initialize.
-        for (var i = 0; i < locations.length; i++) {
-            // Get the position from the location array.
-            var position = locations[i].location;
-            var title = locations[i].title;
-            // Create a marker per location, and put into markers array.
-            var marker = new google.maps.Marker({
-                position: position,
-                title: title,
-                animation: google.maps.Animation.DROP,
-                icon: defaultIcon,
-                id: i
-            });
-
-            markerStorage[globalCity].push(marker);
-            var largeInfowindow = new google.maps.InfoWindow();
-            // Create an onclick event to open the large infowindow at each marker.
-            marker.addListener('click', function () {
-                populateInfoWindow(this, largeInfowindow);
-            });
-            // Two event listeners - one for mouseover, one for mouseout,
-            // to change the colors back and forth.
-            marker.addListener('mouseover', function () {
-                this.setIcon(highlightedIcon);
-            });
-            marker.addListener('mouseout', function () {
-                this.setIcon(defaultIcon);
-            });
-        }
+    // Create a "highlighted location" marker color for when the user
+    // mouses over the marker.
+    var highlightedIcon = makeMarkerIcon('FFFF24');
+    console.log(locations);
+    // The following group uses the location array to create an array of markers on initialize.
+    for (var i = 0; i < locations.length; i++) {
+        // Get the position from the location array.
+        var position = locations[i].location;
+        var title = locations[i].title;
+        // Create a marker per location, and put into markers array.
+        var marker = new google.maps.Marker({
+            position: position,
+            title: title,
+            animation: google.maps.Animation.DROP,
+            icon: defaultIcon,
+            id: i
+        });
+        // Push the marker to our array of markers.
+        markers.push(marker);
+        var largeInfowindow = new google.maps.InfoWindow();
+        // Create an onclick event to open the large infowindow at each marker.
+        marker.addListener('click', function () {
+            populateInfoWindow(this, largeInfowindow);
+        });
+        // Two event listeners - one for mouseover, one for mouseout,
+        // to change the colors back and forth.
+        marker.addListener('mouseover', function () {
+            this.setIcon(highlightedIcon);
+        });
+        marker.addListener('mouseout', function () {
+            this.setIcon(defaultIcon);
+        });
     }
-    markers = markerStorage[globalCity];
     showListings();
     numOfAttractions = 0;
 
@@ -542,11 +537,7 @@ function modifyCityName (cityStr) {
 }
 
 function getInfoForCountry(country, city) {
-    city  = modifyCityName(city);
-    if(markerStorage[city]){
-        markers = markerStorage[city];
-        showListings();
-    } else if(!countries[country]){
+    if(!countries[country]){
         var wikiurl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&rvprop=content&&titles=Tourism_in_' + country;
         var wikiRequestTimeOut = setTimeout(function(){
             $('<option value="fail">Failed to load Wikipedia resources.</option>').appendTo($('#waypoints'));
@@ -582,8 +573,8 @@ function getInfoForCountry(country, city) {
     }
 }
 
-function getAttractionsForCity(attractionsInfo, cityStr) {
-
+function getAttractionsForCity(attractionsInfo, city) {
+    var cityStr = modifyCityName(city);
     var count = 0;
     for (var i = 0; i < attractionsInfo.length; i++){
         var cityInfo = attractionsInfo[i];
@@ -597,8 +588,8 @@ function getAttractionsForCity(attractionsInfo, cityStr) {
                 // to prevent from over query limit error
                 count += 500;
                 $('#waypoints').append('<option id="'+attraction+'" value="'+cityStr+'">'+attraction+ '</option>');
-                setTimeout(function(){storeLocations(attraction, cityStr);}, count);
-
+                // storeLocations(attraction);
+                setTimeout(function(){storeLocations(attraction, cityName);}, count);
             });
             break;
         }
