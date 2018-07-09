@@ -14,22 +14,30 @@ var locations = [];
 var numOfAttractions = 0;
 
 
+initEvents();
 
-document.getElementById('show-listings').addEventListener('click', showListings);
 
-document.getElementById('hide-listings').addEventListener('click', function() {
-    hideMarkers(markers);
-});
+function initEvents(){
+    document.getElementById('show-listings').addEventListener('click', showListings);
 
-document.getElementById('toggle-drawing').addEventListener('click', function() {
-    toggleDrawing(drawingManager);
-});
+    document.getElementById('hide-listings').addEventListener('click', function() {
+        hideMarkers(markers);
+    });
 
-document.getElementById('zoom-to-area').addEventListener('click', function() {
-    zoomToArea();
-});
+    document.getElementById('toggle-drawing').addEventListener('click', function() {
+        toggleDrawing(drawingManager);
+    });
 
-function initMap() {
+    document.getElementById('zoom-to-area').addEventListener('click', function() {
+        zoomToArea();
+    });
+
+    // Listen for the event fired when the user selects a prediction and clicks
+    // "go" more details for that place.
+    document.getElementById('go-places').addEventListener('click', textSearchPlaces);
+}
+
+function styles(){
     // Create a styles array to use with the map.
     var styles = [
         {
@@ -97,7 +105,11 @@ function initMap() {
             ]
         }
     ];
+}
 
+
+function initMap() {
+    styles();
     // Constructor creates a new map - only center and zoom are required.
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 61.356137, lng: -112.396204},
@@ -125,7 +137,15 @@ function initMap() {
     // These are the real estate listings that will be shown to the user.
     // Normally we'd have these in a database instead.
 
-    var largeInfowindow = new google.maps.InfoWindow();
+
+    // Listen for the event fired when the user selects a prediction from the
+    // picklist and retrieve more details for that place.
+    searchBox.addListener('places_changed', function() {
+        searchBoxPlaces(this);
+    });
+
+
+
 
     // Initialize the drawing manager.
     var drawingManager = new google.maps.drawing.DrawingManager({
@@ -139,66 +159,6 @@ function initMap() {
         }
     });
 
-    // Style the markers a bit. This will be our listing marker icon.
-    var defaultIcon = makeMarkerIcon('0091ff');
-
-    // Create a "highlighted location" marker color for when the user
-    // mouses over the marker.
-    var highlightedIcon = makeMarkerIcon('FFFF24');
-
-    if(locations.length === numOfAttractions & locations.length !== 0) {
-        // The following group uses the location array to create an array of markers on initialize.
-        for (var i = 0; i < locations.length; i++) {
-            // Get the position from the location array.
-            var position = locations[i].location;
-            var title = locations[i].title;
-            // Create a marker per location, and put into markers array.
-            var marker = new google.maps.Marker({
-                position: position,
-                title: title,
-                animation: google.maps.Animation.DROP,
-                icon: defaultIcon,
-                id: i
-            });
-            // Push the marker to our array of markers.
-            markers.push(marker);
-            // Create an onclick event to open the large infowindow at each marker.
-            marker.addListener('click', function () {
-                populateInfoWindow(this, largeInfowindow);
-            });
-            // Two event listeners - one for mouseover, one for mouseout,
-            // to change the colors back and forth.
-            marker.addListener('mouseover', function () {
-                this.setIcon(highlightedIcon);
-            });
-            marker.addListener('mouseout', function () {
-                this.setIcon(defaultIcon);
-            });
-            if (i === 0) {
-                $('#map').hide();
-                $('#loading').show();
-            }
-        }
-        $('#map').show();
-        $('#loading').hide();
-        showListings();
-        numOfAttractions = 0;
-    } else if (numOfAttractions !== 0 ){
-        $('#map').hide();
-        $('#loading').show();
-    }
-
-
-
-    // Listen for the event fired when the user selects a prediction from the
-    // picklist and retrieve more details for that place.
-    searchBox.addListener('places_changed', function() {
-        searchBoxPlaces(this);
-    });
-
-    // Listen for the event fired when the user selects a prediction and clicks
-    // "go" more details for that place.
-    document.getElementById('go-places').addEventListener('click', textSearchPlaces);
 
     // Add an event listener so that the polygon is captured,  call the
     // searchWithinPolygon function. This will show the markers in the polygon,
@@ -221,6 +181,51 @@ function initMap() {
         polygon.getPath().addListener('set_at', searchWithinPolygon);
         polygon.getPath().addListener('insert_at', searchWithinPolygon);
     });
+
+
+
+}
+
+function loadMarkers (){
+    // Style the markers a bit. This will be our listing marker icon.
+    var defaultIcon = makeMarkerIcon('0091ff');
+
+    // Create a "highlighted location" marker color for when the user
+    // mouses over the marker.
+    var highlightedIcon = makeMarkerIcon('FFFF24');
+    console.log(locations);
+    // The following group uses the location array to create an array of markers on initialize.
+    for (var i = 0; i < locations.length; i++) {
+        // Get the position from the location array.
+        var position = locations[i].location;
+        var title = locations[i].title;
+        // Create a marker per location, and put into markers array.
+        var marker = new google.maps.Marker({
+            position: position,
+            title: title,
+            animation: google.maps.Animation.DROP,
+            icon: defaultIcon,
+            id: i
+        });
+        // Push the marker to our array of markers.
+        markers.push(marker);
+        var largeInfowindow = new google.maps.InfoWindow();
+        // Create an onclick event to open the large infowindow at each marker.
+        marker.addListener('click', function () {
+            populateInfoWindow(this, largeInfowindow);
+        });
+        // Two event listeners - one for mouseover, one for mouseout,
+        // to change the colors back and forth.
+        marker.addListener('mouseover', function () {
+            this.setIcon(highlightedIcon);
+        });
+        marker.addListener('mouseout', function () {
+            this.setIcon(defaultIcon);
+        });
+    }
+    showListings();
+    numOfAttractions = 0;
+
 }
 
 // This function populates the infowindow when the marker is clicked. We'll only allow
@@ -352,7 +357,6 @@ function zoomToArea() {
                 if (status == google.maps.GeocoderStatus.OK) {
                     map.setCenter(results[0].geometry.location);
                     map.setZoom(15);
-                    globalCity = city;
                     locations = [];
                     attractions(city);
                 } else {
@@ -536,32 +540,33 @@ function attractions(cityStr) {
             var wikiList = response[1];
             var attractions = response['query']['pages']['288026']['revisions']['0']['*'];
 
-            var arrayOfCities = listOfSliceWords(attractions, '\'\'\'Sites of interest in ', '\n\n');
+            var arrayOfCities = listOfSliceWords(attractions, '\'\'\'Sites of interest in ', '\n\n')
             var attractionsInfo = arrayOfCities.map(city => {
                 var res = {name: '', attractions: []};
                 var endIndexOfCityName = city.indexOf('\'')-1;
                 cityName = city.slice(0, endIndexOfCityName+1);
                 res.name = cityName;
                 var arrayOfAttractionsForCity = listOfSliceWords(city, '\n* [[', ']]').map(attraction => {
+                    if(!attraction.includes('See also: ') && !attraction.includes('List of attractions'))
                     res.attractions.push(attraction);
                 });
                 return res;
             });
-          var count = 0;
+            var count = 0;
             for (var i = 0; i < attractionsInfo.length; i++){
                 var cityInfo = attractionsInfo[i];
                 if (cityInfo.name === cityStr){
 
                     $('#waypoints').empty();
                     numOfAttractions = cityInfo.attractions.length;
+                    console.log(numOfAttractions);
                     cityInfo.attractions.map(attraction => {
                         // Call storeLocations function every 0.2second
                         // to prevent from over query limit error
                         count += 500;
-                        if(!attraction.includes('List of attractions')){
-                            $('#waypoints').append('<option id="'+attraction+'" value="'+cityStr+'">'+attraction+ '</option>');
-                            setTimeout(function(){storeLocations(attraction);}, count);
-                        }
+                        $('#waypoints').append('<option id="'+attraction+'" value="'+cityStr+'">'+attraction+ '</option>');
+                        // storeLocations(attraction);
+                        setTimeout(function(){storeLocations(attraction, cityName);}, count);
                     });
                     break;
                 }
@@ -613,9 +618,9 @@ function listOfSliceWords(words, start, end){
 }
 
 
-function storeLocations(attraction){
+function storeLocations(attraction, city){
     var request = {
-        query: attraction + 'in Toronto',
+        query: attraction,
         fields: ['geometry']};
     service = new google.maps.places.PlacesService(map);
     service.findPlaceFromQuery(request, callback);
@@ -624,10 +629,14 @@ function storeLocations(attraction){
             for (var i = 0; i < results.length; i++) {
                 var place = results[i]['geometry']['location'];
                 locations.push({title: attraction, location: {lat: place.lat(), lng: place.lng()}});
-                initMap();
+                console.log(locations.length);
+                if(locations.length === numOfAttractions & locations.length !== 0){
+                    globalCity = city;
+                    loadMarkers();
+                }
             }
         } else {
-            storeLocations(attraction);
+            setTimeout(storeLocations(attraction, city), 500);
         }
     }
 }
