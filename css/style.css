@@ -50,13 +50,22 @@ hr {
   border: none;
 }
 
-#map {
+#map, #loading {
   bottom:0px;
   height: 100%;
   left: 362px;
   position: absolute;
   right: 0px;
 }
+
+#loading {
+  text-align: center;
+  top: 45%;
+  font-size: 1em;
+  display: none;
+
+}
+
 
 .options-box {
   background: #fff;
