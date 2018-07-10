@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bbc06c8c-c5d8-4029-813d-ab53b3f14bad" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/js/haha.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/knockout.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/knockout.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -18,46 +16,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="knockout.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="knockout.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/knockout.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
-              <caret line="207" column="29" lean-forward="true" selection-start-line="207" selection-start-column="29" selection-end-line="207" selection-end-column="29" />
+            <state relative-caret-position="156">
+              <caret line="325" lean-forward="true" selection-start-line="325" selection-end-line="336" selection-end-column="1" />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="haha.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/haha.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="77">
-              <caret line="575" column="41" selection-start-line="575" selection-start-column="41" selection-end-line="575" selection-end-column="41" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="jquery.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/4-refactoring _catclicker_with_MVO/ud989-cat-clicker-andy-master/jquery.js">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file leaf-file-name="script.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/3-changing expectations/js/script.js">
+        <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/4-refactoring _catclicker_with_MVO/js/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="17" column="40" lean-forward="true" selection-start-line="17" selection-start-column="40" selection-end-line="17" selection-end-column="40" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
+            <state relative-caret-position="2933">
+              <caret line="270" column="13" selection-start-line="270" selection-start-column="13" selection-end-line="270" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/4-refactoring _catclicker_with_MVO/ud989-school-attendance-master/js/app.js">
+      <file leaf-file-name="test.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/test.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="613">
-              <caret line="83" column="4" selection-start-line="83" selection-start-column="4" selection-end-line="83" selection-end-column="4" />
+            <state relative-caret-position="380">
+              <caret line="19" column="45" lean-forward="true" selection-start-line="19" selection-start-column="45" selection-end-line="19" selection-end-column="45" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -65,8 +49,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../GoogleMapProject/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="946">
-              <caret line="51" column="49" selection-start-line="51" selection-start-column="49" selection-end-line="51" selection-end-column="49" />
+            <state relative-caret-position="60">
+              <caret line="3" column="22" selection-start-line="3" selection-start-column="22" selection-end-line="3" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -74,8 +58,26 @@
       <file leaf-file-name="mapClient.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/mapClient.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="129">
-              <caret line="140" lean-forward="true" selection-start-line="140" selection-end-line="146" selection-end-column="51" />
+            <state relative-caret-position="189">
+              <caret line="143" lean-forward="true" selection-start-line="143" selection-end-line="143" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/5-using_an_Organization_Library/cat_clicker_with_knockoutjs/js/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="320">
+              <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/5-using_an_Organization_Library/cat_clicker_with_knockoutjs/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="160">
+              <caret line="8" column="23" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -91,36 +93,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>styles</find>
-      <find>drawingManager</find>
-      <find>setTimeout</find>
-      <find>load</find>
-      <find>numOfAttractions</find>
-      <find>largeInfo</find>
-      <find>marker</find>
-      <find>loadmar</find>
-      <find>local</find>
-      <find>cityName</find>
-      <find>cityStr</find>
-      <find>JSON</find>
-      <find>localStorage</find>
-      <find>polygon</find>
-      <find>placeMarkers</find>
-      <find>showListings</find>
-      <find>hideMarkers</find>
-      <find>show</find>
-      <find>markers</find>
-      <find>showlistings</find>
-      <find>showlis</find>
+      <find>listofslice</find>
+      <find>octopus</find>
+      <find>showListOfAttraction</find>
       <find>globalCity</find>
-      <find>storeLocation</find>
-      <find>attractions</find>
+      <find>cityList</find>
+      <find>latlng</find>
+      <find>info</find>
+      <find>console.log</find>
+      <find>title</find>
+      <find>attractionList</find>
+      <find>storage</find>
+      <find>addcity</find>
+      <find>makeMArkerIcon</find>
+      <find>currentCity.name</find>
+      <find>etInfoForCountry</find>
+      <find>modify</find>
+      <find>viewMarkers</find>
+      <find>hideRen</find>
+      <find>hide-listings</find>
+      <find>hideRender</find>
+      <find>clearRender</find>
+      <find>updateCurrentCity</find>
+      <find>updateCurrent</find>
       <find>loadMarkers</find>
-      <find>country</find>
-      <find>sorry</find>
-      <find>sorry</find>
-      <find>getInfoFor</find>
-      <find>store</find>
+      <find>showRender</find>
+      <find>currentCity</find>
+      <find>hide</find>
+      <find>polygon</find>
+      <find>drawing</find>
+      <find>searchWith</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -136,16 +138,19 @@
         <option value="$PROJECT_DIR$/js/wikipedia.js" />
         <option value="$PROJECT_DIR$/test2.js" />
         <option value="$PROJECT_DIR$/duplicate.js" />
-        <option value="$PROJECT_DIR$/test.js" />
         <option value="$PROJECT_DIR$/css/style.css" />
         <option value="$PROJECT_DIR$/../google_map_tutorials/Project_Code_13_DevilInTheDetailsPlacesDetails.html" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/googleMap.js" />
         <option value="$PROJECT_DIR$/js/mapClient.js" />
         <option value="$PROJECT_DIR$/haha.js" />
-        <option value="$PROJECT_DIR$/../GoogleMapProject/index.html" />
         <option value="$PROJECT_DIR$/js/haha.js" />
+        <option value="$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/5-using_an_Organization_Library/cat_clicker_with_knockoutjs/js/app.js" />
+        <option value="$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/5-using_an_Organization_Library/cat_clicker_with_knockoutjs/index.html" />
+        <option value="$PROJECT_DIR$/test.js" />
         <option value="$PROJECT_DIR$/js/knockout.js" />
+        <option value="$PROJECT_DIR$/../GoogleMapProject/index.html" />
+        <option value="$PROJECT_DIR$/js/test.js" />
       </list>
     </option>
   </component>
@@ -158,8 +163,8 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="y" value="23" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="y" value="25" />
     <option name="width" value="1440" />
     <option name="height" value="817" />
   </component>
@@ -221,7 +226,7 @@
     <configuration name="googleMap.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" nameIsGenerated="true" path-to-js-file="googleMap.js" working-dir="$PROJECT_DIR$/js" />
     <configuration name="jquery.min.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" nameIsGenerated="true" path-to-js-file="jquery.min.js" working-dir="$PROJECT_DIR$/js/lib" />
     <configuration name="test2.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" nameIsGenerated="true" path-to-js-file="test2.js" working-dir="$PROJECT_DIR$" />
-    <configuration name="test.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" nameIsGenerated="true" path-to-js-file="test.js" working-dir="$PROJECT_DIR$" />
+    <configuration name="test.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/js/test.js" working-dir="$PROJECT_DIR$" />
     <list>
       <item itemvalue="JavaScript Debug.index.html" />
       <item itemvalue="Node.js.jquery.min.js" />
@@ -251,15 +256,15 @@
       <updated>1530842658942</updated>
       <workItem from="1530842660137" duration="26590000" />
       <workItem from="1531007477056" duration="10894000" />
-      <workItem from="1531146389785" duration="10989000" />
+      <workItem from="1531146389785" duration="32045000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48473000" />
+    <option name="totallyTimeSpent" value="69529000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="817" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="817" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
@@ -320,7 +325,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test.js">
+    <entry file="file://$PROJECT_DIR$/js/test.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="3" column="54" lean-forward="true" selection-start-line="3" selection-start-column="54" selection-end-line="3" selection-end-column="54" />
@@ -444,13 +449,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="3" column="54" lean-forward="true" selection-start-line="3" selection-start-column="54" selection-end-line="3" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1200">
@@ -497,13 +495,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/mapClient.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="129">
-          <caret line="140" lean-forward="true" selection-start-line="140" selection-end-line="146" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/4-refactoring _catclicker_with_MVO/ud989-cat-clicker-andy-master/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
@@ -521,34 +512,72 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/4-refactoring _catclicker_with_MVO/ud989-school-attendance-master/js/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="613">
-          <caret line="83" column="4" selection-start-line="83" selection-start-column="4" selection-end-line="83" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/4-refactoring _catclicker_with_MVO/ud989-cat-clicker-andy-master/jquery.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/../GoogleMapProject/index.html">
+    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/4-refactoring _catclicker_with_MVO/ud989-school-attendance-master/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="946">
-          <caret line="51" column="49" selection-start-line="51" selection-start-column="49" selection-end-line="51" selection-end-column="49" />
+        <state relative-caret-position="199">
+          <caret line="62" column="50" selection-start-line="62" selection-start-column="50" selection-end-line="62" selection-end-column="50" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/haha.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="77">
+        <state relative-caret-position="-1196">
           <caret line="575" column="41" selection-start-line="575" selection-start-column="41" selection-end-line="575" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/5-using_an_Organization_Library/cat_clicker_with_knockoutjs/js/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/5-using_an_Organization_Library/cat_clicker_with_knockoutjs/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="8" column="23" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/mapClient.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="143" lean-forward="true" selection-start-line="143" selection-end-line="143" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/4-refactoring _catclicker_with_MVO/js/script.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2933">
+          <caret line="270" column="13" selection-start-line="270" selection-start-column="13" selection-end-line="270" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../GoogleMapProject/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="3" column="22" selection-start-line="3" selection-start-column="22" selection-end-line="3" selection-end-column="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/knockout.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="207" column="29" lean-forward="true" selection-start-line="207" selection-start-column="29" selection-end-line="207" selection-end-column="29" />
+        <state relative-caret-position="156">
+          <caret line="325" lean-forward="true" selection-start-line="325" selection-end-line="336" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="19" column="45" lean-forward="true" selection-start-line="19" selection-start-column="45" selection-end-line="19" selection-end-column="45" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

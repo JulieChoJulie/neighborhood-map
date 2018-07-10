@@ -188,7 +188,7 @@ function initMap() {
 }
 
 function loadMarkers (){
-    if(!markerStorage[globalCity]){
+    if(markerStorage[globalCity]['markers'].length === 0){
         // Style the markers a bit. This will be our listing marker icon.
         var defaultIcon = makeMarkerIcon('0091ff');
 
@@ -196,7 +196,6 @@ function loadMarkers (){
         // mouses over the marker.
         var highlightedIcon = makeMarkerIcon('FFFF24');
         console.log(locations);
-        markerStorage[globalCity] = [];
         // The following group uses the location array to create an array of markers on initialize.
         for (var i = 0; i < locations.length; i++) {
             // Get the position from the location array.
@@ -211,7 +210,7 @@ function loadMarkers (){
                 id: i
             });
 
-            markerStorage[globalCity].push(marker);
+            markerStorage[globalCity]['markers'].push(marker);
             var largeInfowindow = new google.maps.InfoWindow();
             // Create an onclick event to open the large infowindow at each marker.
             marker.addListener('click', function () {
@@ -227,7 +226,7 @@ function loadMarkers (){
             });
         }
     }
-    markers = markerStorage[globalCity];
+    markers = markerStorage[globalCity]['markers'];
     showListings();
     numOfAttractions = 0;
 
@@ -544,9 +543,14 @@ function modifyCityName (cityStr) {
 function getInfoForCountry(country, city) {
     city  = modifyCityName(city);
     if(markerStorage[city]){
-        markers = markerStorage[city];
+        markers = markerStorage[city]['markers'];
         showListings();
-    } else if(!countries[country]){
+        var arr = [];
+        markerStorage[city]['attractions'].map(attraction =>{
+            arr.push(attraction['title']);
+        });
+        showListOfAttraction(arr);
+    } else if(!markerStorage[city]){
         var wikiurl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&rvprop=content&&titles=Tourism_in_' + country;
         var wikiRequestTimeOut = setTimeout(function(){
             $('<option value="fail">Failed to load Wikipedia resources.</option>').appendTo($('#waypoints'));
@@ -574,16 +578,13 @@ function getInfoForCountry(country, city) {
                 });
                 clearTimeout(wikiRequestTimeOut);
                 getAttractionsForCity(attractionsInfo, city);
-                countries[country] = {info: attractionsInfo, list: null}
             }
         });
-    } else {
-        getAttractionsForCity(countries[country]['info'], city);
     }
 }
 
 function getAttractionsForCity(attractionsInfo, cityStr) {
-
+    markerStorage[cityStr] = {'markers': [], 'attractions': null};
     var count = 0;
     for (var i = 0; i < attractionsInfo.length; i++){
         var cityInfo = attractionsInfo[i];
@@ -592,13 +593,12 @@ function getAttractionsForCity(attractionsInfo, cityStr) {
             $('#waypoints').empty();
             numOfAttractions = cityInfo.attractions.length;
             console.log(numOfAttractions);
+            showListOfAttraction(cityInfo.attractions);
             cityInfo.attractions.map(attraction => {
                 // Call storeLocations function every 0.2second
                 // to prevent from over query limit error
                 count += 500;
-                $('#waypoints').append('<option id="'+attraction+'" value="'+cityStr+'">'+attraction+ '</option>');
                 setTimeout(function(){storeLocations(attraction, cityStr);}, count);
-
             });
             break;
         }
@@ -652,9 +652,12 @@ function storeLocations(attraction, city){
     service.findPlaceFromQuery(request, callback);
     function callback(results, status) {
         if (status == google.maps.places.PlacesServiceStatus.OK) {
+            markerStorage[city]['attractions'] =[];
             for (var i = 0; i < results.length; i++) {
                 var place = results[i]['geometry']['location'];
-                locations.push({title: attraction, location: {lat: place.lat(), lng: place.lng()}});
+                var info = {title: attraction, location: {lat: place.lat(), lng: place.lng()}}
+                locations.push(info);
+                markerStorage[city]['attractions'].push(info);
                 console.log(locations.length);
                 if(locations.length === numOfAttractions & locations.length !== 0){
                     globalCity = city;
@@ -667,5 +670,12 @@ function storeLocations(attraction, city){
     }
 }
 
+function showListOfAttraction (attractions){
+    $('#waypoints').empty();
+    $('#waypoints').append('<div id=""+globalCity></div>');
+    attractions.map(attraction => {
+        $('#'+globalCity).append('<option id="'+attraction+'">'+attraction+ '</option>');
+    });
+}
 
 
