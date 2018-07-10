@@ -26,6 +26,42 @@
         init: function(){
             localStorage.notes = JSON.stringify([]);
         },
+        // data: {
+        //     'Vancouver': [
+        //         'Capilano Suspension Bridge',
+        //         'Stanley Park',
+        //         'Granville Island',
+        //         'Chinatown, Vancouver',
+        //         'Robson Street',
+        //         'Gastown',
+        //         'Vancouver Art Gallery',
+        //         'Vancouver Maritime Museum',
+        //         'Museum of Anthropology at UBC',
+        //         'Vancouver Museum',
+        //         'Science World at Telus World of Science'
+        //     ],
+        //     'Winnipeg': [
+        //         'Assiniboine Park',
+        //         'Costume Museum of Canada',
+        //         'Fort Gibraltar',
+        //         'La Maison Gabrielle Roy',
+        //         'Le Musée de Saint-Boniface Museum',
+        //         'Dalnavert Museum',
+        //         'Louis Riel statue',
+        //         'Manitoba Children\'s Museum',
+        //         'Manitoba Museum',
+        //         'Naval Museum of Manitoba',
+        //         'Royal Canadian Mint',
+        //         'The Exchange District',
+        //         'The Fire Fighters Museum',
+        //         'Transcona Historical Museum',
+        //         'The Forks',
+        //         'Upper Fort Garry',
+        //         'Western Canada Aviation Museum',
+        //         'Winnipeg Art Gallery',
+        //         'Winnipeg Railway Museum'
+        //     ]
+        // },
         currentCity: {
             'name': undefined,
             'attractions': undefined,
@@ -313,6 +349,7 @@
                         attractionList.push(attraction);
                         latlngList.push(latlng);
                         console.log(attractionList.length);
+                        console.log('numofattr:' + numOfAttractions);
                         if(attractionList.length === numOfAttractions & attractionList.length !== 0){
                             model.storage = {name: city,
                                 attractions: attractionList,
@@ -326,8 +363,10 @@
                             viewList();
                         }
                     }
+                } else if (status == google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+                    numOfAttractions -= 1;
                 } else {
-                    setTimeout(storeLocations(attraction, city), 500);
+                    setTimeout(octopus.storeLocations(attraction, city), 500);
                 }
             }
         },
@@ -477,7 +516,6 @@
         },
         showRender: function(){
             var currentCity = octopus.getCurrentCity();
-            console.log(currentCity);
             var markers = currentCity.markers;
             var bounds = new google.maps.LatLngBounds();
             // Extend the boundaries of the map for each marker and display the marker
@@ -497,8 +535,6 @@
             showListing = false;
         },
         clearRender: function (markers){
-            console.log('working');
-            console.log(markers);
             for (var i = 0; i < markers.length; i++) {
                 markers[i].setMap(null);
             }
@@ -508,9 +544,8 @@
     var viewList = function () {
         $('#waypoints').empty();
         var currentCity = octopus.getCurrentCity();
-        $('#waypoints').append('<div id=""+currentCity.name></div>');
         currentCity.attractions.map(attraction => {
-            $('#'+currentCity.name).append('<option id="'+attraction+'">'+attraction+ '</option>');
+            $('#waypoints').append('<option id="'+attraction+'">'+attraction+ '</option>');
         });
     };
 
