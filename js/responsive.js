@@ -1,4 +1,4 @@
-$('.fa-times').on('click', function() {
+$('.options-box .fa-times').on('click', function() {
     $('.options-box').hide();
     $('.title-hamburger-icon').show();
     $('#map').css("left", "0px");

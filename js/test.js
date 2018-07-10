@@ -20,6 +20,10 @@
     var idHideListings = $('#hide-listings');
     var idZoomToArea = $('#zoom-to-area');
     var idGoPlaces = $('#go-places');
+    var idSubmit = $('#submit');
+    var idShowMore = $('#show-more');
+    var idStart = $('#start');
+    var idEnd = $('#end');
 
 
     var model = {
@@ -171,6 +175,47 @@
             idZoomToArea.on('click', octopus.zoomCity);
             idGoPlaces.on('click', octopus.textSearchPlaces);
         },
+        initDirection: function (){
+            var directionsService = new google.maps.DirectionsService;
+            var directionsDisplay = new google.maps.DirectionsRenderer;
+            directionsDisplay.setMap(map);
+            idSubmit.on('click',function(){
+                octopus.calculateAndDisplayRoute(directionsService, directionsDisplay);
+            });
+        },
+        calculateAndDisplayRoute: function(directionsService, directionsDisplay){
+            viewMarkers.clearRender(model.currentCity.markers);
+            var waypts = [];
+            var checkboxArray = document.getElementById('waypoints');
+            for (var i = 0; i < checkboxArray.length; i++) {
+                if (checkboxArray.options[i].selected) {
+                    console.log('checkboxArray: ' + checkboxArray[i].value);
+                    var index = model.currentCity.attractions.indexOf(checkboxArray[i].value);
+                    waypts.push({
+                        location: model.currentCity.latlng[index],
+                        stopover: true
+                    });
+                }
+            }
+            directionsService.route({
+                origin: model.currentCity.latlng[1],
+                destination: model.currentCity.latlng[3],
+                waypoints: waypts,
+                optimizeWaypoints: true,
+                travelMode: 'DRIVING'
+            }, function(response, status) {
+                if (status === 'OK') {
+                    directionsDisplay.setDirections(response);
+                    var route = response.routes[0];
+                    viewList.routes(route);
+                    idShowMore.on('click', function(){
+                        $('#directions-panel').show();
+                    });
+                } else {
+                    window.alert('Directions request failed due to ' + status);
+                }
+            });
+        },
         updateCurrentCity: function(storage){
             model.currentCity = storage;
         },
@@ -241,13 +286,13 @@
         var index = cityStr.indexOf(',');
         var indexOfSpace = cityStr.indexOf(' ');
         cityStr = cityStr.join('');
-        cityStr = cityStr.slice(0,1).toUpperCase()+cityStr.substring(1);
+        cityStr = cityStr.slice(0,1).toUpperCase()+cityStr.substring(1).toLowerCase();
         if (index !== -1){
             cityStr = cityStr.substring(0, index);
         }
         if(indexOfSpace !== -1 && (indexOfSpace < index || index === -1)) {
             cityStr = cityStr.slice(0, indexOfSpace+1) + cityStr[indexOfSpace+1].toUpperCase()
-                + cityStr.substring(indexOfSpace+2);
+                + cityStr.substring(indexOfSpace+2).toLowerCase();
         }
         return cityStr;
         },
@@ -279,7 +324,7 @@
                     viewMarkers.clearRender(model.currentCity.markers);
                     octopus.updateCurrentCity(obj);
                     octopus.loadMarkers();
-                    viewList();
+                    viewList.render();
                     isInList = true;
 
                 }
@@ -360,7 +405,7 @@
                             octopus.updateCurrentCity(model.storage);
                             model.addCity(model.storage);
                             octopus.loadMarkers();
-                            viewList();
+                            viewList.render();
                         }
                     }
                 } else if (status == google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
@@ -389,7 +434,6 @@
             // Create a "highlighted location" marker color for when the user
             // mouses over the marker.
             var highlightedIcon = octopus.makeMarkerIcon('FFFF24');
-            console.log(locations);
             var currentCity = model.currentCity;
             // The following group uses the location array to create an array of markers on initialize.
             for (var i = 0; i < currentCity.attractions.length; i++) {
@@ -492,20 +536,6 @@
 
 
 
-            // octopus.catList().forEach(cat => {
-            //     $('<button value="' + cat.name + '">' + cat.name + '</button>').appendTo(list);
-            //     // var button = document.createElement("button");
-            //     // t = document.createTextNode(cat.name);
-            //     // button.appendChild(t);
-            //     // button.value = cat.name;
-            //     // document.getElementsByClassName('list')[0].appendChild(button);
-            //
-            //
-            //     $('<div class="photo-click" id="' + cat.name + '" style="display:none"></div>').appendTo(photo);
-            //     $('<img class="image" src="' + cat.name + '.jpg">').appendTo($('#' + cat.name + ''));
-            //     $('<span class="num_of_click">0</span> clicked').appendTo($('#' + cat.name + ''));
-            //     $('#'+cat.name).hide();
-            // });
         }
     };
 
@@ -541,34 +571,32 @@
         }
     };
 
-    var viewList = function () {
-        $('#waypoints').empty();
-        var currentCity = octopus.getCurrentCity();
-        currentCity.attractions.map(attraction => {
-            $('#waypoints').append('<option id="'+attraction+'">'+attraction+ '</option>');
-        });
+    var viewList = {
+        render: function (){
+            idWaypoints.empty();
+            var currentCity = octopus.getCurrentCity();
+            currentCity.attractions.map(attraction => {
+                idWaypoints.append('<option value="'+attraction+'">'+attraction+ '</option>');
+            });
+            octopus.initDirection();
+        },
+        routes: function(route){
+            var summaryPanel = document.getElementById('directions-panel');
+            summaryPanel.innerHTML = '<div id="closing-icon" style="font-size: 40px"><i class="fas fa-times"></i></div>';
+            // For each route, display summary information.
+            for (var i = 0; i < route.legs.length; i++) {
+                var routeSegment = i + 1;
+                summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+                    '</b><br>';
+                summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+                summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+                summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+            }
+            $('#directions-panel .fa-times').on('click', function() {
+                $('#directions-panel').hide();
+            });
+        }
     };
-
-    // var viewAdmin = {
-    //     init:function(){
-    //         $('#admin-form').hide()
-    //         $('<button class="admin">Admin</button>').appendTo(list);
-    //         $('.admin').on('click', function(){
-    //             octopus.admin();
-    //         })
-    //     },
-    //     render: function(currentCat){
-    //         $('#admin-form').show();
-    //         $('#form-cat-name').val(currentCat.name);
-    //         $('#form-cat-click').val(currentCat.click);
-    //         $('#form-cat-url').val('value', currentCat.name + '.jpg');
-    //         $('.form').submit(function(e){
-    //             octopus.changeName(currentCat.name, $('#form-cat-name').val());
-    //             octopus.changeClick(currentCat.click, $('#from-cat-click').val());
-    //             e.preventDefault();
-    //         })
-    //     }
-    // }
 
 
 
