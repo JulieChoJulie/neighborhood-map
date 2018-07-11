@@ -29,6 +29,7 @@
     var model = {
         init: function(){
             localStorage.notes = JSON.stringify([]);
+            localStorage.add = JSON.stringify([]);
         },
         // data: {
         //     'Vancouver': [
@@ -68,7 +69,7 @@
         // },
         currentCity: {
             'name': undefined,
-            'attractions': undefined,
+            'attractions': [],
             'markers': [],
             'latlng' : [],
         },
@@ -91,6 +92,13 @@
             model.currentCat = data[index];
         },
         storage: function(input){return input},
+        addStorage: {'latlng': [],
+        'attractions': [],
+        'markers': []},
+        updateAddStroage: function(latlng, attraction){
+            model.addStorage['latlng'].push(latlng);
+            model.addStorage['attractions'].push(attraction);
+        },
         style: function(){
             return [
                 {
@@ -185,21 +193,30 @@
         },
         calculateAndDisplayRoute: function(directionsService, directionsDisplay){
             viewMarkers.clearRender(model.currentCity.markers);
+            viewMarkers.clearRender(model.addStorage.markers);
             var waypts = [];
             var checkboxArray = document.getElementById('waypoints');
             for (var i = 0; i < checkboxArray.length; i++) {
                 if (checkboxArray.options[i].selected) {
-                    console.log('checkboxArray: ' + checkboxArray[i].value);
                     var index = model.currentCity.attractions.indexOf(checkboxArray[i].value);
-                    waypts.push({
-                        location: model.currentCity.latlng[index],
-                        stopover: true
-                    });
+                    if(index === -1){
+                        index = model.addStorage.attractions.indexOf(checkboxArray[i].value);
+                        waypts.push({
+                            location: model.addStorage.latlng[index],
+                            stopover: true
+                        });
+                    } else {
+                        waypts.push({
+                            location: model.currentCity.latlng[index],
+                            stopover: true
+                        });
+                    }
+
                 }
             }
             directionsService.route({
-                origin: model.currentCity.latlng[1],
-                destination: model.currentCity.latlng[3],
+                origin: JSON.parse(idStart.attr('class')),
+                destination: JSON.parse(idEnd.attr('class')),
                 waypoints: waypts,
                 optimizeWaypoints: true,
                 travelMode: 'DRIVING'
@@ -218,6 +235,9 @@
         },
         updateCurrentCity: function(storage){
             model.currentCity = storage;
+        },
+        getAddStorage: function(){
+            return model.addStorage;
         },
         cityList: function(){
             return model.cityList;
@@ -267,14 +287,14 @@
         // It will do a nearby search using the entered query string or place.
         textSearchPlaces: function () {
             var bounds = map.getBounds();
-            hideMarkers(placeMarkers);
+            viewMarkers.clearRender(placeMarkers);
             var placesService = new google.maps.places.PlacesService(map);
             placesService.textSearch({
                 query: document.getElementById('places-search').value,
                 bounds: bounds
             }, function(results, status) {
                 if (status === google.maps.places.PlacesServiceStatus.OK) {
-                    createMarkersForPlaces(results);
+                    viewMarkers.createMarkersForPlaces(results);
                 }
             });
         },
@@ -323,7 +343,8 @@
                     console.log('here');
                     viewMarkers.clearRender(model.currentCity.markers);
                     octopus.updateCurrentCity(obj);
-                    octopus.loadMarkers();
+                    octopus.loadMarkers(obj, 'currentCity');
+                    octopus.loadMakrers(model.addStorage, '');
                     viewList.render();
                     isInList = true;
 
@@ -404,7 +425,8 @@
                             viewMarkers.clearRender(model.currentCity.markers);
                             octopus.updateCurrentCity(model.storage);
                             model.addCity(model.storage);
-                            octopus.loadMarkers();
+                            octopus.loadMarkers(model.storage, 'currentCity');
+                            octopus.loadMarkers(model.addStorage, '');
                             viewList.render();
                         }
                     }
@@ -426,7 +448,7 @@
             return markerImage;
         },
 
-        loadMarkers: function (){
+        loadMarkers: function (info, whichStorage){
             viewMarkers.hideRender();
             // Style the markers a bit. This will be our listing marker icon.
             var defaultIcon = octopus.makeMarkerIcon('0091ff');
@@ -434,12 +456,12 @@
             // Create a "highlighted location" marker color for when the user
             // mouses over the marker.
             var highlightedIcon = octopus.makeMarkerIcon('FFFF24');
-            var currentCity = model.currentCity;
+            // var currentCity = model.currentCity;
             // The following group uses the location array to create an array of markers on initialize.
-            for (var i = 0; i < currentCity.attractions.length; i++) {
+            for (var i = 0; i < info.attractions.length; i++) {
                 // Get the position from the location array.
-                var position = currentCity.latlng[i];
-                var title = currentCity.attractions[i];
+                var position = info.latlng[i];
+                var title = info.attractions[i];
                 // Create a marker per location, and put into markers array.
                 var marker = new google.maps.Marker({
                     position: position,
@@ -448,11 +470,16 @@
                     icon: defaultIcon,
                     id: i
                     });
-                model.currentCity.markers.push(marker);
+                if(whichStorage === 'currentCity'){
+                    model.currentCity.markers.push(marker);
+                } else {
+                    model.addStorage.markers.push(marker);
+                }
+
                 var largeInfowindow = new google.maps.InfoWindow();
                 // Create an onclick event to open the large infowindow at each marker.
                 marker.addListener('click', function () {
-                    populateInfoWindow(this, largeInfowindow);
+                    octopus.populateInfoWindow(this, largeInfowindow);
                 });
                 // Two event listeners - one for mouseover, one for mouseout,
                 // to change the colors back and forth.
@@ -463,11 +490,80 @@
                     this.setIcon(defaultIcon);
                 });
             }
-
             viewMarkers.showRender();
         },
-
-        changeCity: function(name){
+        // This function populates the infowindow when the marker is clicked. We'll only allow
+        // one infowindow which will open at the marker that is clicked, and populate based
+        // on that markers position.
+        populateInfoWindow: function (marker, infowindow) {
+            // Check to make sure the infowindow is not already opened on this marker.
+            if (infowindow.marker != marker) {
+                // Clear the infowindow content to give the streetview time to load.
+                infowindow.setContent('');
+                infowindow.marker = marker;
+                // Make sure the marker property is cleared if the infowindow is closed.
+                infowindow.addListener('closeclick', function() {
+                    infowindow.marker = null;
+                });
+                var streetViewService = new google.maps.StreetViewService();
+                var radius = 50;
+                // In case the status is OK, which means the pano was found, compute the
+                // position of the streetview image, then calculate the heading, then get a
+                // panorama from that and set the options
+                function getStreetView(data, status) {
+                    if (status == google.maps.StreetViewStatus.OK) {
+                        var nearStreetViewLocation = data.location.latLng;
+                        var heading = google.maps.geometry.spherical.computeHeading(
+                            nearStreetViewLocation, marker.position);
+                        infowindow.setContent('<div>' + marker.title + ' <input class="addStart" id="'+marker.title+'" type="button" value="Add Start">' +
+                            '<input class="addEnd" id="'+marker.title+'" type="button" value="Add End">' +
+                            '</div><div id="pano"></div>');
+                        var panoramaOptions = {
+                            position: nearStreetViewLocation,
+                            pov: {
+                                heading: heading,
+                                pitch: 30
+                            }
+                        };
+                        var panorama = new google.maps.StreetViewPanorama(
+                            document.getElementById('pano'), panoramaOptions);
+                    } else {
+                        infowindow.setContent('<div>' + marker.title + '</div>' +
+                            '<div>No Street View Found</div>'+
+                            ' <input class="addStart" id="'+marker.title+'" type="button" value="Add Start">' +
+                        '<input class="addEnd" id="'+marker.title+'" type="button" value="Add End">');
+                    }
+                    $('.addStart').on('click', function(){
+                        idStart.removeAttr('class');
+                        var title = $(this).attr('id');
+                        idStart.val(title);
+                        var index = model.addStorage.attractions.indexOf(title);
+                        var latlng = model.addStorage.latlng[index];
+                        if(index === -1){
+                            index = model.currentCity.attractions.indexOf(title);
+                            latlng = model.currentCity.latlng[index];
+                        }
+                        idStart.addClass(JSON.stringify(latlng));
+                    });
+                    $('.addEnd').on('click', function(){
+                        idEnd.removeAttr('class');
+                        var title = $(this).attr('id');
+                        idEnd.val(title);
+                        var index = model.addStorage.attractions.indexOf(title);
+                        var latlng = model.addStorage.latlng[index];
+                        if(index === -1){
+                            index = model.currentCity.attractions.indexOf(title);
+                            latlng = model.currentCity.latlng[index];
+                        }
+                        idEnd.addClass(JSON.stringify(latlng));
+                    });
+                }
+                // Use streetview service to get the closest streetview image within
+                // 50 meters of the markers position
+                streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+                // Open the infowindow on the correct marker.
+                infowindow.open(map, marker);
+            }
 
         },
 
@@ -516,26 +612,18 @@
                 searchBoxPlaces(this);
             });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            // This function fires when the user selects a searchbox picklist item.
+            // It will do a nearby search using the selected query string or place.
+            function searchBoxPlaces(searchBox) {
+                viewMarkers.clearRender(placeMarkers);
+                var places = searchBox.getPlaces();
+                if (places.length == 0) {
+                    window.alert('We did not find any places matching that search!');
+                } else {
+                    // For each place, get the icon, name and location.
+                    viewMarkers.createMarkersForPlaces(places);
+                }
+            }
         }
     };
 
@@ -553,6 +641,11 @@
                 markers[i].setMap(map);
                 bounds.extend(markers[i].position);
             }
+            var addStorage = octopus.getAddStorage();
+            for (var i = 0; i < addStorage['attractions'].length; i++){
+                addStorage['markers'][i].setMap(map);
+                bounds.extend(addStorage['markers'][i].position);
+            }
             map.fitBounds(bounds);
             showListing = true;
         },
@@ -568,16 +661,115 @@
             for (var i = 0; i < markers.length; i++) {
                 markers[i].setMap(null);
             }
+        },
+        // This function creates markers for each place found in either places search.
+        createMarkersForPlaces: function (places) {
+            var bounds = new google.maps.LatLngBounds();
+            for (var i = 0; i < places.length; i++) {
+                var place = places[i];
+                var icon = {
+                    url: place.icon,
+                    size: new google.maps.Size(35, 35),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(15, 34),
+                    scaledSize: new google.maps.Size(25, 25)
+                };
+                // Create a marker for each place.
+                var marker = new google.maps.Marker({
+                    map: map,
+                    icon: icon,
+                    title: place.name,
+                    position: place.geometry.location,
+                    id: place.place_id
+                });
+                // Create a single infowindow to be used with the place details information
+                // so that only one is open at once.
+                var placeInfoWindow = new google.maps.InfoWindow();
+                // If a marker is clicked, do a place details search on it in the next function.
+                marker.addListener('click', function() {
+                    if (placeInfoWindow.marker == this) {
+                        console.log("This infowindow already is on this marker!");
+                    } else {
+                        viewMarkers.getPlacesDetails(this, placeInfoWindow);
+                    }
+                });
+                placeMarkers.push(marker);
+                if (place.geometry.viewport) {
+                    // Only geocodes have viewport.
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                }
+            }
+            map.fitBounds(bounds);
+        },
+        // This is the PLACE DETAILS search - it's the most detailed so it's only
+        // executed when a marker is selected, indicating the user wants more
+        // details about that place.
+        getPlacesDetails: function (marker, infowindow) {
+            var service = new google.maps.places.PlacesService(map);
+            service.getDetails({
+                placeId: marker.id
+            }, function(place, status) {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    // Set the marker property on this infowindow so it isn't created again.
+                    infowindow.marker = marker;
+                    var innerHTML = '<div>';
+                    if (place.name) {
+                        innerHTML += '<strong>' + place.name + '</strong>';
+                    }
+                    if (place.formatted_address) {
+                        innerHTML += '<br>' + place.formatted_address;
+                    }
+                    if (place.formatted_phone_number) {
+                        innerHTML += '<br>' + place.formatted_phone_number;
+                    }
+                    if (place.opening_hours) {
+                        innerHTML += '<br><br><strong>Hours:</strong><br>' +
+                            place.opening_hours.weekday_text[0] + '<br>' +
+                            place.opening_hours.weekday_text[1] + '<br>' +
+                            place.opening_hours.weekday_text[2] + '<br>' +
+                            place.opening_hours.weekday_text[3] + '<br>' +
+                            place.opening_hours.weekday_text[4] + '<br>' +
+                            place.opening_hours.weekday_text[5] + '<br>' +
+                            place.opening_hours.weekday_text[6];
+                    }
+                    if (place.photos) {
+                        innerHTML += '<br><br><img src="' + place.photos[0].getUrl(
+                            {maxHeight: 100, maxWidth: 200}) + '">';
+                    }
+                    innerHTML += '<button id="'+marker.id+'" class="add" style="float: right">Add this to my journey</button>';
+                    innerHTML += '</div>';
+                    infowindow.setContent(innerHTML);
+                    infowindow.open(map, marker);
+                    // Make sure the marker property is cleared if the infowindow is closed.
+                    infowindow.addListener('closeclick', function() {
+                        infowindow.marker = null;
+                    });
+                    $('.add').on('click', function(){
+                        var location = place.geometry.location;
+                        model.updateAddStroage({'lat': location.lat(), 'lng': location.lng()},place.name);
+                        viewList.render();
+                        octopus.loadMarkers(model.addStorage, '');
+                    })
+                }
+
+            });
         }
     };
 
     var viewList = {
         render: function (){
+            viewMarkers.clearRender(placeMarkers);
             idWaypoints.empty();
             var currentCity = octopus.getCurrentCity();
             currentCity.attractions.map(attraction => {
                 idWaypoints.append('<option value="'+attraction+'">'+attraction+ '</option>');
             });
+            var addStorage = octopus.getAddStorage();
+            for(var i = 0; i < addStorage['attractions'].length; i++){
+                idWaypoints.append('<option class="add" value="'+addStorage['attractions'][i]+'">'+addStorage['attractions'][i]+ '</option>');
+            }
             octopus.initDirection();
         },
         routes: function(route){
