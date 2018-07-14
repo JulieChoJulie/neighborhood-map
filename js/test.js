@@ -10,6 +10,9 @@
     var attractionList = [];
     var latlngList = [];
     var showListing = false;
+    //whichMarkers => true: direction markers & false: infoWindow markers
+    var whichMarkers = undefined;
+    var secondClicked = false;
 
 // Create placemarkers array to use in multiple functions to have control
 // over the number of places that show.
@@ -24,6 +27,7 @@
     var idShowMore = $('#show-more');
     var idStart = $('#start');
     var idEnd = $('#end');
+    var idClearPlaces = $('#clear-places');
 
 
     var model = {
@@ -86,11 +90,7 @@
         cityList: function(){
             return JSON.parse(localStorage.notes);
         },
-        clicked: function(name, phase){
-            data = JSON.parse(localStorage.notes);
-            var index = data.findIndex(obj => obj.name === name);
-            model.currentCat = data[index];
-        },
+        clickStorage:[],
         storage: function(input){return input},
         addStorage: {'latlng': [],
         'attractions': [],
@@ -182,20 +182,51 @@
             idHideListings.on('click', viewMarkers.hideRender);
             idZoomToArea.on('click', octopus.zoomCity);
             idGoPlaces.on('click', octopus.textSearchPlaces);
-        },
-        initDirection: function (){
-            var directionsService = new google.maps.DirectionsService;
-            var directionsDisplay = new google.maps.DirectionsRenderer;
-            directionsDisplay.setMap(map);
+            directionsService = new google.maps.DirectionsService;
+            directionsDisplay = new google.maps.DirectionsRenderer;
             idSubmit.on('click',function(){
                 octopus.calculateAndDisplayRoute(directionsService, directionsDisplay);
             });
+            idClearPlaces.on('click', function(){
+                viewMarkers.clearRender(placeMarkers);
+            })
+
+        },
+        clicked: function(input){
+            model.clicked.push(input);
+        },
+        getClicked: function(){
+            return model.clicked;
+        },
+        clearClicked: function(){
+            model.clicked = [];
+        },
+        clearAddStorage: function() {
+            model.addStorage = {
+                'latlng': [],
+                'attractions': [],
+                'markers': []
+            };
+        },
+        initDirection: function (){
+            directionsDisplay.setMap(map);
         },
         calculateAndDisplayRoute: function(directionsService, directionsDisplay){
+            if(!whichMarkers){
+                octopus.clearClicked();
+            }
+            whichMarkers = true;
             viewMarkers.clearRender(model.currentCity.markers);
             viewMarkers.clearRender(model.addStorage.markers);
             var waypts = [];
             var checkboxArray = document.getElementById('waypoints');
+            for (var i = 0; i < model.clicked; i++){
+                waypts.push({
+                    locations: model.clicked.locations[i],
+                    stopover:true
+                });
+
+            }
             for (var i = 0; i < checkboxArray.length; i++) {
                 if (checkboxArray.options[i].selected) {
                     var index = model.currentCity.attractions.indexOf(checkboxArray[i].value);
@@ -204,34 +235,48 @@
                         waypts.push({
                             location: model.addStorage.latlng[index],
                             stopover: true
-                        });
+                        }
+                        );
+                        octopus.clicked({name: model.addStorage.attractions[index], locations:model.addStorage.latlng[index]});
                     } else {
                         waypts.push({
                             location: model.currentCity.latlng[index],
                             stopover: true
                         });
+                        octopus.clicked({where: 'currentCity', name: model.currentCity.attractions[index], index: index, locations:model.currentCity.latlng[index]});
                     }
 
                 }
             }
-            directionsService.route({
-                origin: JSON.parse(idStart.attr('class')),
-                destination: JSON.parse(idEnd.attr('class')),
-                waypoints: waypts,
-                optimizeWaypoints: true,
-                travelMode: 'DRIVING'
-            }, function(response, status) {
-                if (status === 'OK') {
-                    directionsDisplay.setDirections(response);
-                    var route = response.routes[0];
-                    viewList.routes(route);
-                    idShowMore.on('click', function(){
-                        $('#directions-panel').show();
-                    });
-                } else {
-                    window.alert('Directions request failed due to ' + status);
+            if(idStart.attr('class')&&idEnd.attr('class')){
+                directionsService.route({
+                    origin: JSON.parse(idStart.attr('class')),
+                    destination: JSON.parse(idEnd.attr('class')),
+                    waypoints: waypts,
+                    optimizeWaypoints: true,
+                    travelMode: 'DRIVING'
+                }, function(response, status) {
+                    if (status === 'OK') {
+                        directionsDisplay.setDirections(response);
+                        var route = response.routes[0];
+                        viewList.routes(route);
+                        idShowMore.show();
+                        idShowMore.on('click', function(){
+                            $('#directions-panel').show();
+                        });
+                        viewMarkers.clearRender(model.currentCity.markers);
+                        viewMarkers.clearRender(model.addStorage.markers);
+                    } else {
+                        window.alert('Directions request failed due to ' + status);
+                    }
+                });
+            } else{
+                if(showListing === true){
+                    window.alert('Please select start and end points');
                 }
-            });
+                viewMarkers.showRender();
+            }
+
         },
         updateCurrentCity: function(storage){
             model.currentCity = storage;
@@ -245,10 +290,8 @@
         getCurrentCity: function(){
             return model.currentCity;
         },
-        clicked: function (name){
-            return model.clicked(name);
-        },
         zoomCity: function(){
+
             // Initialize the geocoder.
             var geocoder = new google.maps.Geocoder();
             // Get the address or place that the user entered.
@@ -262,6 +305,8 @@
                 // Make sure the address isn't blank
                 window.alert('You must enter a city in Canada.');
             } else {
+                view.clear();
+
                 // Initialize the locations array.
                 // Geocode the address/area entered to get the center. Then, center the map
                 // on it and zoom in
@@ -270,6 +315,8 @@
                         componentRestrictions: {locality: city}
                     }, function(results, status) {
                         if (status == google.maps.GeocoderStatus.OK) {
+                            idStart.removeAttr('class');
+                            idEnd.removeAttr('class');
                             map.setCenter(results[0].geometry.location);
                             map.setZoom(15);
                             locations = [];
@@ -288,15 +335,27 @@
         textSearchPlaces: function () {
             var bounds = map.getBounds();
             viewMarkers.clearRender(placeMarkers);
-            var placesService = new google.maps.places.PlacesService(map);
-            placesService.textSearch({
-                query: document.getElementById('places-search').value,
-                bounds: bounds
-            }, function(results, status) {
-                if (status === google.maps.places.PlacesServiceStatus.OK) {
-                    viewMarkers.createMarkersForPlaces(results);
-                }
-            });
+            var search = document.getElementById('places-search').value;
+            if(!search){
+                window.alert('Please enter a place you want to search.');
+            } else if(!idZoomToArea.val() & !(search.includes(' in ') || search.includes(' near '))){
+                window.alert('Please enter a city you want to travel first, or please enter a place and a city together. For example, pizza delivery in Toronto.')
+            } else {
+                search +=' in ' + idZoomToArea.val();
+                var placesService = new google.maps.places.PlacesService(map);
+                placesService.textSearch({
+                    query: document.getElementById('places-search').value,
+                    bounds: bounds
+                }, function(results, status) {
+                    if (status === google.maps.places.PlacesServiceStatus.OK) {
+                        viewMarkers.createMarkersForPlaces(results);
+                        idClearPlaces.show();
+                        idGoPlaces.css("left", "250px");
+                    } else {
+                        window.alert('Sorry, search request failed due to ' + status);
+                    }
+                });
+            }
         },
 
         modifyCityName: function (cityStr) {
@@ -340,7 +399,6 @@
             var isInList = false;
             cityList.forEach(obj => {
                 if (obj.name === city) {
-                    console.log('here');
                     viewMarkers.clearRender(model.currentCity.markers);
                     octopus.updateCurrentCity(obj);
                     octopus.loadMarkers(obj, 'currentCity');
@@ -414,7 +472,6 @@
                         var info = {title: attraction, location: latlng};
                         attractionList.push(attraction);
                         latlngList.push(latlng);
-                        console.log(attractionList.length);
                         console.log('numofattr:' + numOfAttractions);
                         if(attractionList.length === numOfAttractions & attractionList.length !== 0){
                             model.storage = {name: city,
@@ -633,21 +690,36 @@
         init: function(){
         },
         showRender: function(){
+            whichMarkers = false;
+            viewMarkers.clearRender(placeMarkers);
+            if (directionsDisplay != null) {
+                directionsDisplay.setDirections({routes: []});
+            }
             var currentCity = octopus.getCurrentCity();
             var markers = currentCity.markers;
             var bounds = new google.maps.LatLngBounds();
-            // Extend the boundaries of the map for each marker and display the marker
-            for (var i = 0; i < markers.length; i++) {
-                markers[i].setMap(map);
-                bounds.extend(markers[i].position);
-            }
             var addStorage = octopus.getAddStorage();
-            for (var i = 0; i < addStorage['attractions'].length; i++){
-                addStorage['markers'][i].setMap(map);
-                bounds.extend(addStorage['markers'][i].position);
+            var markersForStorage = addStorage['markers'];
+            // Extend the boundaries of the map for each marker and display the marker
+            for (var i = 0; i < Math.max(markers.length, markersForStorage.length); i++) {
+                if(markers[i]){
+                    markers[i].setMap(map);
+                    bounds.extend(markers[i].position);
+                }
+                if(markersForStorage[i]){
+                    markersForStorage[i].setMap(map);
+                    bounds.extend(markersForStorage[i].position);
+                }
+
             }
-            map.fitBounds(bounds);
-            showListing = true;
+            if(Math.max(markers.length, markersForStorage.length) > 0){
+                map.fitBounds(bounds);
+                showListing = true;
+            } else {
+                window.alert("No listing was found!");
+            }
+            // map.fitBounds(bounds);
+            // showListing = true;
         },
         hideRender: function(){
             var currentCity = octopus.getCurrentCity();
@@ -750,7 +822,20 @@
                         var location = place.geometry.location;
                         model.updateAddStroage({'lat': location.lat(), 'lng': location.lng()},place.name);
                         viewList.render();
-                        octopus.loadMarkers(model.addStorage, '');
+                        if(!whichMarkers){
+                            //when direction service is not working
+                            octopus.loadMarkers(model.addStorage, '');
+                        } else if(whichMarkers){
+                            var index = idWaypoints[0].options.length -1;
+                            console.log(idWaypoints[0].options[index]);
+                            var thisOption = idWaypoints[0].options[index];
+                            thisOption.selected = true;
+                            secondClicked = true;
+                            model.clicked.forEach(selected =>{
+                                document.getElementsByClassName(selected.name)[0].selected = true;
+                            });
+                            idSubmit.click();
+                        }
                     })
                 }
 
@@ -764,11 +849,11 @@
             idWaypoints.empty();
             var currentCity = octopus.getCurrentCity();
             currentCity.attractions.map(attraction => {
-                idWaypoints.append('<option value="'+attraction+'">'+attraction+ '</option>');
+                idWaypoints.append('<option class="'+attraction+'"value="'+attraction+'">'+attraction+ '</option>');
             });
             var addStorage = octopus.getAddStorage();
             for(var i = 0; i < addStorage['attractions'].length; i++){
-                idWaypoints.append('<option class="add" value="'+addStorage['attractions'][i]+'">'+addStorage['attractions'][i]+ '</option>');
+                idWaypoints.append('<option class="add '+addStorage['attractions'][i]+'" value="'+addStorage['attractions'][i]+'">'+addStorage['attractions'][i]+ '</option>');
             }
             octopus.initDirection();
         },
@@ -788,6 +873,26 @@
                 $('#directions-panel').hide();
             });
         }
+    };
+
+    var view ={
+        clear: function(){
+            idShowMore.hide();
+            placeMarkers = [];
+            viewMarkers.clearRender(placeMarkers);
+            viewMarkers.clearRender(model.addStorage.markers);
+            viewMarkers.clearRender(model.currentCity.markers);
+            viewMarkers.hideRender();
+            // // Clear past routes
+            // if (directionsDisplay != null) {
+            //     console.log('isWorking?');
+            //     directionsDisplay.setMap(null);
+            //     directionsDisplay = null;
+            // }
+            octopus.clearClicked();
+            octopus.clearAddStorage();
+        }
+
     };
 
 
