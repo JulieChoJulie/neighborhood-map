@@ -28,6 +28,7 @@
     var idStart = $('#start');
     var idEnd = $('#end');
     var idClearPlaces = $('#clear-places');
+    var idZoomText = $('#zoom-to-area-text');
 
 
     var model = {
@@ -295,7 +296,7 @@
             // Initialize the geocoder.
             var geocoder = new google.maps.Geocoder();
             // Get the address or place that the user entered.
-            var city = document.getElementById('zoom-to-area-text').value;
+            var city = idZoomText.val();
             city = octopus.modifyCityName(city);
             if(model.currentCity.name === city & showListing){
                 window.alert('We are showing the attraction lists for ' + city + '. Please try another city.');
@@ -338,7 +339,7 @@
             var search = document.getElementById('places-search').value;
             if(!search){
                 window.alert('Please enter a place you want to search.');
-            } else if(!idZoomToArea.val() & !(search.includes(' in ') || search.includes(' near '))){
+            } else if(!(idZoomText.val() || search.includes(' in ') || search.includes(' near '))){
                 window.alert('Please enter a city you want to travel first, or please enter a place and a city together. For example, pizza delivery in Toronto.')
             } else {
                 search +=' in ' + idZoomToArea.val();
@@ -411,7 +412,7 @@
             if (!isInList) {
                 var wikiurl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&rvprop=content&&titles=Tourism_in_' + country;
                 var wikiRequestTimeOut = setTimeout(function () {
-                    $('<option value="fail">Failed to load Wikipedia resources.</option>').appendTo($('#waypoints'));
+                    $('<li value="fail">Failed to load Wikipedia resources.</li>').appendTo($('#waypoints'));
                 }, 8000);
                 $.ajax({
                     url: wikiurl,
@@ -849,13 +850,48 @@
             idWaypoints.empty();
             var currentCity = octopus.getCurrentCity();
             currentCity.attractions.map(attraction => {
-                idWaypoints.append('<option class="'+attraction+'"value="'+attraction+'">'+attraction+ '</option>');
+                idWaypoints.append('<li class="'+attraction+'"value="'+attraction+'">'+attraction+ '</li>');
             });
             var addStorage = octopus.getAddStorage();
             for(var i = 0; i < addStorage['attractions'].length; i++){
-                idWaypoints.append('<option class="add '+addStorage['attractions'][i]+'" value="'+addStorage['attractions'][i]+'">'+addStorage['attractions'][i]+ '</option>');
+                idWaypoints.append('<li class="add '+addStorage['attractions'][i]+'" value="'+addStorage['attractions'][i]+'">'+addStorage['attractions'][i]+ '</li>');
             }
+            $('li').hover(function(e){
+
+            });
             octopus.initDirection();
+            viewList.hoverLi();
+        },
+        hoverLi: function(){
+            // Create a "close" button and append it to each list item
+            var List = $('li');
+            var i;
+            for (i = 0; i < List.length; i++) {
+                var spanStart = document.createElement("SPAN");
+                var txtStart = document.createTextNode("Start");
+                spanStart.className = "addStart";
+                spanStart.appendChild(txtStart);
+                List[i].appendChild(spanStart);
+                var spanEnd = document.createElement("SPAN");
+                var txtEnd = document.createTextNode("End");
+                spanEnd.className = "addEnd";
+                spanEnd.appendChild(txtEnd);
+                List[i].appendChild(spanEnd);
+
+            }
+            var addStart = document.getElementsByClassName("addStart");
+            var addEnd = document.getElementsByClassName("addEnd");
+            var i;
+            for (i = 0; i < addStart.length; i++) {
+                addStart[i].onclick = function() {
+                    var div = $(this).parent();
+                    idStart.val(div[0].getAttribute("value"));
+                }
+                addEnd[i].onclick = function(){
+                    var div = $(this).parent();
+                    idEnd.val(div[0].getAttribute("value"));
+                }
+            }
         },
         routes: function(route){
             var summaryPanel = document.getElementById('directions-panel');

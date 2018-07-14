@@ -5,7 +5,7 @@ body {
   margin: 0;
   padding: 0;
 }
-#zoom-to-area, select, input, button {
+#zoom-to-area, ul, input, button {
   font-family: 'Josefin Sans', sans-serif;
 }
 
@@ -74,6 +74,27 @@ hr {
   width: 350px;
 }
 
+ul li {
+  cursor: pointer;
+  position: relative;
+  background: #eee;
+  font-size: 12px;
+  transition: 0.2s;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+ul li:nth-child(odd) {
+  background: #f9f9f9;
+}
+
+ul li:hover {
+  background: #ddd;
+}
+
 #directions-panel {
   position: absolute;
   top:0;
@@ -81,7 +102,6 @@ hr {
   font-size: 12px;
   overflow: scroll;
 }
-
 
 #pano {
   width: 200px;
@@ -111,10 +131,10 @@ hr {
   width: 24%;
 }
 
-select {
+ul {
   padding-left: 5px;
   margin: 5px 5px;
-  width: 90%;
+  width: 95%;
   height: 200px;
   overflow: scroll;
 }
@@ -138,8 +158,28 @@ span {
   position: relative;
   left: 290px;
 }
+
 #clear-places {
   position: relative;
   left: 250px;
   display:none;
+}
+
+li .addStart {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 12px 5px 12px 5px;
+}
+
+li .addEnd {
+  position: absolute;
+  right: 40px;
+  top: 0;
+  padding: 12px 5px 12px 5px;
+}
+
+li .addStart:hover, .addEnd:hover {
+  background-color: #f44336;
+  color: white;
 }
