@@ -80,6 +80,7 @@ ul li {
   background: #eee;
   font-size: 12px;
   transition: 0.2s;
+  padding: 0px 8px 0px 40px;
 
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -169,17 +170,36 @@ li .addStart {
   position: absolute;
   right: 0;
   top: 0;
-  padding: 12px 5px 12px 5px;
+  padding: 10px 5px 0px 5px;
 }
 
 li .addEnd {
   position: absolute;
   right: 40px;
   top: 0;
-  padding: 12px 5px 12px 5px;
+  padding: 10px 5px 0px 5px;
 }
 
 li .addStart:hover, .addEnd:hover {
   background-color: #f44336;
   color: white;
+}
+
+ul li.checked {
+  background: #888;
+  color: #fff;
+  font-weight: bold;
+}
+
+ul li.checked::before {
+  content: '';
+  position: absolute;
+  border-color: #fff;
+  border-style: solid;
+  border-width: 0 2px 2px 0;
+  top: 10px;
+  left: 16px;
+  transform: rotate(45deg);
+  height: 15px;
+  width: 7px;
 }
