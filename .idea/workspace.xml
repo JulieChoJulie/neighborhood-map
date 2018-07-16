@@ -3,11 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="bbc06c8c-c5d8-4029-813d-ab53b3f14bad" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/haha.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/knockout.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/mapClient.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/waypoints.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/mapClientWithoutWiki.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/mapClientWithoutWiki.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planYourTrip.html" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -21,24 +18,27 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../GoogleMapProject/index.html">
+      <file leaf-file-name="mapClientWithoutWiki.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/mapClientWithoutWiki.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="653">
-              <caret line="61" column="126" selection-start-line="61" selection-start-column="126" selection-end-line="61" selection-end-column="126" />
+            <state relative-caret-position="342">
+              <caret line="826" column="67" lean-forward="true" selection-start-line="826" selection-start-column="67" selection-end-line="826" selection-end-column="67" />
               <folding>
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="planYourTrip.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/planYourTrip.html">
+      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="573">
-              <caret line="69" column="7" lean-forward="true" selection-start-line="69" selection-start-column="7" selection-end-line="69" selection-end-column="7" />
+            <state relative-caret-position="221">
+              <caret line="66" column="8" selection-start-line="66" selection-start-column="1" selection-end-line="66" selection-end-column="8" />
+              <folding>
+                <marker date="1531610974000" expanded="true" signature="101:180" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -55,13 +55,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>hideRender</find>
-      <find>add</find>
-      <find>autocom</find>
-      <find>add this to</find>
-      <find>zoomcity</find>
-      <find>show</find>
-      <find>showRender</find>
       <find>isadded</find>
       <find>directionsDisplay</find>
       <find>loadmar</find>
@@ -85,6 +78,13 @@
       <find>load</find>
       <find>loadMarkers</find>
       <find>console.log</find>
+      <find>add this to</find>
+      <find>idstart</find>
+      <find>directi</find>
+      <find>options</find>
+      <find>please</find>
+      <find>please select</find>
+      <find>start and end</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -124,6 +124,7 @@
         <option value="$PROJECT_DIR$/../google_map_tutorials/Project_Code_13_DevilInTheDetailsPlacesDetails.html" />
         <option value="$PROJECT_DIR$/knockout4.js" />
         <option value="$PROJECT_DIR$/planYourTrip.html" />
+        <option value="$PROJECT_DIR$/js/mapClientWithoutWiki.js" />
       </list>
     </option>
   </component>
@@ -157,17 +158,6 @@
               <item name="neighborhood map" type="b2602c69:ProjectViewProjectNode" />
               <item name="neighborhood map" type="462c0819:PsiDirectoryNode" />
               <item name="css" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="neighborhood map" type="b2602c69:ProjectViewProjectNode" />
-              <item name="neighborhood map" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="neighborhood map" type="b2602c69:ProjectViewProjectNode" />
-              <item name="neighborhood map" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="libs" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -238,12 +228,13 @@
       <workItem from="1531007477056" duration="10894000" />
       <workItem from="1531146389785" duration="135617000" />
       <workItem from="1531778813670" duration="200000" />
-      <workItem from="1531779049718" duration="67000" />
+      <workItem from="1531779049718" duration="139000" />
+      <workItem from="1531779194457" duration="1362000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="173368000" />
+    <option name="totallyTimeSpent" value="174802000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="817" extended-state="0" />
@@ -271,19 +262,19 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32974428" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info id="Favorites" order="2" side_tool="true" />
     </layout-to-restore>
   </component>
@@ -294,13 +285,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../google_map_tutorials/Project_Code_13_DevilInTheDetailsPlacesDetails.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4760">
-          <caret line="238" selection-start-line="238" selection-end-line="245" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/test.js" />
     <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/1-new_york_times_API/index.html">
       <provider selected="true" editor-type-id="text-editor">
@@ -474,16 +458,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="168" column="12" selection-start-line="168" selection-start-column="4" selection-end-line="168" selection-end-column="12" />
-          <folding>
-            <marker date="1531610974000" expanded="true" signature="101:180" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test.html" />
     <entry file="file://$PROJECT_DIR$/test5.html" />
     <entry file="file://$PROJECT_DIR$/knockout5.js" />
@@ -503,17 +477,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/knockout2.js" />
-    <entry file="file://$PROJECT_DIR$/../GoogleMapProject/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="653">
-          <caret line="61" column="126" selection-start-line="61" selection-start-column="126" selection-end-line="61" selection-end-column="126" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/knockout3.js" />
     <entry file="file://$PROJECT_DIR$/../google_map_tutorials/Project_Code_13_DevilInTheDetailsPlacesDetails.html">
       <provider selected="true" editor-type-id="text-editor">
@@ -533,10 +496,13 @@
     <entry file="file://$PROJECT_DIR$/knockout4.js" />
     <entry file="file://$PROJECT_DIR$/js/haha.js" />
     <entry file="file://$PROJECT_DIR$/js/test-mapClientUsingWiki.js" />
-    <entry file="file://$PROJECT_DIR$/test3.html">
+    <entry file="file://$PROJECT_DIR$/test3.html" />
+    <entry file="file://$PROJECT_DIR$/js/knockout.js" />
+    <entry file="file://$PROJECT_DIR$/js/knockout4.js" />
+    <entry file="file://$PROJECT_DIR$/../GoogleMapProject/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1060">
-          <caret line="53" column="8" lean-forward="true" selection-start-line="53" selection-start-column="8" selection-end-line="53" selection-end-column="8" />
+        <state relative-caret-position="653">
+          <caret line="61" column="126" selection-start-line="61" selection-start-column="126" selection-end-line="61" selection-end-column="126" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -544,12 +510,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/knockout.js" />
-    <entry file="file://$PROJECT_DIR$/js/knockout4.js" />
+    <entry file="file://$PROJECT_DIR$/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="66" column="8" selection-start-line="66" selection-start-column="1" selection-end-line="66" selection-end-column="8" />
+          <folding>
+            <marker date="1531610974000" expanded="true" signature="101:180" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/planYourTrip.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="573">
-          <caret line="69" column="7" lean-forward="true" selection-start-line="69" selection-start-column="7" selection-end-line="69" selection-end-column="7" />
+        <state relative-caret-position="454">
+          <caret line="61" column="72" lean-forward="true" selection-start-line="61" selection-start-column="72" selection-end-line="61" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/mapClientWithoutWiki.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="826" column="67" lean-forward="true" selection-start-line="826" selection-start-column="67" selection-end-line="826" selection-end-column="67" />
+          <folding>
+            <element signature="n#style#0;n#button#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -57,6 +57,8 @@ var ViewModel = function(){
                         'clicked': pair.clicked()
                     })
                 });
+                idStart.empty();
+                idEnd.empty();
                 viewList.hoverLi();
                 octopus.loadMarkers(globalCurrentCity);
             } else {
@@ -477,7 +479,7 @@ var octopus = {
                     window.alert('Directions request failed due to ' + status);
                 }
             });
-        } else{
+        } else if (globalCurrentCity.name.length > 0) {
             if(showListing === true){
                 window.alert('Please select start and end points.');
                 viewMarkers.showRender();
@@ -602,26 +604,8 @@ var octopus = {
                         document.getElementById('pano'), panoramaOptions);
                 } else {
                     infowindow.setContent('<div>' + marker.title + '</div>' +
-                        '<div>No Street View Found</div>'+
-                        ' <input class="addStart" id="'+marker.title+'" type="button" value="Add Start">' +
-                        '<input class="addEnd" id="'+marker.title+'" type="button" value="Add End">');
+                        '<div>No Street View Found</div>');
                 }
-                $('.addStart').on('click', function(){
-                    idStart.removeAttr('class');
-                    var title = $(this).attr('id');
-                    idStart.val(title);
-                    var index = model.currentCity.attractions.indexOf(title);
-                    var latlng = model.currentCity.latlng[index];
-                    idStart.addClass(JSON.stringify(latlng));
-                });
-                $('.addEnd').on('click', function(){
-                    idEnd.removeAttr('class');
-                    var title = $(this).attr('id');
-                    idEnd.val(title);
-                    var index = model.currentCity.attractions.indexOf(title);
-                    var latlng = model.currentCity.latlng[index];
-                    idEnd.addClass(JSON.stringify(latlng));
-                });
             }
             // Use streetview service to get the closest streetview image within
             // 50 meters of the markers position
@@ -798,14 +782,18 @@ var viewMarkers = {
                     infowindow.marker = null;
                 });
                 $('.add').on('click', function(){
-                    var location = place.geometry.location;
-                    globalCurrentCity.attractions.push({'attraction': place.name, 'clicked': true});
-                    globalCurrentCity.latlng.push({'lat': location.lat(), 'lng': location.lng()});
-                    if(!whichMarkers){
-                        //when direction service is not working
-                        octopus.loadMarkers({'attractions': [{'attraction': place.name, 'clicked': true}], 'latlng':[{'lat': location.lat(), 'lng': location.lng()}] });
+                    if(globalCurrentCity.name.length === 0){
+                        window.alert('Please select one of the following cities to add this place in your trip.');
                     } else {
-                        idSubmit.click();
+                        var location = place.geometry.location;
+                        globalCurrentCity.attractions.push({'attraction': place.name, 'clicked': true});
+                        globalCurrentCity.latlng.push({'lat': location.lat(), 'lng': location.lng()});
+                        if(!whichMarkers){
+                            //when direction service is not working
+                            octopus.loadMarkers({'attractions': [{'attraction': place.name, 'clicked': true}], 'latlng':[{'lat': location.lat(), 'lng': location.lng()}] });
+                        } else {
+                            idSubmit.click();
+                        }
                     }
                 })
             }
