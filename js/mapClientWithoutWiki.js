@@ -21,13 +21,14 @@ var idSubmit = $('#submit');
 var idShowMore = $('#show-more');
 var idStart = $('#start');
 var idEnd = $('#end');
+var idBeforeSelect = $('#before-select-city');
 var idClearPlaces = $('#clear-places');
 
 var ViewModel = function(){
     var that = this;
     this.cityList = ko.observableArray([]);
     CanadaData.forEach(city => {
-        that.cityList.push(new Attractions(city));
+        that.cityList.push(new Attractions(city), -1, -1);
     });
     this.currentCity = ko.observable();
 
@@ -50,37 +51,40 @@ var ViewModel = function(){
                     'attractions': [],
                     'latlng': that.currentCity().latlng(),
                     'markers': that.currentCity().markers(),
+                    'start': that.currentCity().start(),
+                    'end': that.currentCity().end()
                 };
                 that.currentCity().attractions().forEach(pair => {
                     globalCurrentCity.attractions.push({
                         'attraction': pair.attraction(),
-                        'clicked': pair.clicked()
+                        'clicked': pair.clicked(),
                     })
                 });
                 idStart.empty();
                 idEnd.empty();
-                viewList.hoverLi();
+                idBeforeSelect.hide();
                 octopus.loadMarkers(globalCurrentCity);
             } else {
                 var globalCityLength = globalCurrentCity.attractions.length;
                 var currentCityLength = that.currentCity().attractions().length;
                 if (globalCityLength > currentCityLength) {
-                    that.currentCity(new Attractions(globalCurrentCity));
+                    that.currentCity(new Attractions(globalCurrentCity, that.currentCity().start(), that.currentCity().end()));
                 } else {
                     globalCurrentCity = {
                         'name': that.currentCity().name(),
                         'attractions': [],
                         'latlng': that.currentCity().latlng(),
                         'markers': that.currentCity().markers(),
+                        'start': that.currentCity().start(),
+                        'end': that.currentCity().end()
                     };
                     that.currentCity().attractions().forEach(pair => {
                         globalCurrentCity.attractions.push({
                             'attraction': pair.attraction(),
-                            'clicked': pair.clicked()
+                            'clicked': pair.clicked(),
                         })
                     });
                 }
-                viewList.hoverLi();
             }
         } else {
             window.alert('Please select one of the following options.');
@@ -90,6 +94,34 @@ var ViewModel = function(){
     this.isClicked = function(data, event){
         data.clicked(!data.clicked());
     };
+    this.addStart = function(data, event){
+        var list = $('.startBtn');
+        for(var i = 0; i < list.length; i++){
+            $(list[i]).removeClass('startPoint');
+        }
+        $(event.target).addClass('startPoint');
+        var span = $('.startPoint')[0];
+        var li = $(span).prev();
+        var value = $(li).text();
+        that.startPoint(value);
+        idStart.attr('class', value);
+    };
+    this.addEnd = function(data, event){
+        var list = $('.endBtn');
+        for(var i = 0; i < list.length; i++){
+            $(list[i]).removeClass('endPoint');
+        }
+        $(event.target).addClass('endPoint');
+        var span = $('.endPoint')[0];
+        var start = $(span).prev();
+        var li = $(start).prev();
+        var value = $(li).text();
+        that.endPoint(value);
+        idEnd.attr('class', value);
+    };
+    this.startPoint = ko.observable('Please select the start point.');
+    this.endPoint = ko.observable('Please select the end point.');
+
 
 };
 
@@ -305,18 +337,25 @@ var CanadaData =[
 
 //this Cat is making {clickCount: function, name: function, imgSrc:function, ...}
 //an instance of a user-defined object type
-var Attractions = function(data) {
+var Attractions = function(data, start, end) {
     this.name = ko.observable(data.name);
     this.attractions = ko.observableArray([]);
     data.attractions.forEach(attraction=>{
         if(typeof attraction === 'object'){
-            this.attractions.push({'attraction': ko.observable(attraction.attraction), 'clicked': ko.observable(attraction.clicked)})
+            this.attractions.push({
+                'attraction': ko.observable(attraction.attraction),
+                'clicked': ko.observable(attraction.clicked)})
         } else {
-            this.attractions.push({'attraction': ko.observable(attraction), 'clicked':ko.observable(false)});
+            this.attractions.push({
+                'attraction': ko.observable(attraction),
+                'clicked': ko.observable(false),
+            });
         }
     });
     this.markers = ko.observableArray(data.markers);
     this.latlng = ko.observableArray(data.latlng);
+    this.start = ko.observable(start);
+    this.end = ko.observable(end);
 };
 
 ko.applyBindings(new ViewModel());
@@ -426,9 +465,10 @@ var octopus = {
         viewMap.init();
         viewMarkers.init();
         octopus.initEvents();
-        viewList.init();
+        octopus.initDirection();
     },
     initEvents: function(){
+        console.log('initEvent');
         directionsService = new google.maps.DirectionsService;
         directionsDisplay = new google.maps.DirectionsRenderer;
         idShowListings.on('click', viewMarkers.showRender);
@@ -682,6 +722,8 @@ var viewMarkers = {
         if(markers.length > 0){
             map.fitBounds(bounds);
             showListing = true;
+        } else {
+            window.alert('No listing was found!');
         }
     },
     hideRender: function(){
@@ -792,6 +834,7 @@ var viewMarkers = {
                             //when direction service is not working
                             octopus.loadMarkers({'attractions': [{'attraction': place.name, 'clicked': true}], 'latlng':[{'lat': location.lat(), 'lng': location.lng()}] });
                         } else {
+                            console.log('ffff');
                             idSubmit.click();
                         }
                     }
@@ -803,50 +846,9 @@ var viewMarkers = {
 };
 
 var viewList = {
-    init: function (){
-        octopus.initDirection();
-        viewList.hoverLi();
-    },
-    hoverLi: function(){
-        // Create a "close" button and append it to each list item
-        var List = $('li');
-        var i;
-        for (i = 0; i < List.length; i++) {
-            var spanStart = document.createElement("SPAN");
-            var txtStart = document.createTextNode("Start");
-            spanStart.className = "addStart";
-            spanStart.appendChild(txtStart);
-            List[i].appendChild(spanStart);
-            var spanEnd = document.createElement("SPAN");
-            var txtEnd = document.createTextNode("End");
-            spanEnd.className = "addEnd";
-            spanEnd.appendChild(txtEnd);
-            List[i].appendChild(spanEnd);
-
-        }
-        var addStart = document.getElementsByClassName("addStart");
-        var addEnd = document.getElementsByClassName("addEnd");
-        var i;
-        for (i = 0; i < addStart.length; i++) {
-            addStart[i].onclick = function() {
-                var div = $(this).parent()[0];
-                var text = $(div).text();
-                var index = text.indexOf('Start');
-                idStart.val(text.substring(0, index));
-                idStart.attr('class', text.substring(0, index));
-            };
-            addEnd[i].onclick = function(){
-                var div = $(this).parent()[0];
-                var text = $(div).text();
-                var index = text.indexOf('Start');
-                idEnd.val(text.substring(0, index));
-                idEnd.attr('class', text.substring(0, index));
-            };
-        }
-    },
     routes: function(route){
         var summaryPanel = document.getElementById('directions-panel');
-        summaryPanel.innerHTML = '<div id="closing-icon" style="font-size: 40px"><i class="fas fa-times"></i></div>';
+        summaryPanel.innerHTML = '<div id="closing-icon" style="font-size: 20px"><i class="fas fa-times"></i></div>';
         // For each route, display summary information.
         for (var i = 0; i < route.legs.length; i++) {
             var routeSegment = i + 1;

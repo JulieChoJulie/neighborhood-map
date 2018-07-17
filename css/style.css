@@ -75,12 +75,16 @@ hr {
 }
 
 ul li {
+  display: inline-block;
+  width: 60%;
   cursor: pointer;
   position: relative;
   background: #eee;
   font-size: 12px;
   transition: 0.2s;
   padding: 0px 8px 0px 40px;
+  white-space: nowrap;
+  overflow: no-display;
 
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -102,6 +106,7 @@ ul li:hover {
   display: none;
   font-size: 12px;
   overflow: scroll;
+  height: 100%;
 }
 
 #pano {
@@ -167,6 +172,7 @@ span {
 }
 
 li .addStart {
+  width:20%;
   position: absolute;
   right: 0;
   top: 0;
@@ -174,13 +180,19 @@ li .addStart {
 }
 
 li .addEnd {
+  width: 20%;
   position: absolute;
   right: 40px;
   top: 0;
   padding: 10px 5px 0px 5px;
 }
 
-li .addStart:hover, .addEnd:hover {
+li .addEnd:hover, .addPoint:hover, .startPoint, .endPoint {
+  background-color: #f44336;
+  color: white;
+}
+
+ul span:hover {
   background-color: #f44336;
   color: white;
 }
@@ -202,4 +214,14 @@ ul li.checked::before {
   transform: rotate(45deg);
   height: 15px;
   width: 7px;
+}
+
+#start, #end {
+  width: 200px;
+}
+
+#before-select-city li{
+  background-color: white;
+  white-space: pre-wrap;
+  width:100%;
 }
