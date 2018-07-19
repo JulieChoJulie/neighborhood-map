@@ -12,6 +12,11 @@ var whichMarkers = undefined;
 var placeMarkers = [];
 var globalCurrentCity = {'markers': [], 'latlng':[], name:'', 'attractions': []};
 var globalIndex;
+var durationMin;
+var durationHr;
+var durationDay;
+var totalDuration;
+
 var checked = [];
 var idShowListings = $('#show-listings');
 var idHideListings = $('#hide-listings');
@@ -28,12 +33,19 @@ var ViewModel = function(){
     var that = this;
     this.cityList = ko.observableArray([]);
     CanadaData.forEach(city => {
-        that.cityList.push(new Attractions(city), -1, -1);
+        that.cityList.push(new Attractions(city, -1, -1));
     });
     this.currentCity = ko.observable();
 
+    this.alert = function(){
+        if(globalCurrentCity.name === $( "#zoom-to-area-text option:selected" ).text()){
+            window.alert('You are currently exploring '+ globalCurrentCity.name + ' already.');
+        }
+    }
 
     this.changeCurrentCity = function() {
+        that.duration(totalDuration);
+        console.log('changeCurrentCity');
         var citySelected = $("#zoom-to-area-text option:selected").text();
         var index = CanadaData.reduce((acc, val, index) => {
             if (val.name === citySelected) {
@@ -43,7 +55,12 @@ var ViewModel = function(){
         }, -1);
         if (index !== -1) {
             //if the city has been changed or first time selecting
+            that.duration(0);
             if (globalIndex !== index) {
+                if(globalCurrentCity.markers.length > 0){
+                    viewMarkers.hideRender();
+                    globalCurrentCity.markers = [];
+                }
                 that.currentCity(that.cityList()[index]);
                 globalIndex = index;
                 globalCurrentCity = {
@@ -60,10 +77,28 @@ var ViewModel = function(){
                         'clicked': pair.clicked(),
                     })
                 });
-                idStart.empty();
-                idEnd.empty();
+                that.startPoint('Please select the start point.');
+                that.endPoint('Please select the end point.');
+                idStart.addClass('Please select the start point.');
+                idEnd.addClass('Please select the start point.');
+
+                if(globalCurrentCity.start > -1){
+                    var target = $('li')[globalCurrentCity.start];
+                    var startBtn = $(target).next();
+                    startBtn.click();
+                }
+                if(globalCurrentCity.end > -1){
+                    var target = $('li')[globalCurrentCity.end];
+                    var startBtn = $(target).next();
+                    $(startBtn.next()).click();
+                }
                 idBeforeSelect.hide();
-                octopus.loadMarkers(globalCurrentCity);
+                //if it is the first time searching
+                if(globalCurrentCity.markers.length === 0){
+                    octopus.loadMarkers(globalCurrentCity);
+                } else {
+                    viewMarkers.showRender();
+                }
             } else {
                 var globalCityLength = globalCurrentCity.attractions.length;
                 var currentCityLength = that.currentCity().attractions().length;
@@ -95,33 +130,35 @@ var ViewModel = function(){
         data.clicked(!data.clicked());
     };
     this.addStart = function(data, event){
-        var list = $('.startBtn');
-        for(var i = 0; i < list.length; i++){
-            $(list[i]).removeClass('startPoint');
-        }
-        $(event.target).addClass('startPoint');
-        var span = $('.startPoint')[0];
-        var li = $(span).prev();
-        var value = $(li).text();
-        that.startPoint(value);
-        idStart.attr('class', value);
+
+        var index = $(event.target).attr('value');
+        that.currentCity().start(Number(index));
+        that.currentCity().attractions()[index].clicked(false);
+        var attraction = that.currentCity().attractions()[index].attraction();
+        that.startPoint(attraction);
+        idStart.attr('class', attraction);
+
     };
-    this.addEnd = function(data, event){
-        var list = $('.endBtn');
-        for(var i = 0; i < list.length; i++){
-            $(list[i]).removeClass('endPoint');
-        }
-        $(event.target).addClass('endPoint');
-        var span = $('.endPoint')[0];
-        var start = $(span).prev();
-        var li = $(start).prev();
-        var value = $(li).text();
-        that.endPoint(value);
-        idEnd.attr('class', value);
+    this.addEnd = function(data, event, index){
+        var index = $(event.target).attr('value');
+        that.currentCity().end(Number(index));
+
+        var attraction = that.currentCity().attractions()[index].attraction();
+        that.endPoint(attraction);
+        idEnd.attr('class', attraction);
     };
     this.startPoint = ko.observable('Please select the start point.');
     this.endPoint = ko.observable('Please select the end point.');
+    this.duration =ko.observable(0);
 
+    this.refresh = function(){
+        console.log('haha');
+        directionsDisplay.setDirections({routes: []});
+        that.currentCity(new Attractions(CanadaData[globalIndex], -1, -1));
+        that.cityList()[globalIndex] = that.currentCity();
+        that.startPoint('Please select the start point.');
+        that.endPoint('Please select the end point.');
+    }
 
 };
 
@@ -468,7 +505,6 @@ var octopus = {
         octopus.initDirection();
     },
     initEvents: function(){
-        console.log('initEvent');
         directionsService = new google.maps.DirectionsService;
         directionsDisplay = new google.maps.DirectionsRenderer;
         idShowListings.on('click', viewMarkers.showRender);
@@ -478,7 +514,11 @@ var octopus = {
             octopus.calculateAndDisplayRoute(directionsService, directionsDisplay);
         });
         idClearPlaces.on('click', function(){
+            if(placeMarkers.length === 0){
+                window.alert('All markers for place search is already cleared on the map.');
+            }
             viewMarkers.clearRender(placeMarkers);
+            placeMarkers = [];
         });
 
     },
@@ -489,27 +529,35 @@ var octopus = {
         viewMarkers.hideRender();
         whichMarkers = true;
         var waypts = [];
-        if(idStart.attr('class')&&idEnd.attr('class')){
+        var startVal = idStart.attr('class');
+        console.log(startVal);
+        var endVal = idEnd.attr('class');
+        if(!startVal.includes('Please select') & !endVal.includes('Please select')){
             for (var i = 0; i < globalCurrentCity.attractions.length; i++){
                 var attraction = globalCurrentCity.attractions[i].attraction;
                 var click = globalCurrentCity.attractions[i].clicked;
-                if(click ===  true & attraction !== idStart.attr('class') & attraction !== idEnd.attr('class')){
+                if(click ===  true & attraction !== startVal & attraction !== endVal){
                     waypts.push({
                         location: globalCurrentCity.latlng[i],
                         stopover: true
                     });
+                } else if (attraction === startVal){
+                    startVal = globalCurrentCity.latlng[i];
+                } else if (attraction === endVal){
+                    endVal = globalCurrentCity.latlng[i];
                 }
             };
             directionsService.route({
-                origin: idStart.attr('class'),
-                destination: idEnd.attr('class'),
+                origin: startVal,
+                destination: endVal,
                 waypoints: waypts,
                 optimizeWaypoints: true,
-                travelMode: 'DRIVING'
+                travelMode: $('#travel-mode option:selected').text().toUpperCase()
             }, function(response, status) {
                 if (status === 'OK') {
                     directionsDisplay.setDirections(response);
                     var route = response.routes[0];
+                    console.log(response);
                     viewList.routes(route);
                     idShowMore.show();
                     idShowMore.on('click', function(){
@@ -815,7 +863,7 @@ var viewMarkers = {
                     innerHTML += '<br><br><img src="' + place.photos[0].getUrl(
                         {maxHeight: 100, maxWidth: 200}) + '">';
                 }
-                innerHTML += '<button id="'+marker.id+'" class="add" style="float: right">Add this to my journey</button>';
+                innerHTML += '<button id="'+marker.id+'" class="add" style="float: right" data-bind="$root.changeCurrentCity">Add this to my journey</button>';
                 innerHTML += '</div>';
                 infowindow.setContent(innerHTML);
                 infowindow.open(map, marker);
@@ -828,13 +876,23 @@ var viewMarkers = {
                         window.alert('Please select one of the following cities to add this place in your trip.');
                     } else {
                         var location = place.geometry.location;
-                        globalCurrentCity.attractions.push({'attraction': place.name, 'clicked': true});
-                        globalCurrentCity.latlng.push({'lat': location.lat(), 'lng': location.lng()});
+                        var isDuplicate = globalCurrentCity.attractions.reduce((acc, val)=>{
+                            if(val.attraction === place.name){
+                                acc = true;
+                            }
+                            return acc;
+                        }, false)
+                        if(!isDuplicate){
+                            globalCurrentCity.attractions.push({'attraction': place.name, 'clicked': true});
+                            globalCurrentCity.latlng.push({'lat': location.lat(), 'lng': location.lng()});
+                        }
                         if(!whichMarkers){
                             //when direction service is not working
                             octopus.loadMarkers({'attractions': [{'attraction': place.name, 'clicked': true}], 'latlng':[{'lat': location.lat(), 'lng': location.lng()}] });
+                            viewMarkers.clearRender(placeMarkers);
+                            placeMarkers = [];
+                            idZoomToArea.click();
                         } else {
-                            console.log('ffff');
                             idSubmit.click();
                         }
                     }
@@ -850,14 +908,63 @@ var viewList = {
         var summaryPanel = document.getElementById('directions-panel');
         summaryPanel.innerHTML = '<div id="closing-icon" style="font-size: 20px"><i class="fas fa-times"></i></div>';
         // For each route, display summary information.
+        durationDay = 0;
+        durationHr = 0;
+        durationMin = 0;
+        totalDuration = 0;
         for (var i = 0; i < route.legs.length; i++) {
             var routeSegment = i + 1;
             summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
                 '</b><br>';
             summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
             summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
-            summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+            summaryPanel.innerHTML += 'Distance: ' + route.legs[i].distance.text + '<br>';
+            summaryPanel.innerHTML += 'Duration: ' + route.legs[i].duration.text + '<br><br>';
+            var duration = route.legs[i].duration.text;
+            duration = duration.split(' ')
+            if(duration.includes('hour') || duration.includes('hours')){
+                var index = Math.max(duration.indexOf('hour'), duration.indexOf('hours'));
+                durationHr += Number(duration[index-1]);
+            } else if (duration.includes('min') || duration.includes('mins')){
+                var index = Math.max(duration.indexOf('min'), duration.indexOf('mins'));
+                console.log(Number(duration[index-1]));
+                durationMin += Number(duration[index-1]);
+            } else if (duration.includes('day') || duration.includes('days') ){
+                var index = Math.max(duration.indexOf('day'), duration.indexOf('days'));
+                durationDay += Number(duration[index-1])
+            }
+
         }
+        totalDuration =0;
+        if(durationMin > 0){
+            if(durationMin%60 > 1){
+                console.log(durationMin%60);
+                totalDuration += (durationMin%60) + ' mins'
+            } else {
+                totalDuration  += (durationMin%60) + ' min'
+            }
+        }
+        console.log(totalDuration);
+        if(durationHr > 0 || Math.floor(durationMin/60) > 0){
+            durationHr = Math.floor(durationMin/60) + durationHr;
+            if(durationHr > 1) {
+                totalDuration  += (durationHr%24)  + ' hrs'
+            } else{
+                totalDuration  += (durationHr%24)  + ' hr'
+            }
+        }
+
+        if(durationDay > 0 || Math.floor(durationHr/24)){
+            durationDay = Math.floor(durationDay/24) + durationDay;
+            if(durationDay > 1){
+                totalDuration  += durationDay + ' days';
+            } else {
+                totalDuration  += durationDay + ' day'
+            }
+        }
+
+
+        console.log(totalDuration);
         $('#directions-panel .fa-times').on('click', function() {
             $('#directions-panel').hide();
         });

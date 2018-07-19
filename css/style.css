@@ -5,7 +5,7 @@ body {
   margin: 0;
   padding: 0;
 }
-#zoom-to-area, ul, input, button {
+#zoom-to-area, ul, input, button, select{
   font-family: 'Josefin Sans', sans-serif;
 }
 
@@ -33,7 +33,7 @@ input {
   position: absolute;
   left: 325px;
   top: 0px;
-  padding: 10px 10px;
+  padding: 10px 10px 20px 10px;
 }
 
 h1 {
@@ -47,6 +47,11 @@ h1 {
 #hide-listings,
 #show-listings {
   width: 48%;
+}
+
+#refresh {
+  position: relative;
+  left: 170px;
 }
 
 hr {
@@ -84,7 +89,7 @@ ul li {
   transition: 0.2s;
   padding: 0px 8px 0px 40px;
   white-space: nowrap;
-  overflow: no-display;
+  overflow: hidden;
 
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -95,6 +100,7 @@ ul li {
 ul li:nth-child(odd) {
   background: #f9f9f9;
 }
+
 
 ul li:hover {
   background: #ddd;
@@ -156,7 +162,7 @@ span {
 
 #show-more {
   position: relative;
-  left: 260px;
+  left: 110px;
   display: none;
 }
 
@@ -195,6 +201,7 @@ li .addEnd:hover, .addPoint:hover, .startPoint, .endPoint {
 ul span:hover {
   background-color: #f44336;
   color: white;
+  display: inline-block;
 }
 
 ul li.checked {
