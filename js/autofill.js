@@ -12,6 +12,7 @@ var whichMarkers = undefined;
 var placeMarkers = [];
 var globalCurrentCity = {'markers': [], 'latlng':[], name:'', 'attractions': []};
 var globalIndex;
+var globalWeather;
 
 var checked = [];
 var idShowListings = $('#show-listings');
@@ -32,6 +33,7 @@ var ViewModel = function(){
         that.cityList.push(new Attractions(city, -1, -1));
     });
     this.currentCity = ko.observable();
+    this.weather = ko.observable();
 
     this.alert = function(){
         if(globalCurrentCity.name === $( "#zoom-to-area-text option:selected" ).text()){
@@ -40,7 +42,6 @@ var ViewModel = function(){
     }
 
     this.changeCurrentCity = function() {
-        console.log('changeCurrentCity');
         var citySelected = $("#zoom-to-area-text option:selected").text();
         var index = CanadaData.reduce((acc, val, index) => {
             if (val.name === citySelected) {
@@ -50,7 +51,6 @@ var ViewModel = function(){
         }, -1);
         if (index !== -1) {
             //if the city has been changed or first time selecting
-            that.duration(0);
             if (globalIndex !== index) {
                 if(globalCurrentCity.markers.length > 0){
                     viewMarkers.hideRender();
@@ -77,6 +77,7 @@ var ViewModel = function(){
                 idStart.addClass('Please select the start point.');
                 idEnd.addClass('Please select the start point.');
 
+
                 if(globalCurrentCity.start > -1){
                     var target = $('li')[globalCurrentCity.start];
                     var startBtn = $(target).next();
@@ -94,6 +95,7 @@ var ViewModel = function(){
                 } else {
                     viewMarkers.showRender();
                 }
+                octopus.weatherAPI()
             } else {
                 var globalCityLength = globalCurrentCity.attractions.length;
                 var currentCityLength = that.currentCity().attractions().length;
@@ -116,6 +118,7 @@ var ViewModel = function(){
                     });
                 }
             }
+            octopus.weatherAPI()
         } else {
             window.alert('Please select one of the following options.');
         }
@@ -390,7 +393,20 @@ var Attractions = function(data, start, end) {
     this.end = ko.observable(end);
 };
 
-ko.applyBindings(new ViewModel());
+var Weather = function(data){
+    console.log(data)
+    icon = data['weather'][0]['icon'];
+    this.iconurl= ko.observable('http://openweathermap.org/img/w/' + icon + '.png');
+    this.weatherStatus= ko.observable(data['weather'][0]['main']);
+    this.temp= ko.observable(data['main']['temp']);
+    this.humidity= ko.observable(data['main']['humidity']);
+    this.temp_min= ko.observable(data['main']['temp_min']);
+    this.temp_max= ko.observable(data['main']['temp_max']);
+    this.wind= ko.observable(data['wind']['speed']);
+}
+
+vm = new ViewModel();
+ko.applyBindings(vm);
 
 
 
@@ -600,7 +616,7 @@ var octopus = {
             });
         }
     },
-    
+
     makeMarkerIcon: function (markerColor) {
         var markerImage = new google.maps.MarkerImage(
             'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
@@ -697,6 +713,18 @@ var octopus = {
             infowindow.open(map, marker);
         }
 
+    },
+
+    weatherAPI: function(){
+        weatherurl='http://api.openweathermap.org/data/2.5/weather?q='+vm.currentCity().name()+',ca&units=metric&APIKEY=' +apikey
+        $.ajax({
+            type: 'GET',
+            url: weatherurl,
+            success: function(data){
+                console.log(data)
+                vm.weather(new Weather(data))
+            }
+        })
     },
 
 };

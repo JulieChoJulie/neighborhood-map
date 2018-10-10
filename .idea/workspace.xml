@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="bbc06c8c-c5d8-4029-813d-ab53b3f14bad" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/mapClientWithoutWiki.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/mapClientWithoutWiki.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -18,11 +17,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="mapClientWithoutWiki.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="mapClientWithoutWiki.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/mapClientWithoutWiki.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="753">
-              <caret line="946" column="7" selection-start-line="946" selection-start-column="7" selection-end-line="946" selection-end-column="7" />
+            <state relative-caret-position="573">
+              <caret line="930" selection-start-line="930" selection-end-line="930" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="autofill.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/autofill.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="224">
+              <caret line="717" column="11" selection-start-line="717" selection-start-column="4" selection-end-line="717" selection-end-column="11" />
               <folding>
                 <element signature="n#style#0;n#button#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
@@ -35,7 +43,7 @@
         <entry file="file://$PROJECT_DIR$/../GoogleMapProject/planYourTrip.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1120">
-              <caret line="56" column="12" lean-forward="true" selection-start-line="56" selection-start-column="12" selection-end-line="56" selection-end-column="12" />
+              <caret line="56" column="12" selection-start-line="56" selection-start-column="12" selection-end-line="56" selection-end-column="12" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -45,19 +53,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/5-using_an_Organization_Library/cat_clicker_with_knockoutjs/js/app.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="12" column="73" lean-forward="true" selection-start-line="12" selection-start-column="73" selection-end-line="12" selection-end-column="73" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="321">
+            <state relative-caret-position="700">
               <caret line="35" column="30" selection-start-line="35" selection-start-column="30" selection-end-line="35" selection-end-column="30" />
               <folding>
                 <marker date="1531863105000" expanded="true" signature="101:187" ph="..." />
@@ -87,7 +86,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>var attra</find>
       <find>path</find>
       <find>routes</find>
       <find>found</find>
@@ -117,6 +115,7 @@
       <find>calculate</find>
       <find>duration</find>
       <find>durationHr</find>
+      <find>weather</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -273,12 +272,13 @@
       <workItem from="1531146389785" duration="135617000" />
       <workItem from="1531778813670" duration="200000" />
       <workItem from="1531779049718" duration="139000" />
-      <workItem from="1531779194457" duration="36028000" />
+      <workItem from="1531779194457" duration="36029000" />
+      <workItem from="1539215738985" duration="40000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="209468000" />
+    <option name="totallyTimeSpent" value="209509000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="817" extended-state="0" />
@@ -288,12 +288,12 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32974428" />
       <window_info anchor="bottom" id="Version Control" order="9" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32974428" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -306,19 +306,19 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32974428" />
-      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.32974428" />
+      <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.32974428" />
       <window_info id="Favorites" order="2" side_tool="true" />
     </layout-to-restore>
   </component>
@@ -340,10 +340,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="900">
           <caret line="45" column="39" selection-start-line="45" selection-start-column="39" selection-end-line="45" selection-end-column="39" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -354,20 +350,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/1-new_york_times_API/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="640">
-          <caret line="32" column="40" selection-start-line="32" selection-start-column="40" selection-end-line="32" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/1-new_york_times_API/js/script.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1020">
-          <caret line="51" column="60" selection-start-line="51" selection-start-column="54" selection-end-line="51" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/1-new_york_times_API/index.html" />
+    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/1-new_york_times_API/js/script.js" />
     <entry file="file://$PROJECT_DIR$/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2060">
@@ -390,13 +374,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/1-new_york_times_API/js/script.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1020">
-          <caret line="51" column="60" selection-start-line="51" selection-start-column="54" selection-end-line="51" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/1-new_york_times_API/js/script.js" />
     <entry file="file://$PROJECT_DIR$/test2.js" />
     <entry file="file://$PROJECT_DIR$/js/wikipedia.js" />
     <entry file="file://$PROJECT_DIR$/duplicate.js" />
@@ -404,10 +382,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="46" selection-start-line="46" selection-end-line="46" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -418,50 +392,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/1-new_york_times_API/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="481">
-          <caret line="32" column="40" selection-start-line="32" selection-start-column="40" selection-end-line="32" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/1-new_york_times_API/index.html" />
     <entry file="file://$PROJECT_DIR$/js/googleMap.js" />
-    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/4-refactoring _catclicker_with_MVO/ud989-cat-clicker-andy-master/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="11" column="28" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/3-changing expectations/js/script.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="17" column="40" lean-forward="true" selection-start-line="17" selection-start-column="40" selection-end-line="17" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/4-refactoring _catclicker_with_MVO/ud989-school-attendance-master/js/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="62" column="50" selection-start-line="62" selection-start-column="50" selection-end-line="62" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/4-refactoring _catclicker_with_MVO/ud989-cat-clicker-andy-master/app.js" />
+    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/3-changing expectations/js/script.js" />
+    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/4-refactoring _catclicker_with_MVO/ud989-school-attendance-master/js/app.js" />
     <entry file="file://$PROJECT_DIR$/js/mapClient.js" />
-    <entry file="file://$PROJECT_DIR$/../portfolio/home.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="5" column="82" lean-forward="true" selection-start-line="5" selection-start-column="82" selection-end-line="5" selection-end-column="82" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../portfolio/contact.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="38" column="2" selection-start-line="38" selection-start-column="2" selection-end-line="38" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../portfolio/home.html" />
+    <entry file="file://$PROJECT_DIR$/../portfolio/contact.css" />
     <entry file="file://$PROJECT_DIR$/waypoints.html" />
     <entry file="file://$PROJECT_DIR$/js/libs/knockout-3.2.0.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -473,24 +411,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/4-refactoring _catclicker_with_MVO/js/script.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="250" column="10" lean-forward="true" selection-start-line="250" selection-start-column="10" selection-end-line="250" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/4-refactoring _catclicker_with_MVO/js/script.js" />
     <entry file="file://$PROJECT_DIR$/test.html" />
     <entry file="file://$PROJECT_DIR$/test5.html" />
     <entry file="file://$PROJECT_DIR$/knockout5.js" />
     <entry file="file://$PROJECT_DIR$/test2.html" />
-    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/5-using_an_Organization_Library/cat_clicker_with_knockoutjs/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="18" column="42" lean-forward="true" selection-start-line="18" selection-start-column="42" selection-end-line="18" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/5-using_an_Organization_Library/cat_clicker_with_knockoutjs/index.html" />
     <entry file="file://$PROJECT_DIR$/knockout2.js" />
     <entry file="file://$PROJECT_DIR$/knockout3.js" />
     <entry file="file://$PROJECT_DIR$/../google_map_tutorials/Project_Code_13_DevilInTheDetailsPlacesDetails.html">
@@ -518,23 +444,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="653">
           <caret line="61" column="126" selection-start-line="61" selection-start-column="126" selection-end-line="61" selection-end-column="126" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/planYourTrip.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="454">
-          <caret line="61" column="72" lean-forward="true" selection-start-line="61" selection-start-column="72" selection-end-line="61" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../GoogleMapProject/test-mapClientUsingWiki.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/planYourTrip.html" />
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/webstorm.jar!/resources/html5-schema/html5/common.rnc">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="233">
@@ -542,13 +455,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/5-using_an_Organization_Library/cat_clicker_with_knockoutjs/js/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="12" column="73" lean-forward="true" selection-start-line="12" selection-start-column="73" selection-end-line="12" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../Udacity_Full_Stack/Part3-JS/5-using_an_Organization_Library/cat_clicker_with_knockoutjs/js/app.js" />
     <entry file="file://$PROJECT_DIR$/js/responsive.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="20">
@@ -558,7 +465,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
+        <state relative-caret-position="700">
           <caret line="35" column="30" selection-start-line="35" selection-start-column="30" selection-end-line="35" selection-end-column="30" />
           <folding>
             <marker date="1531863105000" expanded="true" signature="101:187" ph="..." />
@@ -569,7 +476,7 @@
     <entry file="file://$PROJECT_DIR$/../GoogleMapProject/planYourTrip.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1120">
-          <caret line="56" column="12" lean-forward="true" selection-start-line="56" selection-start-column="12" selection-end-line="56" selection-end-column="12" />
+          <caret line="56" column="12" selection-start-line="56" selection-start-column="12" selection-end-line="56" selection-end-column="12" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -580,8 +487,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/mapClientWithoutWiki.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="753">
-          <caret line="946" column="7" selection-start-line="946" selection-start-column="7" selection-end-line="946" selection-end-column="7" />
+        <state relative-caret-position="573">
+          <caret line="930" selection-start-line="930" selection-end-line="930" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/autofill.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="717" column="11" selection-start-line="717" selection-start-column="4" selection-end-line="717" selection-end-column="11" />
           <folding>
             <element signature="n#style#0;n#button#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
