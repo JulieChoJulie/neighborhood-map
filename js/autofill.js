@@ -150,7 +150,6 @@ var ViewModel = function(){
     this.duration =ko.observable(0);
 
     this.refresh = function(){
-        console.log('haha');
         directionsDisplay.setDirections({routes: []});
         that.currentCity(new Attractions(CanadaData[globalIndex], -1, -1));
         that.cityList()[globalIndex] = that.currentCity();
@@ -307,37 +306,34 @@ var CanadaData =[
         "name":"Montreal",
         "attractions":[
             "Olympic Stadium (Montreal)|Olympic Stadium",
-            "Old Montreal",
-            "Festival International de Jazz de Montréal",
-            "Opéra de Montréal",
+            "Montreal City Hall",
             "Montreal Museum of Fine Arts",
-            "McCord Museum","Crescent Street",
-            "Canadian Grand Prix","McGill University",
+            "McCord Museum",
+            "McGill University",
             "Mount Royal",
             "Parc Jean-Drapeau",
             "Underground city, Montreal",
-            "Biosphère","Redpath Museum",
+            "Biosphère",
+            "Redpath Museum",
             "Canadian Centre for Architecture",
             "La Ronde (amusement park)|La Ronde",
             "Saint Joseph's Oratory",
-            "Underground city, Montreal|Underground City"
         ],
         "markers":[],
         "latlng":[
             {"lat":45.5579957,"lng":-73.5518816},
-            {"lat":45.555918,"lng":-73.5510051},
-            {"lat":45.5074534,"lng":-73.55441769999999},
+            {"lat":45.5089,"lng":-73.5543},
             {"lat":45.4985219,"lng":-73.57940009999999},
             {"lat":45.504356,"lng":-73.57358599999998},
-            {"lat":45.4974965,"lng":-73.57631959999998},
             {"lat":45.50478469999999,"lng":-73.57715109999998},
             {"lat":45.5071024,"lng":-73.58740710000001},
-            {"lat":45.517066,"lng":-73.53358000000003},
-            {"lat":45.50374799999999,"lng":-73.52912500000002},
-            {"lat":45.5021806,"lng":-73.56079879999999},
+            {"lat":45.5171,"lng":-73.5336},
+            {"lat":45.5020,"lng":-73.5600},
+            {"lat":45.5139,"lng":-73.5314},
             {"lat":45.50448309999999,"lng":-73.57751989999997},
             {"lat":45.491066,"lng":-73.578958},
-            {"lat":45.5226704,"lng":-73.5344713}]
+            {"lat":45.5221,"lng":-73.5346},
+            {"lat":45.4926,"lng":-73.6183}]
     },
     {
         "name":"Quebec City",
@@ -394,7 +390,6 @@ var Attractions = function(data, start, end) {
 };
 
 var Weather = function(data){
-    console.log(data)
     icon = data['weather'][0]['icon'];
     this.iconurl= ko.observable('http://openweathermap.org/img/w/' + icon + '.png');
     this.weatherStatus= ko.observable(data['weather'][0]['main']);
@@ -716,12 +711,15 @@ var octopus = {
     },
 
     weatherAPI: function(){
-        weatherurl='http://api.openweathermap.org/data/2.5/weather?q='+vm.currentCity().name()+',ca&units=metric&APIKEY=' +apikey
+        if (vm.currentCity().name() === 'Quebec City'){
+            weatherurl='http://api.openweathermap.org/data/2.5/weather?q=quebec'+',ca&units=metric&APIKEY=' + 'Your_API_KEY'
+        } else {
+            weatherurl = 'http://api.openweathermap.org/data/2.5/weather?q=' + vm.currentCity().name() + ',ca&units=metric&APIKEY=' + 'Your_API_KEY'
+        }
         $.ajax({
             type: 'GET',
             url: weatherurl,
             success: function(data){
-                console.log(data)
                 vm.weather(new Weather(data))
             }
         })
@@ -943,11 +941,7 @@ var viewList = {
             summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
             summaryPanel.innerHTML += 'Distance: ' + route.legs[i].distance.text + '<br>';
             summaryPanel.innerHTML += 'Duration: ' + route.legs[i].duration.text + '<br><br>';
-
         }
-
-
-
 
         $('#directions-panel .fa-times').on('click', function() {
             $('#directions-panel').hide();
