@@ -29,10 +29,10 @@
   
 
 ## Acknowldgement
-    Udacity - Full Stack Web Developer NanoDegree Program
-    [OpenWeatherMap] (https://openweathermap.org/api)
-    [w3schools.com](https://www.w3schools.com/howto/howto_js_todolist.asp)
-    [Google Cloud](https://cloud.google.com/maps-platform/)
-    [Font Awesome](https://fontawesome.com/icons?d=gallery)
+Udacity - Full Stack Web Developer NanoDegree Program
+[OpenWeatherMap](https://openweathermap.org/api)
+[w3schools.com](https://www.w3schools.com/howto/howto_js_todolist.asp)
+[Google Cloud](https://cloud.google.com/maps-platform/)
+[Font Awesome](https://fontawesome.com/icons?d=gallery)
 
     
