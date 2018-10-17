@@ -13,8 +13,7 @@ var placeMarkers = [];
 var globalCurrentCity = {'markers': [], 'latlng':[], name:'', 'attractions': []};
 var globalIndex;
 var globalWeather;
-
-var checked = [];
+// Simplify the jquery variables
 var idShowListings = $('#show-listings');
 var idHideListings = $('#hide-listings');
 var idZoomToArea = $('#zoom-to-area');
@@ -26,29 +25,37 @@ var idEnd = $('#end');
 var idBeforeSelect = $('#before-select-city');
 var idClearPlaces = $('#clear-places');
 
+// 'ViewModel'
 var ViewModel = function(){
     var that = this;
+
     this.cityList = ko.observableArray([]);
-    CanadaData.forEach(city => {
+    // Update city list using data stored in CanadaData
+    canadaData.forEach(city => {
         that.cityList.push(new Attractions(city, -1, -1));
     });
+
     this.currentCity = ko.observable();
     this.weather = ko.observable();
 
+    // Alert a warning if a user asked the same info based on the same city
     this.alert = function(){
         if(globalCurrentCity.name === $( "#zoom-to-area-text option:selected" ).text()){
             window.alert('You are currently exploring '+ globalCurrentCity.name + ' already.');
         }
     }
 
+    // the function for changing a city to plan the route.
     this.changeCurrentCity = function() {
         var citySelected = $("#zoom-to-area-text option:selected").text();
-        var index = CanadaData.reduce((acc, val, index) => {
+        var index = canadaData.reduce((acc, val, index) => {
             if (val.name === citySelected) {
                 acc = index;
             }
             return acc;
         }, -1);
+
+        // If the city is selected
         if (index !== -1) {
             //if the city has been changed or first time selecting
             if (globalIndex !== index) {
@@ -56,6 +63,8 @@ var ViewModel = function(){
                     viewMarkers.hideRender();
                     globalCurrentCity.markers = [];
                 }
+
+                // Update current city
                 that.currentCity(that.cityList()[index]);
                 globalIndex = index;
                 globalCurrentCity = {
@@ -72,31 +81,42 @@ var ViewModel = function(){
                         'clicked': pair.clicked(),
                     })
                 });
+
+                // Display the description  for start and end points.
                 that.startPoint('Please select the start point.');
                 that.endPoint('Please select the end point.');
                 idStart.addClass('Please select the start point.');
                 idEnd.addClass('Please select the start point.');
 
-
+                // Manage start point clicking.
                 if(globalCurrentCity.start > -1){
                     var target = $('li')[globalCurrentCity.start];
                     var startBtn = $(target).next();
                     startBtn.click();
                 }
+
+                // Manage end point clicking
                 if(globalCurrentCity.end > -1){
                     var target = $('li')[globalCurrentCity.end];
                     var startBtn = $(target).next();
                     $(startBtn.next()).click();
                 }
+
+                // Hide the display before a city selection.
                 idBeforeSelect.hide();
-                //if it is the first time searching
+
+                //if it is the first time searching for markers
                 if(globalCurrentCity.markers.length === 0){
+                    //Load markers
                     octopus.loadMarkers(globalCurrentCity);
                 } else {
                     viewMarkers.showRender();
                 }
+                // Update weather for the selected city.
                 octopus.weatherAPI()
             } else {
+                // If it is not the first time searching for markers,
+                // bring the saved markers.
                 var globalCityLength = globalCurrentCity.attractions.length;
                 var currentCityLength = that.currentCity().attractions().length;
                 if (globalCityLength > currentCityLength) {
@@ -120,15 +140,18 @@ var ViewModel = function(){
             }
             octopus.weatherAPI()
         } else {
+            // If the city is not selected, give a warning
             window.alert('Please select one of the following options.');
         }
     };
 
+    // Toggle clicking
     this.isClicked = function(data, event){
         data.clicked(!data.clicked());
     };
-    this.addStart = function(data, event){
 
+    // Manage the start point is selected for only one attraction.
+    this.addStart = function(data, event){
         var index = $(event.target).attr('value');
         that.currentCity().start(Number(index));
         that.currentCity().attractions()[index].clicked(false);
@@ -137,18 +160,21 @@ var ViewModel = function(){
         idStart.attr('class', attraction);
 
     };
+
+    // Manage the end point is selected for only one attraction.
     this.addEnd = function(data, event, index){
         var index = $(event.target).attr('value');
         that.currentCity().end(Number(index));
-
         var attraction = that.currentCity().attractions()[index].attraction();
         that.endPoint(attraction);
         idEnd.attr('class', attraction);
     };
+
+    // Set up for the directions of start & end points before the user selects.
     this.startPoint = ko.observable('Please select the start point.');
     this.endPoint = ko.observable('Please select the end point.');
-    this.duration =ko.observable(0);
 
+    // Refresh the display
     this.refresh = function(){
         directionsDisplay.setDirections({routes: []});
         that.currentCity(new Attractions(CanadaData[globalIndex], -1, -1));
@@ -160,214 +186,215 @@ var ViewModel = function(){
 };
 
 
-var CanadaData =[
-    {
-        'name': 'Vancouver',
-        'attractions': [
-            "Capilano Suspension Bridge",
-            "Stanley Park",
-            "Granville Island",
-            "Chinatown, Vancouver",
-            "Robson Street",
-            "Gastown",
-            "Vancouver Art Gallery",
-            "Vancouver Maritime Museum",
-            "Museum of Anthropology at UBC",
-            "Vancouver Museum",
-            "Science World at Telus World of Science"
-        ],
-        "markers":[],
-        'latlng' : [
-            {lat: 49.3428609, lng: -123.1149244},
-            {lat: 49.30425839999999, lng: -123.14425219999998},
-            {lat: 49.27115670000001, lng: -123.13399300000003},
-            {lat: 49.2793761, lng: -123.10197700000003},
-            {lat: 49.2846045, lng: -123.12482399999999},
-            {lat: 49.2828082, lng: -123.10668750000002},
-            {lat: 49.2829607, lng: -123.12047150000001},
-            {lat: 49.277517, lng: -123.14718299999998},
-            {lat: 49.269436, lng: -123.25885},
-            {lat: 49.2762611, lng: -123.14452510000001},
-            {lat: 49.273376, lng: -123.103834}
-        ]
-    },
-    {
-        'name': 'Toronto',
-        'attractions': [
-            "Rogers Centre",
-            "Fort York",
-            "Air Canada Centre",
-            "Hockey Hall of Fame",
-            "CN Tower",
-            "Ontario Place",
-            "Toronto Eaton Centre",
-            "Royal Ontario Museum",
-            "St. Lawrence Market",
-            "Queen Street West",
-            "Bata Shoe Museum",
-            "Art Gallery of Ontario",
-            "Kensington Market",
-            "Casa Loma",
-            "Ontario Science Centre",
-            "Toronto Zoo",
-            "Canada's Wonderland"
-        ],
-        "markers":[],
-        'latlng': [
-            {lat: 43.6414378, lng: -79.38935320000002},
-            {lat: 43.6373362, lng: -79.40654769999998},
-            {lat: 43.6434661, lng: -79.37909890000003},
-            {lat: 43.6472722, lng: -79.37769019999996},
-            {lat: 43.6425662, lng: -79.38705679999998},
-            {lat: 43.62842879999999, lng: -79.41353300000003},
-            {lat: 43.6544382, lng: -79.38069940000003},
-            {lat: 43.6677097, lng: -79.3947771},
-            {lat: 43.648578, lng: -79.37153810000001},
-            {lat: 43.64550939999999, lng: -79.41233069999998},
-            {lat: 43.6672426, lng: -79.40016600000001},
-            {lat: 43.6536066, lng: -79.39251230000002},
-            {lat: 43.6545236, lng: -79.40145660000002},
-            {lat: 43.6780371, lng: -79.40944389999999},
-            {lat: 43.7164069, lng: -79.3391838},
-            {lat: 43.817699, lng: -79.1858904},
-            {lat: 43.8430176, lng: -79.53946250000001}
-        ]
-    },
-    {
-        "name":"Winnipeg",
-        "attractions":
-            ["Assiniboine Park",
-                "Fort Gibraltar",
-                "La Maison Gabrielle Roy",
-                "Le Musée de Saint-Boniface Museum",
-                "Manitoba Children's Museum","Manitoba Museum",
-                "Naval Museum of Manitoba",
-                "The Fire Fighters Museum",
-                "Transcona Historical Museum",
-                "The Forks, Winnipeg, Manitoba|The Forks",
-                "Upper Fort Garry",
-                "Western Canada Aviation Museum",
-                "Winnipeg Art Gallery","Winnipeg Railway Museum"
-            ],
-        "markers":[],
-        "latlng":[
-            {"lat":49.8702491,"lng":-97.23009389999999},
-            {"lat":49.8989845,"lng":-97.12533429999996},
-            {"lat":49.8902773,"lng":-97.11101959999996},
-            {"lat":49.88779539999999,"lng":-97.12321859999997},
-            {"lat":49.8875888,"lng":-97.12818820000001},
-            {"lat":49.9000253,"lng":-97.13643890000003},
-            {"lat":49.8861207,"lng":-97.13755909999998},
-            {"lat":49.903648,"lng":-97.1317952},
-            {"lat":49.89532819999999,"lng":-97.00530229999998},
-            {"lat":49.8871675,"lng":-97.13135940000001},
-            {"lat":49.887988,"lng":-97.13531899999998},
-            {"lat":49.895744,"lng":-97.22117700000001},
-            {"lat":49.8894208,"lng":-97.15063499999997},
-            {"lat":49.888946,"lng":-97.13428669999996}
-        ]
-    },
-    {
-        "name":"Ottawa",
-        "attractions":[
-            "Parliament Hill",
-            "National War Memorial (Canada)",
-            "Rideau Canal",
-            "National Gallery of Canada|National Art Gallery",
-            "Chateau Laurier",
-            "ByWard Market",
-            "Canadian War Museum",
-            "Canadian Aviation Museum",
-            "Canadian Museum of Nature",
-            "Canadian Museum of History",
-            "Canadian Museum of Science and Technology",
-            "Canada Agriculture Museum",
-            "TD Place Stadium",
-            "Canadian Tire Centre"
-        ],
-        "markers":[],
-        "latlng":[
-            {"lat":45.4235937,"lng":-75.70092899999997},
-            {"lat":45.4241684,"lng":-75.69558080000002},
-            {"lat":45.3964368,"lng":-75.69205850000003},
-            {"lat":45.429535,"lng":-75.69890620000001},
-            {"lat":45.4256015,"lng":-75.69536740000001},
-            {"lat":45.4288655,"lng":-75.69115929999998},
-            {"lat":45.4171032,"lng":-75.71694179999997},
-            {"lat":45.458542,"lng":-75.64407699999998},
-            {"lat":45.412709,"lng":-75.68851000000001},
-            {"lat":45.4301581,"lng":-75.70920060000003},
-            {"lat":45.4035099,"lng":-75.61890590000002},
-            {"lat":45.3982089,"lng":-75.68346780000002},
-            {"lat":45.3875416,"lng":-75.7093198},
-            {"lat":45.2969151,"lng":-75.92682300000001}]
-    },
-    {
-        "name":"Montreal",
-        "attractions":[
-            "Olympic Stadium (Montreal)|Olympic Stadium",
-            "Montreal City Hall",
-            "Montreal Museum of Fine Arts",
-            "McCord Museum",
-            "McGill University",
-            "Mount Royal",
-            "Parc Jean-Drapeau",
-            "Underground city, Montreal",
-            "Biosphère",
-            "Redpath Museum",
-            "Canadian Centre for Architecture",
-            "La Ronde (amusement park)|La Ronde",
-            "Saint Joseph's Oratory",
-        ],
-        "markers":[],
-        "latlng":[
-            {"lat":45.5579957,"lng":-73.5518816},
-            {"lat":45.5089,"lng":-73.5543},
-            {"lat":45.4985219,"lng":-73.57940009999999},
-            {"lat":45.504356,"lng":-73.57358599999998},
-            {"lat":45.50478469999999,"lng":-73.57715109999998},
-            {"lat":45.5071024,"lng":-73.58740710000001},
-            {"lat":45.5171,"lng":-73.5336},
-            {"lat":45.5020,"lng":-73.5600},
-            {"lat":45.5139,"lng":-73.5314},
-            {"lat":45.50448309999999,"lng":-73.57751989999997},
-            {"lat":45.491066,"lng":-73.578958},
-            {"lat":45.5221,"lng":-73.5346},
-            {"lat":45.4926,"lng":-73.6183}]
-    },
-    {
-        "name":"Quebec City",
-        "attractions":["Musée national des beaux-arts du Québec",
-            "Musée de la civilisation",
-            "Musée de l'Amérique française",
-            "Espace Félix Leclerc",
-            "Musée naval de Québec",
-            "Choco-Musée Erico",
-            "Ursulines of Quebec|Musée des Ursulines de Québec",
-            "Plains of Abraham Exhibition Centre",
-            "Plains of Abraham Exhibition Centre",
-            "Parc Aquarium du Québec",
-            "Jardin zoologique du Québec"],
-        "markers":[],
-        "latlng":[
-            {"lat":46.80084129999999,"lng":-71.22486129999999},
-            {"lat":46.8152288,"lng":-71.2023284},
-            {"lat":46.8140955,"lng":-71.20659},
-            {"lat":46.8755679,"lng":-71.09466609999998},
-            {"lat":46.8185395,"lng":-71.20006219999999},
-            {"lat":46.8103709,"lng":-71.21958280000001},
-            {"lat":46.812205,"lng":-71.207741},
-            {"lat":46.8015014,"lng":-71.21739680000002},
-            {"lat":46.80685500000001,"lng":-71.21308399999998},
-            {"lat":46.7516292,"lng":-71.28876200000002},
-            {"lat":46.8918905,"lng":-71.30114989999998}
-        ]
-    },
-];
+// // 'MODEL' for all info for each city.
+// var CanadaData =[
+//     {
+//         'name': 'Vancouver',
+//         'attractions': [
+//             "Capilano Suspension Bridge",
+//             "Stanley Park",
+//             "Granville Island",
+//             "Chinatown, Vancouver",
+//             "Robson Street",
+//             "Gastown",
+//             "Vancouver Art Gallery",
+//             "Vancouver Maritime Museum",
+//             "Museum of Anthropology at UBC",
+//             "Vancouver Museum",
+//             "Science World at Telus World of Science"
+//         ],
+//         "markers":[],
+//         'latlng' : [
+//             {lat: 49.3428609, lng: -123.1149244},
+//             {lat: 49.30425839999999, lng: -123.14425219999998},
+//             {lat: 49.27115670000001, lng: -123.13399300000003},
+//             {lat: 49.2793761, lng: -123.10197700000003},
+//             {lat: 49.2846045, lng: -123.12482399999999},
+//             {lat: 49.2828082, lng: -123.10668750000002},
+//             {lat: 49.2829607, lng: -123.12047150000001},
+//             {lat: 49.277517, lng: -123.14718299999998},
+//             {lat: 49.269436, lng: -123.25885},
+//             {lat: 49.2762611, lng: -123.14452510000001},
+//             {lat: 49.273376, lng: -123.103834}
+//         ]
+//     },
+//     {
+//         'name': 'Toronto',
+//         'attractions': [
+//             "Rogers Centre",
+//             "Fort York",
+//             "Air Canada Centre",
+//             "Hockey Hall of Fame",
+//             "CN Tower",
+//             "Ontario Place",
+//             "Toronto Eaton Centre",
+//             "Royal Ontario Museum",
+//             "St. Lawrence Market",
+//             "Queen Street West",
+//             "Bata Shoe Museum",
+//             "Art Gallery of Ontario",
+//             "Kensington Market",
+//             "Casa Loma",
+//             "Ontario Science Centre",
+//             "Toronto Zoo",
+//             "Canada's Wonderland"
+//         ],
+//         "markers":[],
+//         'latlng': [
+//             {lat: 43.6414378, lng: -79.38935320000002},
+//             {lat: 43.6373362, lng: -79.40654769999998},
+//             {lat: 43.6434661, lng: -79.37909890000003},
+//             {lat: 43.6472722, lng: -79.37769019999996},
+//             {lat: 43.6425662, lng: -79.38705679999998},
+//             {lat: 43.62842879999999, lng: -79.41353300000003},
+//             {lat: 43.6544382, lng: -79.38069940000003},
+//             {lat: 43.6677097, lng: -79.3947771},
+//             {lat: 43.648578, lng: -79.37153810000001},
+//             {lat: 43.64550939999999, lng: -79.41233069999998},
+//             {lat: 43.6672426, lng: -79.40016600000001},
+//             {lat: 43.6536066, lng: -79.39251230000002},
+//             {lat: 43.6545236, lng: -79.40145660000002},
+//             {lat: 43.6780371, lng: -79.40944389999999},
+//             {lat: 43.7164069, lng: -79.3391838},
+//             {lat: 43.817699, lng: -79.1858904},
+//             {lat: 43.8430176, lng: -79.53946250000001}
+//         ]
+//     },
+//     {
+//         "name":"Winnipeg",
+//         "attractions":
+//             ["Assiniboine Park",
+//                 "Fort Gibraltar",
+//                 "La Maison Gabrielle Roy",
+//                 "Le Musée de Saint-Boniface Museum",
+//                 "Manitoba Children's Museum","Manitoba Museum",
+//                 "Naval Museum of Manitoba",
+//                 "The Fire Fighters Museum",
+//                 "Transcona Historical Museum",
+//                 "The Forks, Winnipeg, Manitoba|The Forks",
+//                 "Upper Fort Garry",
+//                 "Western Canada Aviation Museum",
+//                 "Winnipeg Art Gallery","Winnipeg Railway Museum"
+//             ],
+//         "markers":[],
+//         "latlng":[
+//             {"lat":49.8702491,"lng":-97.23009389999999},
+//             {"lat":49.8989845,"lng":-97.12533429999996},
+//             {"lat":49.8902773,"lng":-97.11101959999996},
+//             {"lat":49.88779539999999,"lng":-97.12321859999997},
+//             {"lat":49.8875888,"lng":-97.12818820000001},
+//             {"lat":49.9000253,"lng":-97.13643890000003},
+//             {"lat":49.8861207,"lng":-97.13755909999998},
+//             {"lat":49.903648,"lng":-97.1317952},
+//             {"lat":49.89532819999999,"lng":-97.00530229999998},
+//             {"lat":49.8871675,"lng":-97.13135940000001},
+//             {"lat":49.887988,"lng":-97.13531899999998},
+//             {"lat":49.895744,"lng":-97.22117700000001},
+//             {"lat":49.8894208,"lng":-97.15063499999997},
+//             {"lat":49.888946,"lng":-97.13428669999996}
+//         ]
+//     },
+//     {
+//         "name":"Ottawa",
+//         "attractions":[
+//             "Parliament Hill",
+//             "National War Memorial (Canada)",
+//             "Rideau Canal",
+//             "National Gallery of Canada|National Art Gallery",
+//             "Chateau Laurier",
+//             "ByWard Market",
+//             "Canadian War Museum",
+//             "Canadian Aviation Museum",
+//             "Canadian Museum of Nature",
+//             "Canadian Museum of History",
+//             "Canadian Museum of Science and Technology",
+//             "Canada Agriculture Museum",
+//             "TD Place Stadium",
+//             "Canadian Tire Centre"
+//         ],
+//         "markers":[],
+//         "latlng":[
+//             {"lat":45.4235937,"lng":-75.70092899999997},
+//             {"lat":45.4241684,"lng":-75.69558080000002},
+//             {"lat":45.3964368,"lng":-75.69205850000003},
+//             {"lat":45.429535,"lng":-75.69890620000001},
+//             {"lat":45.4256015,"lng":-75.69536740000001},
+//             {"lat":45.4288655,"lng":-75.69115929999998},
+//             {"lat":45.4171032,"lng":-75.71694179999997},
+//             {"lat":45.458542,"lng":-75.64407699999998},
+//             {"lat":45.412709,"lng":-75.68851000000001},
+//             {"lat":45.4301581,"lng":-75.70920060000003},
+//             {"lat":45.4035099,"lng":-75.61890590000002},
+//             {"lat":45.3982089,"lng":-75.68346780000002},
+//             {"lat":45.3875416,"lng":-75.7093198},
+//             {"lat":45.2969151,"lng":-75.92682300000001}]
+//     },
+//     {
+//         "name":"Montreal",
+//         "attractions":[
+//             "Olympic Stadium (Montreal)|Olympic Stadium",
+//             "Montreal City Hall",
+//             "Montreal Museum of Fine Arts",
+//             "McCord Museum",
+//             "McGill University",
+//             "Mount Royal",
+//             "Parc Jean-Drapeau",
+//             "Underground city, Montreal",
+//             "Biosphère",
+//             "Redpath Museum",
+//             "Canadian Centre for Architecture",
+//             "La Ronde (amusement park)|La Ronde",
+//             "Saint Joseph's Oratory",
+//         ],
+//         "markers":[],
+//         "latlng":[
+//             {"lat":45.5579957,"lng":-73.5518816},
+//             {"lat":45.5089,"lng":-73.5543},
+//             {"lat":45.4985219,"lng":-73.57940009999999},
+//             {"lat":45.504356,"lng":-73.57358599999998},
+//             {"lat":45.50478469999999,"lng":-73.57715109999998},
+//             {"lat":45.5071024,"lng":-73.58740710000001},
+//             {"lat":45.5171,"lng":-73.5336},
+//             {"lat":45.5020,"lng":-73.5600},
+//             {"lat":45.5139,"lng":-73.5314},
+//             {"lat":45.50448309999999,"lng":-73.57751989999997},
+//             {"lat":45.491066,"lng":-73.578958},
+//             {"lat":45.5221,"lng":-73.5346},
+//             {"lat":45.4926,"lng":-73.6183}]
+//     },
+//     {
+//         "name":"Quebec City",
+//         "attractions":["Musée national des beaux-arts du Québec",
+//             "Musée de la civilisation",
+//             "Musée de l'Amérique française",
+//             "Espace Félix Leclerc",
+//             "Musée naval de Québec",
+//             "Choco-Musée Erico",
+//             "Ursulines of Quebec|Musée des Ursulines de Québec",
+//             "Plains of Abraham Exhibition Centre",
+//             "Plains of Abraham Exhibition Centre",
+//             "Parc Aquarium du Québec",
+//             "Jardin zoologique du Québec"],
+//         "markers":[],
+//         "latlng":[
+//             {"lat":46.80084129999999,"lng":-71.22486129999999},
+//             {"lat":46.8152288,"lng":-71.2023284},
+//             {"lat":46.8140955,"lng":-71.20659},
+//             {"lat":46.8755679,"lng":-71.09466609999998},
+//             {"lat":46.8185395,"lng":-71.20006219999999},
+//             {"lat":46.8103709,"lng":-71.21958280000001},
+//             {"lat":46.812205,"lng":-71.207741},
+//             {"lat":46.8015014,"lng":-71.21739680000002},
+//             {"lat":46.80685500000001,"lng":-71.21308399999998},
+//             {"lat":46.7516292,"lng":-71.28876200000002},
+//             {"lat":46.8918905,"lng":-71.30114989999998}
+//         ]
+//     },
+// ];
 
 
-//this Cat is making {clickCount: function, name: function, imgSrc:function, ...}
-//an instance of a user-defined object type
+
+//an instance of a user-defined object type: attractions of each city
 var Attractions = function(data, start, end) {
     this.name = ko.observable(data.name);
     this.attractions = ko.observableArray([]);
@@ -389,16 +416,29 @@ var Attractions = function(data, start, end) {
     this.end = ko.observable(end);
 };
 
+// an instance of a user-defined object type: weather
 var Weather = function(data){
-    icon = data['weather'][0]['icon'];
-    this.iconurl= ko.observable('http://openweathermap.org/img/w/' + icon + '.png');
-    this.weatherStatus= ko.observable(data['weather'][0]['main']);
-    this.temp= ko.observable(data['main']['temp']);
-    this.humidity= ko.observable(data['main']['humidity']);
-    this.temp_min= ko.observable(data['main']['temp_min']);
-    this.temp_max= ko.observable(data['main']['temp_max']);
-    this.wind= ko.observable(data['wind']['speed']);
+    // If ajax GET request fails, empty the weather html section
+    if (data === ''){
+        this.iconurl = ko.observable()
+        this.weatherStatus = ko.observable()
+        this.temp = ko.observable()
+        this.temp_min = ko.observable()
+        this.temp_max = ko.observable()
+        this.wind = ko.observable()
+    } else {
+        // if ajax GET request succeeds,
+        icon = data['weather'][0]['icon'];
+        this.iconurl= ko.observable('http://openweathermap.org/img/w/' + icon + '.png');
+        this.weatherStatus= ko.observable(data['weather'][0]['main']);
+        this.temp= ko.observable(data['main']['temp']);
+        this.humidity= ko.observable(data['main']['humidity']);
+        this.temp_min= ko.observable(data['main']['temp_min']);
+        this.temp_max= ko.observable(data['main']['temp_max']);
+        this.wind= ko.observable(data['wind']['speed']);
+    }
 }
+
 
 vm = new ViewModel();
 ko.applyBindings(vm);
@@ -430,7 +470,7 @@ ko.applyBindings(vm);
 
 
 
-
+// this is map design model.
 var model = {
     style: function(){
         return [
@@ -502,7 +542,7 @@ var model = {
     }
 };
 
-
+// This contains various functions used in VIEW MODEL and VIEWs
 var octopus = {
     init: function(){
         viewMap.init();
@@ -531,6 +571,7 @@ var octopus = {
     initDirection: function (){
         directionsDisplay.setMap(map);
     },
+    // calculate and display a best route for selected attractions.
     calculateAndDisplayRoute: function(directionsService, directionsDisplay){
         viewMarkers.hideRender();
         whichMarkers = true;
@@ -611,7 +652,7 @@ var octopus = {
             });
         }
     },
-
+    // Design the marker icons
     makeMarkerIcon: function (markerColor) {
         var markerImage = new google.maps.MarkerImage(
             'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
@@ -709,25 +750,30 @@ var octopus = {
         }
 
     },
-
+    // This is a function to grab a information from weather api.
+    // Make sure you put your API key in the weatherurl variable.
     weatherAPI: function(){
         if (vm.currentCity().name() === 'Quebec City'){
-            weatherurl='http://api.openweathermap.org/data/2.5/weather?q=quebec'+',ca&units=metric&APIKEY=' + 'Your_API_KEY'
+            weatherurl='http://api.openweathermap.org/data/2.5/weather?q=quebec'+',ca&units=metric&APIKEY=' + 'YOUR KEY'
         } else {
-            weatherurl = 'http://api.openweathermap.org/data/2.5/weather?q=' + vm.currentCity().name() + ',ca&units=metric&APIKEY=' + 'Your_API_KEY'
+            weatherurl = 'http://api.openweathermap.org/data/2.5/weather?q=' + vm.currentCity().name() + ',ca&units=metric&APIKEY=' + 'YOUR KEY'
         }
+        // ajax 'get' request
         $.ajax({
             type: 'GET',
             url: weatherurl,
             success: function(data){
                 vm.weather(new Weather(data))
+            },
+            error: function(error){
+                vm.weather('')
             }
         })
     },
 
 };
 
-
+// This is 'VIEW' for google map
 var viewMap = {
     init: function(){
         viewMap.render();
@@ -772,7 +818,7 @@ var viewMap = {
 };
 
 
-
+// this is 'VIEW' for markers
 var viewMarkers = {
     init: function(){
     },
@@ -924,6 +970,7 @@ var viewMarkers = {
     }
 };
 
+// this is 'VIEW' for additional details for routes.
 var viewList = {
     routes: function(route){
         var summaryPanel = document.getElementById('directions-panel');
