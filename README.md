@@ -23,7 +23,9 @@
 
 ## Running the Program
 1. Download all files/folders and locate them in the same directory.
-2. Simply click ```planYourTrip.html``` to run in your default web browser.
+2. Add google API key in ```planYourTrip.html``` in line 118.
+3. Add OpenWeatherMap API key in ```app.js``` in line 754.
+4. Simply double click ```planYourTrip.html``` to run in your default web browser.
 
     
   

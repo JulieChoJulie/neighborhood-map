@@ -43,7 +43,7 @@ var ViewModel = function(){
         if(globalCurrentCity.name === $( "#zoom-to-area-text option:selected" ).text()){
             window.alert('You are currently exploring '+ globalCurrentCity.name + ' already.');
         }
-    }
+    };
 
     // the function for changing a city to plan the route.
     this.changeCurrentCity = function() {
@@ -577,7 +577,6 @@ var octopus = {
         whichMarkers = true;
         var waypts = [];
         var startVal = idStart.attr('class');
-        console.log(startVal);
         var endVal = idEnd.attr('class');
         if(!startVal.includes('Please select') & !endVal.includes('Please select')){
             for (var i = 0; i < globalCurrentCity.attractions.length; i++){
@@ -604,7 +603,6 @@ var octopus = {
                 if (status === 'OK') {
                     directionsDisplay.setDirections(response);
                     var route = response.routes[0];
-                    console.log(response);
                     viewList.routes(route);
                     idShowMore.show();
                     idShowMore.on('click', function(){
@@ -753,10 +751,11 @@ var octopus = {
     // This is a function to grab a information from weather api.
     // Make sure you put your API key in the weatherurl variable.
     weatherAPI: function(){
+        var apiKey = 'YOUR API KEY';
         if (vm.currentCity().name() === 'Quebec City'){
-            weatherurl='http://api.openweathermap.org/data/2.5/weather?q=quebec'+',ca&units=metric&APIKEY=' + 'YOUR KEY'
+            weatherurl='http://api.openweathermap.org/data/2.5/weather?q=quebec'+',ca&units=metric&APIKEY=' + apiKey
         } else {
-            weatherurl = 'http://api.openweathermap.org/data/2.5/weather?q=' + vm.currentCity().name() + ',ca&units=metric&APIKEY=' + 'YOUR KEY'
+            weatherurl = 'http://api.openweathermap.org/data/2.5/weather?q=' + vm.currentCity().name() + ',ca&units=metric&APIKEY=' + apiKey
         }
         // ajax 'get' request
         $.ajax({
