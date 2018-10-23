@@ -11,8 +11,8 @@
   <!-- Bootstrap CSS CDN -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="template.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/template.css">
+  <link rel="stylesheet" href="css/style.css">
   <!-- AJAX REQUEST -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -37,7 +37,7 @@
       <li class="active">
         <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Cities</a>
         <ul class="collapse list-unstyled" id="homeSubmenu" data-bind="foreach: cityList">
-          <li data-bind="text: name, click: $parent.changeCurrentCity"></li>
+          <li data-bind="text: name, click: $parent.changeCurrentCity, style: { color: $parent.currentCity().name === name ? 'darkred' : 'white' }" style="cursor:pointer"></li>
         </ul>
       </li>
       <li>
@@ -45,7 +45,7 @@
         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Attractions</a>
         <!-- ko with: currentCity -->
         <ul class="collapse list-unstyled" id="pageSubmenu" data-bind="foreach: attractions">
-          <li data-bind="text: $data, click: $parents[1].loadArticles"></li>
+          <li data-bind="text: $data, click: $parents[1].loadArticles, style: {color: $parents[1].currentAttraction() === $data ? 'darkred' : 'white'}" style="cursor:pointer"></li>
         <hr>
         </ul>
         <!-- /ko -->
@@ -123,7 +123,7 @@
 
 <!-- Google Map ASYNC -->
 <script async defer
-        src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=[YOUR_API_KEY]&v=3&callback=init">
+        src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=[YOUR_API_KEY]&callback=init">
 </script>
 
 <script type="text/javascript">
@@ -132,6 +132,9 @@
             $('#sidebar').toggleClass('active');
             $(this).toggleClass('active');
         });
+        $('#homeSubmenu li').on('click', function(){
+            $(this).toggleClass('selected');
+        })
     });
 </script>
 </body>

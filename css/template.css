@@ -107,6 +107,9 @@ a, a:hover, a:focus {
   background: #6d7fcc;
 }
 
+/*#homeSubmenu li .selected {*/
+  /*color: darkred;*/
+/*}*/
 
 a[data-toggle="collapse"] {
   position: relative;

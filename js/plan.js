@@ -1,6 +1,6 @@
 // Global variable: map
 var map;
-var largeInfowindow
+var largeInfowindow;
 
 // init
 function init() {
@@ -12,7 +12,9 @@ function init() {
         styles: styles,
         mapTypeControl: false
     });
-    View(vm.currentCity())
+    vm = new ViewModel();
+    ko.applyBindings(vm);
+    View(vm.currentCity());
     largeInfowindow = new google.maps.InfoWindow({
         maxWidth: 200
     });
@@ -48,6 +50,7 @@ var designMarkers = function(info){
         // Create an onclick event to open the large infowindow at each marker and
         // create toggle bounce once the marker is clicked.
         marker.addListener('click', function () {
+            currentAttraction(this);
             toggleBounce(this);
             populateInfoWindow(this, largeInfowindow);
         });
@@ -64,6 +67,10 @@ var designMarkers = function(info){
 
     return markers
 };
+
+function currentAttraction(marker){
+    vm.currentAttraction(marker.title);
+}
 
 function toggleBounce(marker){
     if (marker.getAnimation() !== null) {
@@ -159,10 +166,8 @@ function wikiAPI(attraction){
         dataType: "jsonp",
         jsonp: "callback",
         success: function(response){
-            console.log(response);
             var wikiList = response[1];
             var description = response[2][0];
-            console.log(description)
             if (wikiList.length === 0){
                 $wikiElem.text('Sorry, no result was found for ' + attraction);
             } else {
@@ -194,15 +199,24 @@ var ViewModel = function() {
     });
 
     this.currentCity = ko.observable(that.cityList()[0]);
+    this.markers = ko.observableArray([]);
+    this.markers(View(that.currentCity()));
     this.weather = ko.observable();
     this.changeCurrentCity = function(city){
         that.currentCity(city);
-        View(that.currentCity());
+        that.markers(View(that.currentCity()));
 
     };
     this.loadArticles = function(attraction){
-        wikiAPI(attraction)
+        wikiAPI(attraction);
+        that.markers().forEach(marker => {
+            if (marker.title === attraction) {
+                new google.maps.event.trigger( marker, 'click' );
+            }
+        })
     };
+
+    this.currentAttraction = ko.observable('');
 };
 
 /* View for markers */
@@ -215,9 +229,11 @@ var View = function(data){
         bounds.extend(markers[i].position);
     }
     map.fitBounds(bounds, 0);
+    return markers
 };
 
 
-vm = new ViewModel();
-ko.applyBindings(vm);
+
+
+
 
