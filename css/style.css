@@ -1,234 +1,81 @@
-html,
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+html {
+  height: 100vh;
+}
+
 body {
-  font-family: 'Josefin Sans', sans-serif;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-#zoom-to-area, ul, input, button, select{
-  font-family: 'Josefin Sans', sans-serif;
-}
-
-
-.container {
-  height: 100%;
-  position: relative;
-}
-
-input {
-  font-size: 12px;
-  margin: 10px 0;
-}
-
-.title-hamburger-icon {
-  display: none;
-  position: fixed;
-  z-index: 99;
-  top: 10px;
-  left: 15px;
-}
-
-.options-box .fa-times,
-#directions-panel .fa-times {
-  position: absolute;
-  left: 325px;
-  top: 0px;
-  padding: 10px 10px 20px 10px;
-}
-
-h1 {
-  color: #525454;
-  font-size: 22px;
-  margin: 0 0 10px 0;
-  text-align: center;
-}
-
-
-#hide-listings,
-#show-listings {
-  width: 48%;
-}
-
-#refresh {
-  position: relative;
-  left: 170px;
-}
-
-hr {
-  background: #D0D7D9;
-  height: 1px;
-  margin: 0 0;
-  border: none;
-}
-
-#map {
-  bottom:0px;
-  height: 100%;
-  left: 362px;
-  position: absolute;
-  right: 0px;
-}
-
-.options-box, #directions-panel {
-  background: #fff;
-  /*border: 1px solid #999;*/
-  /*border-radius: 3px;*/
-  line-height: 35px;
-  padding: 10px 10px 30px 10px;
-  text-align: left;
-  width: 350px;
+  overflow: hidden;
 }
 
 ul li {
-  display: inline-block;
-  width: 60%;
-  cursor: pointer;
-  position: relative;
-  background: #eee;
-  font-size: 12px;
-  transition: 0.2s;
-  padding: 0px 8px 0px 40px;
-  white-space: nowrap;
-  overflow: hidden;
-
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  font-size: 0.75rem;
 }
 
-ul li:nth-child(odd) {
-  background: #f9f9f9;
+hr {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
-
-ul li:hover {
-  background: #ddd;
-}
-
-#directions-panel {
-  position: absolute;
-  top:0;
-  display: none;
-  font-size: 12px;
-  overflow: scroll;
-  height: 100%;
+#sidebar {
+  overflow-y: auto;  /*adds scroll to this container*/
+  height: 100vh;
 }
 
 #pano {
-  width: 200px;
+  width: 250px;
   height: 200px;
 }
 
-#places-search,
-#search-within-time-text {
-  width: 84%;
+.wiki-description {
+  overflow-y: scroll;
+  height: 3rem;
+  font-family: 'Poppins', sans-serif;
 }
 
-.text {
-  font-size: 12px;
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+@media (max-width: 400px) {
+  .wiki-description {
+    overflow-y: scroll;
+    height: 50px;
+    width: 8rem;
+  }
+
+  #infowindow {
+    width: 8rem;
+  }
+
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, .5);
+    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+  }
 }
 
-#toggle-drawing {
-  width: 27%;
-  position: relative;
-  margin-left: 10px;
-}
+/*@media (min-width: 401px) {*/
+  /*.wiki-description {*/
+    /*overflow-y: scroll;*/
+    /*height: 50px;*/
+    /*width: 8rem;*/
+  /*}*/
 
-#zoom-to-area-text {
-  width: 70%;
-}
+  /*#infowindow {*/
+    /*width: 8rem;*/
+  /*}*/
 
-#zoom-to-area {
-  width: 24%;
-}
-
-ul {
-  padding-left: 5px;
-  margin: 5px 5px;
-  width: 95%;
-  height: 200px;
-  overflow: scroll;
-}
-
-span {
-  font-size: 12px;
-}
-
-#submit {
-  position: absolute;
-  left: 320px;
-}
-
-#show-more {
-  position: relative;
-  left: 110px;
-  display: none;
-}
-
-#go-places {
-  position: relative;
-  left: 290px;
-}
-
-#clear-places {
-  position: relative;
-  left: 250px;
-  display:none;
-}
-
-li .addStart {
-  width:20%;
-  position: absolute;
-  right: 0;
-  top: 0;
-  padding: 10px 5px 0px 5px;
-}
-
-li .addEnd {
-  width: 20%;
-  position: absolute;
-  right: 40px;
-  top: 0;
-  padding: 10px 5px 0px 5px;
-}
-
-li .addEnd:hover, .addPoint:hover, .startPoint, .endPoint {
-  background-color: #f44336;
-  color: white;
-}
-
-ul span:hover {
-  background-color: #f44336;
-  color: white;
-  display: inline-block;
-}
-
-ul li.checked {
-  background: #888;
-  color: #fff;
-  font-weight: bold;
-}
-
-ul li.checked::before {
-  content: '';
-  position: absolute;
-  border-color: #fff;
-  border-style: solid;
-  border-width: 0 2px 2px 0;
-  top: 10px;
-  left: 16px;
-  transform: rotate(45deg);
-  height: 15px;
-  width: 7px;
-}
-
-#start, #end {
-  width: 200px;
-}
-
-#before-select-city li{
-  background-color: white;
-  white-space: pre-wrap;
-  width:100%;
-}
+  /*::-webkit-scrollbar {*/
+    /*-webkit-appearance: none;*/
+    /*width: 7px;*/
+  /*}*/
+  /*::-webkit-scrollbar-thumb {*/
+    /*border-radius: 4px;*/
+    /*background-color: rgba(0, 0, 0, .5);*/
+    /*-webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);*/
+  /*}*/
+/*}*/
