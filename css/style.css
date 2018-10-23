@@ -22,6 +22,10 @@ hr {
   height: 100vh;
 }
 
+#sidebar ul.components {
+  border-bottom: none;
+}
+
 #pano {
   width: 250px;
   height: 200px;

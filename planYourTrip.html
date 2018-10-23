@@ -34,14 +34,13 @@
 
     <ul class="list-unstyled components">
       <!--<p>Dummy Heading</p>-->
-      <li class="active">
+      <li>
         <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Cities</a>
         <ul class="collapse list-unstyled" id="homeSubmenu" data-bind="foreach: cityList">
           <li data-bind="text: name, click: $parent.changeCurrentCity, style: { color: $parent.currentCity().name === name ? 'darkred' : 'white' }" style="cursor:pointer"></li>
         </ul>
       </li>
       <li>
-        <a href="#">About</a>
         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Attractions</a>
         <!-- ko with: currentCity -->
         <ul class="collapse list-unstyled" id="pageSubmenu" data-bind="foreach: attractions">
@@ -51,22 +50,7 @@
         <!-- /ko -->
 
       </li>
-      <li>
-        <a href="#">Portfolio</a>
-      </li>
-      <li>
-        <a href="#">Contact</a>
-      </li>
-    </ul>
 
-    <ul class="list-unstyled CTAs">
-      <li>
-        <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
-      </li>
-      <li>
-        <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-      </li>
-    </ul>
   </nav>
 
   <!-- Page Content Holder -->
@@ -119,7 +103,7 @@
 
 <!-- Google Map ASYNC -->
 <script async defer
-        src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=[YOUR API KEY]&v=3&callback=init">
+        src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=[YOUR API KEY]&callback=init">
 </script>
 
 <script type="text/javascript">

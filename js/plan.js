@@ -171,12 +171,20 @@ function wikiAPI(attraction){
             var description = response[2][0];
             if (wikiList.length === 0){
                 $wikiElem.text('Sorry, no result was found for ' + attraction);
+            } else if (description.length === 0){
+                var wikiList = wikiList[0]
+                var searchURL = "https://en.wikipedia.org/wiki/" + wikiList;
+                $wikiElem.append('<strong><a href="'+searchURL+' " target="_blank" style="color:darkred;">'+ wikiList+':' +'</a></strong><span>Please go to the click above to check out more details of this attraction in Wikipedia.</span>')
+                clearTimeout(wikiRequestTimeOut);
             } else {
                 var wikiList = wikiList[0]
                 var searchURL = "https://en.wikipedia.org/wiki/" + wikiList;
                 $wikiElem.append('<strong><a href="'+searchURL+' " target="_blank" style="color:darkred;">'+ wikiList+':' +'</a></strong><span>'+description+'</span>')
                 clearTimeout(wikiRequestTimeOut);
             }
+        },
+        error: function(error){
+            $wikiElem.append('<span>Sorry, could not find the details of </span>attraction<span> from Wikipedia.</span>')
         }
     });
 
