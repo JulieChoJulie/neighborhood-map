@@ -184,7 +184,7 @@ function wikiAPI(attraction){
 };
 
 function weatherAPI (city){
-    var apiKey = '[YOUR API KEY]';
+    var apiKey = 'YOUR API KEY';
     if (city === 'Quebec City'){
         weatherurl='http://api.openweathermap.org/data/2.5/weather?q=quebec'+',ca&units=metric&APIKEY=' + apiKey
     } else {

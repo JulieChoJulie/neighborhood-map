@@ -21,17 +21,17 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../neighborhood map/js/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1408">
+            <state relative-caret-position="-8933">
               <caret line="210" column="2" lean-forward="true" selection-start-line="210" selection-start-column="2" selection-end-line="210" selection-end-column="2" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="plan.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="plan.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/plan.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="186" column="32" selection-start-line="186" selection-start-column="32" selection-end-line="186" selection-end-column="32" />
+            <state relative-caret-position="242">
+              <caret line="186" column="30" selection-start-line="186" selection-start-column="30" selection-end-line="186" selection-end-column="30" />
               <folding>
                 <element signature="n#style#0;n#a#0;n#strong#0;n#!!top" expanded="true" />
               </folding>
@@ -39,11 +39,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sidebar.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="sidebar.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sidebar.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="229">
-              <caret line="118" column="105" selection-start-line="118" selection-start-column="105" selection-end-line="118" selection-end-column="105" />
+            <state relative-caret-position="235">
+              <caret line="121" column="105" selection-start-line="121" selection-start-column="105" selection-end-line="121" selection-end-column="105" />
               <folding>
                 <element signature="n#style#0;n#li#0;n#ul#0;n#li#0;n#ul#0;n#nav#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#li#0;n#ul#0;n#li#1;n#ul#0;n#nav#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -71,8 +71,8 @@
       <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="46" column="30" selection-start-line="46" selection-start-column="30" selection-end-line="46" selection-end-column="30" />
+            <state relative-caret-position="1160">
+              <caret line="58" column="22" selection-start-line="58" selection-start-column="22" selection-end-line="58" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -90,7 +90,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>wik</find>
       <find>inf</find>
       <find>info</find>
       <find>populate</find>
@@ -120,6 +119,7 @@
       <find>weatherAPI</find>
       <find>color</find>
       <find>weather</find>
+      <find>API</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -171,8 +171,8 @@
         <option value="$PROJECT_DIR$/style.css" />
         <option value="$PROJECT_DIR$/css/template.css" />
         <option value="$PROJECT_DIR$/css/style.css" />
-        <option value="$PROJECT_DIR$/js/plan.js" />
         <option value="$PROJECT_DIR$/sidebar.html" />
+        <option value="$PROJECT_DIR$/js/plan.js" />
       </list>
     </option>
   </component>
@@ -293,12 +293,12 @@
       <workItem from="1539893145769" duration="28000" />
       <workItem from="1539893461794" duration="13394000" />
       <workItem from="1539963378660" duration="6335000" />
-      <workItem from="1540077197482" duration="22313000" />
+      <workItem from="1540077197482" duration="22920000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="253301000" />
+    <option name="totallyTimeSpent" value="253908000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="820" extended-state="6" />
@@ -663,32 +663,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="46" column="30" selection-start-line="46" selection-start-column="30" selection-end-line="46" selection-end-column="30" />
+        <state relative-caret-position="1160">
+          <caret line="58" column="22" selection-start-line="58" selection-start-column="22" selection-end-line="58" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../neighborhood map/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1408">
+        <state relative-caret-position="-8933">
           <caret line="210" column="2" lean-forward="true" selection-start-line="210" selection-start-column="2" selection-end-line="210" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/plan.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="186" column="32" selection-start-line="186" selection-start-column="32" selection-end-line="186" selection-end-column="32" />
-          <folding>
-            <element signature="n#style#0;n#a#0;n#strong#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sidebar.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="118" column="105" selection-start-line="118" selection-start-column="105" selection-end-line="118" selection-end-column="105" />
+        <state relative-caret-position="235">
+          <caret line="121" column="105" selection-start-line="121" selection-start-column="105" selection-end-line="121" selection-end-column="105" />
           <folding>
             <element signature="n#style#0;n#li#0;n#ul#0;n#li#0;n#ul#0;n#nav#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#li#0;n#ul#0;n#li#1;n#ul#0;n#nav#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -699,6 +689,16 @@
             <element signature="n#style#0;n#span#0;n#div#1;n#div#1;n#div#0;n#nav#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#0;n#div#2;n#div#1;n#div#0;n#nav#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/plan.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="186" column="30" selection-start-line="186" selection-start-column="30" selection-end-line="186" selection-end-column="30" />
+          <folding>
+            <element signature="n#style#0;n#a#0;n#strong#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>

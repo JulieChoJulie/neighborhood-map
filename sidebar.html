@@ -80,12 +80,15 @@
           <span></span>
           <span></span>
         </button>
+        <!-- ko with: currentCity -->
+        <span data-bind="text: name"></span>
+        <!-- /ko -->
 
-        <div data-bind="with: weather" style="font-size: 15px; margin:1rem;" class="ml-auto">
+        <div data-bind="with: weather" style="font-size: 15px; margin:1rem;" class="ml-auto weather">
           <img alt="weather-icon" data-bind="attr: {src: iconurl}">
           <strong><span data-bind="text: weatherStatus"></span></strong>
         </div>
-        <div data-bind="with: weather" style="font-size: 15px;">
+        <div data-bind="with: weather" style="font-size: 15px;" class="weather weather-status">
           <div>Temp: <span data-bind="text: temp" style="font-size:15px;"></span>°C</div>
           <div>Humidity: <span data-bind="text: humidity" style="font-size:15px;"></span>%</div>
           <div>Wind: <span data-bind="text: wind" style="font-size:15px;"></span>km/h</div>
@@ -116,7 +119,7 @@
 
 <!-- Google Map ASYNC -->
 <script async defer
-        src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=[YOUR API KEY]&callback=init">
+        src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=[YOUR API KEY]&v=3&callback=init">
 </script>
 
 <script type="text/javascript">

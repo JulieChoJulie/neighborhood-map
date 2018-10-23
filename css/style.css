@@ -50,6 +50,18 @@ hr {
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
+@media (max-width: 374px) {
+  .weather {
+    display: none;
+  }
+}
+
+@media (max-width: 450px) {
+  .weather-status {
+    display: none;
+  }
+}
+
 @media (max-width: 400px) {
   .wiki-description {
     overflow-y: scroll;
