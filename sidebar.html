@@ -71,40 +71,33 @@
 
   <!-- Page Content Holder -->
   <div id="content">
-
+    <!-- Navbar-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container-fluid">
+      <div class="container-fluid" style="height:2rem;">
 
         <button type="button" id="sidebarCollapse" class="navbar-btn">
           <span></span>
           <span></span>
           <span></span>
         </button>
-        <!--<button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
-          <!--<i class="fas fa-align-justify"></i>-->
-        <!--</button>-->
 
-        <!--<div class="collapse navbar-collapse" id="navbarSupportedContent">-->
-          <!--<ul class="nav navbar-nav ml-auto">-->
-            <!--<li class="nav-item active">-->
-              <!--<a class="nav-link" href="#">Page</a>-->
-            <!--</li>-->
-            <!--<li class="nav-item">-->
-              <!--<a class="nav-link" href="#">Page</a>-->
-            <!--</li>-->
-            <!--<li class="nav-item">-->
-              <!--<a class="nav-link" href="#">Page</a>-->
-            <!--</li>-->
-            <!--<li class="nav-item">-->
-              <!--<a class="nav-link" href="#">Page</a>-->
-            <!--</li>-->
-          <!--</ul>-->
-        <!--</div>-->
+        <div data-bind="with: weather" style="font-size: 15px; margin:1rem;" class="ml-auto">
+          <img alt="weather-icon" data-bind="attr: {src: iconurl}">
+          <strong><span data-bind="text: weatherStatus"></span></strong>
+        </div>
+        <div data-bind="with: weather" style="font-size: 15px;">
+          <div>Temp: <span data-bind="text: temp" style="font-size:15px;"></span>°C</div>
+          <div>Humidity: <span data-bind="text: humidity" style="font-size:15px;"></span>%</div>
+          <div>Wind: <span data-bind="text: wind" style="font-size:15px;"></span>km/h</div>
+        </div>
       </div>
     </nav>
+
+    <!-- Google Map -->
     <div id="map" style="height:85vh"></div>
   </div>
 </div>
+<!-- End of Wrapper -->
 
 <!-- jQuery CDN - Slim version (=without AJAX) -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -123,7 +116,7 @@
 
 <!-- Google Map ASYNC -->
 <script async defer
-        src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=[YOUR_API_KEY]&callback=init">
+        src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=[YOUR API KEY]&callback=init">
 </script>
 
 <script type="text/javascript">

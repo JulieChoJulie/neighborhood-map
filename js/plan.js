@@ -1,6 +1,7 @@
 // Global variable: map
 var map;
 var largeInfowindow;
+var vm;
 
 // init
 function init() {
@@ -182,6 +183,49 @@ function wikiAPI(attraction){
     return false;
 };
 
+function weatherAPI (city){
+    var apiKey = '[YOUR API KEY]';
+    if (city === 'Quebec City'){
+        weatherurl='http://api.openweathermap.org/data/2.5/weather?q=quebec'+',ca&units=metric&APIKEY=' + apiKey
+    } else {
+        weatherurl = 'http://api.openweathermap.org/data/2.5/weather?q=' + city + ',ca&units=metric&APIKEY=' + apiKey
+    }
+    // ajax 'get' request
+    $.ajax({
+        type: 'GET',
+        url: weatherurl,
+        success: function(data){
+            vm.weather(new Weather(data))
+        },
+        error: function(error){
+            vm.weather('')
+        }
+    })
+
+}
+
+// an instance of a user-defined object type: weather
+var Weather = function(data){
+    // If ajax GET request fails, empty the weather html section
+    if (data === ''){
+        this.iconurl = '';
+        this.weatherStatus = '';
+        this.temp = '';
+        this.temp_min = '';
+        this.temp_max = '';
+        this.wind = ''
+    } else {
+        // if ajax GET request succeeds,
+        icon = data['weather'][0]['icon'];
+        this.iconurl= 'http://openweathermap.org/img/w/' + icon + '.png';
+        this.weatherStatus= data['weather'][0]['main'];
+        this.temp= data['main']['temp'];
+        this.humidity= data['main']['humidity'];
+        this.temp_min= data['main']['temp_min'];
+        this.temp_max= data['main']['temp_max'];
+        this.wind= data['wind']['speed'];
+    }
+};
 
 
 
@@ -200,13 +244,14 @@ var ViewModel = function() {
 
     this.currentCity = ko.observable(that.cityList()[0]);
     this.markers = ko.observableArray([]);
-    this.markers(View(that.currentCity()));
     this.weather = ko.observable();
     this.changeCurrentCity = function(city){
         that.currentCity(city);
         that.markers(View(that.currentCity()));
+        weatherAPI(that.currentCity().name);
 
     };
+    this.changeCurrentCity(that.currentCity())
     this.loadArticles = function(attraction){
         wikiAPI(attraction);
         that.markers().forEach(marker => {
