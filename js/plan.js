@@ -47,7 +47,7 @@ var designMarkers = function(info){
         marker.addListener('click', function () {
             currentAttraction(this);
             toggleBounce(this);
-            populateInfoWindow(this, largeInfowindow);
+            wikiAPI(this, largeInfowindow)
         });
         // Two event listeners - one for mouseover, one for mouseout,
         // to change the colors back and forth.
@@ -87,7 +87,7 @@ function makeMarkerIcon (markerColor) {
     return markerImage;
 }
 
-function populateInfoWindow (marker, infowindow) {
+function populateInfoWindow (marker, infowindow, wiki) {
     // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker != marker) {
         // Clear the infowindow content to give the streetview time to load.
@@ -108,7 +108,7 @@ function populateInfoWindow (marker, infowindow) {
                 var nearStreetViewLocation = data.location.latLng;
                 var heading = google.maps.geometry.spherical.computeHeading(
                     nearStreetViewLocation, marker.position);
-                infowindow.setContent('<div id="infoWindow"><div class="wiki-description"></div><div id="pano"></div></div>');
+                infowindow.setContent('<div id="infoWindow">' + wiki + '<div id="pano"></div></div>');
                 var panoramaOptions = {
                     position: nearStreetViewLocation,
                     pov: {
@@ -118,10 +118,9 @@ function populateInfoWindow (marker, infowindow) {
                 };
                 var panorama = new google.maps.StreetViewPanorama(
                     document.getElementById('pano'), panoramaOptions);
-                wikiAPI(marker.title)
             } else {
-                infowindow.setContent('<div>' + marker.title + '</div>' +
-                    '<div>No Street View Found</div>');
+                infowindow.setContent('<div id="infoWindow">' + wiki +
+                    '<div>No Street View Found</div></div>');
             }
         }
         // Use streetview service to get the closest streetview image within
@@ -133,16 +132,10 @@ function populateInfoWindow (marker, infowindow) {
 };
 
 
-function wikiAPI(attraction){
-
-
-    var $wikiElem = $('.wiki-description');
-
-    // clear out old data before new request
-    $wikiElem.text("");
+function wikiAPI(marker, infowindow){
 
 //get New York Times article through AJAX request
-
+    var attraction = marker.title;
     var attractionWithNoSpace = [];
     attraction.split('').forEach(char => {
         char === ' ' ? attractionWithNoSpace.push('%20') : attractionWithNoSpace.push(char);
@@ -155,6 +148,7 @@ function wikiAPI(attraction){
     var wikiRequestTimeOut = setTimeout(function(){
         $wikiElem.text('Failed to load Wikipedia resources.');
     }, 8000);
+    var res = '';
 
     $.ajax({
         url: wikiurl,
@@ -164,29 +158,32 @@ function wikiAPI(attraction){
             var wikiList = response[1];
             var description = response[2][0];
             if (wikiList.length === 0){
-                $wikiElem.text('Sorry, no result was found for ' + attraction);
+                res = '<div class="wiki-description">Sorry, no result was found for ' + attraction + '</div>';
+                populateInfoWindow(marker, infowindow, res)
             } else if (description.length === 0){
-                var wikiList = wikiList[0]
+                var wikiList = wikiList[0];
                 var searchURL = "https://en.wikipedia.org/wiki/" + wikiList;
-                $wikiElem.append('<strong><a href="'+searchURL+' " target="_blank" style="color:darkred;">'+ wikiList+':' +'</a></strong><span>Please go to the click above to check out more details of this attraction in Wikipedia.</span>')
                 clearTimeout(wikiRequestTimeOut);
+                res = '<div class="wiki-description"><strong><a href="'+searchURL+' " target="_blank" style="color:darkred;">'+ wikiList+':' +'</a></strong><span>Please go to the click above to check out more details of this attraction in Wikipedia.</span></div>';
+                populateInfoWindow(marker, infowindow, res)
             } else {
-                var wikiList = wikiList[0]
+                var wikiList = wikiList[0];
                 var searchURL = "https://en.wikipedia.org/wiki/" + wikiList;
-                $wikiElem.append('<strong><a href="'+searchURL+' " target="_blank" style="color:darkred;">'+ wikiList+':' +'</a></strong><span>'+description+'</span>')
                 clearTimeout(wikiRequestTimeOut);
+                res = '<div class="wiki-description"><strong><a href="'+searchURL+' " target="_blank" style="color:darkred;">'+ wikiList+':' +'</a></strong><span>'+description+'</span></div>';
+                populateInfoWindow(marker, infowindow, res)
             }
         },
         error: function(error){
-            $wikiElem.append('<span>Sorry, could not find the details of </span>attraction<span> from Wikipedia.</span>')
+            res = '<div class="wiki-description"><span>Sorry, could not find the details of </span>attraction<span> from Wikipedia.</span></div>';
+            populateInfoWindow(marker, infowindow, res)
         }
     });
 
-    return false;
 };
 
 function weatherAPI (city){
-    var apiKey = '[YOUR API KEY]';
+    var apiKey = 'YOUR API KEY';
     if (city === 'Quebec City'){
         weatherurl='http://api.openweathermap.org/data/2.5/weather?q=quebec'+',ca&units=metric&APIKEY=' + apiKey
     } else {
@@ -288,7 +285,7 @@ var ViewModel = function() {
 
 
     this.loadArticles = function(attraction){
-        wikiAPI(attraction);
+
         that.markers().forEach(marker => {
             if (marker.title === attraction) {
                 new google.maps.event.trigger( marker, 'click' );

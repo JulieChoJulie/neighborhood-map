@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bbc06c8c-c5d8-4029-813d-ab53b3f14bad" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/plan.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/plan.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planYourTrip.html" beforeDir="false" afterPath="$PROJECT_DIR$/planYourTrip.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -27,11 +25,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="plan.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="plan.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/plan.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="237">
-              <caret line="188" column="32" selection-start-line="188" selection-start-column="32" selection-end-line="188" selection-end-column="32" />
+            <state relative-caret-position="217">
+              <caret line="185" column="30" selection-start-line="185" selection-start-column="30" selection-end-line="185" selection-end-column="30" />
               <folding>
                 <element signature="n#style#0;n#a#0;n#strong#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#a#0;n#strong#0;n#!!top" expanded="true" />
@@ -58,20 +56,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/css/style.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="500">
-              <caret line="25" column="22" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="planYourTrip.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="planYourTrip.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/planYourTrip.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
+            <state relative-caret-position="454">
               <caret line="104" column="105" selection-start-line="104" selection-start-column="105" selection-end-line="104" selection-end-column="105" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -89,9 +81,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>sidebar</find>
-      <find>page</find>
-      <find>pano</find>
       <find>Page</find>
       <find>google.maps.InfoWindow</find>
       <find>setContent</find>
@@ -110,15 +99,18 @@
       <find>Support</find>
       <find>weatherAPI</find>
       <find>API</find>
-      <find>wiki</find>
       <find>api</find>
       <find>markers</find>
       <find>makeMarker</find>
       <find>design</find>
       <find>setMap</find>
+      <find>View</find>
       <find>weather</find>
       <find>color</find>
-      <find>View</find>
+      <find>wikiAPI</find>
+      <find>wiki</find>
+      <find>populate</find>
+      <find>apiK</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -172,8 +164,8 @@
         <option value="$PROJECT_DIR$/sidebar.html" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$USER_HOME$/Downloads/neighborhood-map-master/js/plan.js" />
-        <option value="$PROJECT_DIR$/planYourTrip.html" />
         <option value="$PROJECT_DIR$/js/plan.js" />
+        <option value="$PROJECT_DIR$/planYourTrip.html" />
       </list>
     </option>
   </component>
@@ -294,12 +286,12 @@
       <workItem from="1539893145769" duration="28000" />
       <workItem from="1539893461794" duration="13394000" />
       <workItem from="1539963378660" duration="6335000" />
-      <workItem from="1540077197482" duration="29277000" />
+      <workItem from="1540077197482" duration="30943000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="260265000" />
+    <option name="totallyTimeSpent" value="261931000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="820" extended-state="6" />
@@ -671,13 +663,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="743">
-          <caret line="38" column="11" selection-start-line="38" selection-start-column="11" selection-end-line="38" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../neighborhood map/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-8933">
@@ -685,10 +670,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="743">
+          <caret line="38" column="11" selection-start-line="38" selection-start-column="11" selection-end-line="38" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
-          <caret line="25" column="22" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
+        <state relative-caret-position="20">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
         </state>
       </provider>
     </entry>
@@ -699,20 +691,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/planYourTrip.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="104" column="105" selection-start-line="104" selection-start-column="105" selection-end-line="104" selection-end-column="105" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/plan.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="188" column="32" selection-start-line="188" selection-start-column="32" selection-end-line="188" selection-end-column="32" />
+        <state relative-caret-position="217">
+          <caret line="185" column="30" selection-start-line="185" selection-start-column="30" selection-end-line="185" selection-end-column="30" />
           <folding>
             <element signature="n#style#0;n#a#0;n#strong#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#a#0;n#strong#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/planYourTrip.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="454">
+          <caret line="104" column="105" selection-start-line="104" selection-start-column="105" selection-end-line="104" selection-end-column="105" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
