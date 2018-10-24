@@ -251,6 +251,7 @@ function clearMarkers(markers) {
 /* View Model */
 var ViewModel = function() {
     var that = this;
+    this.isActive = ko.observable(false);
     this.cityList = ko.observableArray([]);
     var attractions = [];
     var latlng = [];
@@ -292,6 +293,10 @@ var ViewModel = function() {
                 new google.maps.event.trigger( marker, 'click' );
             }
         })
+    };
+
+    this.toggleActive = function(navbar, e){
+        that.isActive(!that.isActive());
     };
     this.currentAttraction = ko.observable('');
 };

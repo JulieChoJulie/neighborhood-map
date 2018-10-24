@@ -27,7 +27,7 @@
 
 <div class="wrapper">
   <!-- Sidebar Holder -->
-  <nav id="sidebar">
+  <nav id="sidebar" data-bind="css: {'active': isActive}">
     <div class="sidebar-header">
       <h3>Trip in Canada</h3>
     </div>
@@ -58,7 +58,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid" style="height:2rem;">
 
-        <button type="button" id="sidebarCollapse" class="navbar-btn">
+        <button type="button" id="sidebarCollapse" class="navbar-btn" data-bind="click:toggleActive, css: {'active': isActive}">
           <span></span>
           <span></span>
           <span></span>
@@ -105,17 +105,6 @@
         src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=[YOUR API KEY]&callback=init" onerror="googleError()">
 </script>
 
-<script>
-    $(document).ready(function () {
-        $('#sidebarCollapse').on('click', function () {
-            $('#sidebar').toggleClass('active');
-            $(this).toggleClass('active');
-        });
-        $('#homeSubmenu li').on('click', function(){
-            $(this).toggleClass('selected');
-        })
-    });
-</script>
 </body>
 
 </html>
