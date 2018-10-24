@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="utf-8">
@@ -44,11 +44,11 @@
         <!-- ko with: currentCity -->
         <ul class="collapse list-unstyled" id="pageSubmenu" data-bind="foreach: attractions">
           <li data-bind="text: $data, click: $parents[1].loadArticles, style: {color: $parents[1].currentAttraction() === $data ? 'darkred' : 'white'}" style="cursor:pointer"></li>
-        <hr>
         </ul>
         <!-- /ko -->
 
       </li>
+    </ul>
 
   </nav>
 
@@ -105,7 +105,7 @@
         src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=[YOUR API KEY]&callback=init">
 </script>
 
-<script type="text/javascript">
+<script>
     $(document).ready(function () {
         $('#sidebarCollapse').on('click', function () {
             $('#sidebar').toggleClass('active');
