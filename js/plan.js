@@ -306,6 +306,9 @@ var View = function(data){
 
 
 
-
+// Alert an warning when Google map has an error
+function googleError() {
+    alert('Google map was failed to load');
+}
 
 

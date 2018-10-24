@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bbc06c8c-c5d8-4029-813d-ab53b3f14bad" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/plan.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/plan.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/planYourTrip.html" beforeDir="false" afterPath="$PROJECT_DIR$/planYourTrip.html" afterDir="false" />
     </list>
@@ -32,7 +30,7 @@
         <entry file="file://$PROJECT_DIR$/js/plan.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="217">
-              <caret line="185" column="32" selection-start-line="185" selection-start-column="32" selection-end-line="185" selection-end-column="32" />
+              <caret line="185" column="12" selection-start-line="185" selection-start-column="8" selection-end-line="185" selection-end-column="12" />
               <folding>
                 <element signature="n#style#0;n#a#0;n#strong#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#a#0;n#strong#0;n#!!top" expanded="true" />
@@ -67,15 +65,6 @@
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/css/style.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="10" column="7" lean-forward="true" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -177,8 +166,8 @@
         <option value="$USER_HOME$/Downloads/neighborhood-map-master/js/plan.js" />
         <option value="$PROJECT_DIR$/g.html" />
         <option value="$PROJECT_DIR$/css/style.css" />
-        <option value="$PROJECT_DIR$/planYourTrip.html" />
         <option value="$PROJECT_DIR$/js/plan.js" />
+        <option value="$PROJECT_DIR$/planYourTrip.html" />
       </list>
     </option>
   </component>
@@ -299,12 +288,12 @@
       <workItem from="1539893145769" duration="28000" />
       <workItem from="1539893461794" duration="13394000" />
       <workItem from="1539963378660" duration="6335000" />
-      <workItem from="1540077197482" duration="31686000" />
+      <workItem from="1540077197482" duration="32466000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="262674000" />
+    <option name="totallyTimeSpent" value="263454000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="820" extended-state="6" />
@@ -720,7 +709,7 @@
     <entry file="file://$PROJECT_DIR$/js/plan.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="217">
-          <caret line="185" column="32" selection-start-line="185" selection-start-column="32" selection-end-line="185" selection-end-column="32" />
+          <caret line="185" column="12" selection-start-line="185" selection-start-column="8" selection-end-line="185" selection-end-column="12" />
           <folding>
             <element signature="n#style#0;n#a#0;n#strong#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#a#0;n#strong#0;n#!!top" expanded="true" />
