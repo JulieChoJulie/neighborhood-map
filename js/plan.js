@@ -15,7 +15,7 @@ function init() {
     });
     vm = new ViewModel();
     ko.applyBindings(vm);
-    View(vm.currentCity());
+    // View(vm.currentCity());
     largeInfowindow = new google.maps.InfoWindow({
         maxWidth: 200
     });
@@ -44,12 +44,6 @@ var designMarkers = function(info){
             id: i
         });
         markers.push(marker);
-        // if (largeInfoWindow) {
-        //     var largeInfowindow = new google.maps.InfoWindow();
-        // }
-
-        // Create an onclick event to open the large infowindow at each marker and
-        // create toggle bounce once the marker is clicked.
         marker.addListener('click', function () {
             currentAttraction(this);
             toggleBounce(this);
@@ -192,7 +186,7 @@ function wikiAPI(attraction){
 };
 
 function weatherAPI (city){
-    var apiKey = 'YOUR API KEY';
+    var apiKey = '[YOUR API KEY]';
     if (city === 'Quebec City'){
         weatherurl='http://api.openweathermap.org/data/2.5/weather?q=quebec'+',ca&units=metric&APIKEY=' + apiKey
     } else {
@@ -236,11 +230,33 @@ var Weather = function(data){
 };
 
 
+// Sets the map on all markers in the array.
+function setMapOnAll(map, markers) {
+    var bounds = new google.maps.LatLngBounds();
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(map);
+        if (map !== null){
+            bounds.extend(markers[i].position);
+        }
+    }
+    if (map !== null){
+        map.fitBounds(bounds, 0);
+    }
+}
+
+// Removes the markers from the map, but keeps them in the array.
+function clearMarkers(markers) {
+    setMapOnAll(null, markers);
+}
+
 
 /* View Model */
 var ViewModel = function() {
     var that = this;
     this.cityList = ko.observableArray([]);
+    var attractions = [];
+    var latlng = [];
+    this.wholeMarkers = ko.observable({"name": 'Canada', 'attractions': [], 'latlng': []});
     // Update city list using data stored in CanadaData
     canadaData.forEach(city => {
         that.cityList.push({
@@ -248,18 +264,29 @@ var ViewModel = function() {
             "attractions": city['attractions'],
             "latlng": city.latlng
         });
-    });
+        attractions = attractions.concat(city['attractions']);
+        latlng = latlng.concat(city['latlng']);
 
-    this.currentCity = ko.observable(that.cityList()[0]);
+    });
+    this.wholeMarkers = ko.observable({"name": 'Canada', 'attractions': attractions, 'latlng': latlng});
     this.markers = ko.observableArray([]);
     this.weather = ko.observable();
-    this.changeCurrentCity = function(city){
-        that.currentCity(city);
-        that.markers(View(that.currentCity()));
-        weatherAPI(that.currentCity().name);
+    // Initial Setting
+    this.currentCity = ko.observable(this.wholeMarkers());
+    this.cityList.unshift(this.wholeMarkers());
 
+    this.changeCurrentCity = function(city){
+        clearMarkers(that.markers());
+        that.markers([]);
+        that.currentCity(city);
+        weatherAPI(that.currentCity().name);
+        that.markers(View(that.currentCity()));
     };
-    this.changeCurrentCity(that.currentCity())
+
+    // Initial Setting
+    this.changeCurrentCity(that.currentCity());
+
+
     this.loadArticles = function(attraction){
         wikiAPI(attraction);
         that.markers().forEach(marker => {
@@ -268,20 +295,14 @@ var ViewModel = function() {
             }
         })
     };
-
     this.currentAttraction = ko.observable('');
 };
 
 /* View for markers */
 var View = function(data){
-    var that = this;
-    var bounds = new google.maps.LatLngBounds();
-    var markers = designMarkers(data);
-    for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(map);
-        bounds.extend(markers[i].position);
-    }
-    map.fitBounds(bounds, 0);
+        var that = this;
+        var markers = designMarkers(data);
+        setMapOnAll(map, markers);
     return markers
 };
 
